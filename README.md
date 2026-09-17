@@ -26,7 +26,7 @@ Tokens are authored as CSS, not JSON — a primitive layer (`primitives.css`)
 feeding an intention-based semantic layer (`semantic.css`):
 
 ```
-packages/tokens/src/primitives.css   @theme static { } two full color ramps (slate + blue,
+packages/tokens/src/primitives.css   @theme static { } two full color ramps (grey + blue,
                                       50->950), plus the spacing/radius/type/duration
                                       steps semantic.css actually references
 packages/tokens/src/semantic.css     @theme static { } intention-based aliases

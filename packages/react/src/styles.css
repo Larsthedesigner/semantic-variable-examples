@@ -8,7 +8,6 @@
   gap: var(--component-control-gap);
   border-radius: var(--component-control-radius);
   border: 1px solid transparent;
-  font-weight: var(--font-weight-medium);
   min-height: var(--component-control-min-target);
   cursor: pointer;
   transition:
@@ -27,18 +26,19 @@
   outline-offset: 2px;
 }
 
-/* sizes */
+/* sizes — label typography is the --component-label-* composite token, not
+ * raw --font-size-*/--font-weight-* primitives */
 .svx-button--sm {
   padding: var(--component-control-padding-y-sm) var(--component-control-padding-x-sm);
-  font-size: var(--font-size-sm);
+  font: var(--component-label-sm);
 }
 .svx-button--md {
   padding: var(--component-control-padding-y-md) var(--component-control-padding-x-md);
-  font-size: var(--font-size-md);
+  font: var(--component-label-md);
 }
 .svx-button--lg {
   padding: var(--component-control-padding-y-lg) var(--component-control-padding-x-lg);
-  font-size: var(--font-size-lg);
+  font: var(--component-label-lg);
 }
 
 /* variants -> semantic interactive tokens */

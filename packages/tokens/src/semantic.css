@@ -41,7 +41,17 @@
  *  2. border (default / focus)
  *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring)
  *  4. component (control sizing — includes the WCAG target-size floor)
- *  5. motion
+ *  5. component/label (typography composite tokens for control labels)
+ *  6. motion
+ *
+ * COMPOSITE TOKENS
+ * ----------------
+ * `--component-label-*` are composite tokens: instead of a component
+ * referencing `--font-size-*`/`--font-weight-*`/etc. individually, each
+ * bundles the full type-ramp step (family, size, line-height, weight) behind
+ * one semantic variable via the CSS `font` shorthand, so consumers set a
+ * label's typography in one declaration (`font: var(--component-label-md)`)
+ * and a type-ramp change never requires touching consuming components.
  */
 
 /* ============================================================================
@@ -51,12 +61,12 @@
 @theme static {
   /* ── text ────────────────────────────────────────────────────────────────── */
 
-  --text-primary: var(--color-slate-950);
-  --text-on-solid: var(--color-slate-50); /* text/icons on top of --interactive-solid fills */
+  --text-primary: var(--color-grey-950);
+  --text-on-solid: var(--color-grey-50); /* text/icons on top of --interactive-solid fills */
 
   /* ── border ──────────────────────────────────────────────────────────────── */
 
-  --border-default: var(--color-slate-300); /* resting border for outlined controls */
+  --border-default: var(--color-grey-300); /* resting border for outlined controls */
   --border-focus: var(--color-blue-500); /* keyboard focus ring */
 
   /* ── interactive/solid — fixed ramp steps, needs an opaque fill ─────────── */
@@ -64,12 +74,12 @@
   --interactive-solid: var(--color-blue-500);
   --interactive-solid-hover: var(--color-blue-600);
   --interactive-solid-pressed: var(--color-blue-700);
-  --interactive-solid-disabled: var(--color-slate-300);
+  --interactive-solid-disabled: var(--color-grey-300);
 
   /* ── interactive/surface — color-mix() overlay, composites over anything ── */
 
-  --interactive-surface-hover: color-mix(in srgb, var(--color-slate-950) 6%, transparent);
-  --interactive-surface-pressed: color-mix(in srgb, var(--color-slate-950) 12%, transparent);
+  --interactive-surface-hover: color-mix(in srgb, var(--color-grey-950) 6%, transparent);
+  --interactive-surface-pressed: color-mix(in srgb, var(--color-grey-950) 12%, transparent);
 
   /* ── interactive/fg + focus-ring — alias other interactive tokens ────────── */
 
@@ -88,6 +98,15 @@
   --component-control-gap: var(--space-2);
   --component-control-min-target: 44px; /* WCAG 2.5.8 / 3.0 target-size floor — not primitive-derived by design. */
 
+  /* ── component/label — typography composite (font shorthand) ────────────── */
+
+  --component-label-sm: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
+    var(--font-family-sans);
+  --component-label-md: var(--font-weight-medium) var(--font-size-md)/var(--line-height-md)
+    var(--font-family-sans);
+  --component-label-lg: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-lg)
+    var(--font-family-sans);
+
   /* ── motion ──────────────────────────────────────────────────────────────── */
 
   --motion-interactive: var(--duration-fast);
@@ -103,11 +122,11 @@
 .dark {
   /* ── text ────────────────────────────────────────────────────────────────── */
 
-  --text-primary: var(--color-slate-50);
+  --text-primary: var(--color-grey-50);
 
   /* ── border ──────────────────────────────────────────────────────────────── */
 
-  --border-default: var(--color-slate-700);
+  --border-default: var(--color-grey-700);
   --border-focus: var(--color-blue-400);
 
   /* ── interactive/solid ────────────────────────────────────────────────────
@@ -117,12 +136,12 @@
 
   --interactive-solid-hover: var(--color-blue-400);
   --interactive-solid-pressed: var(--color-blue-300);
-  --interactive-solid-disabled: var(--color-slate-700);
+  --interactive-solid-disabled: var(--color-grey-700);
 
   /* ── interactive/surface — same color-mix() overlay, recomputed with a
    * lighter mix color + stronger percentages so it still reads against dark
    * surfaces (6/12% light -> 12/20% dark for the same reason). */
 
-  --interactive-surface-hover: color-mix(in srgb, var(--color-slate-50) 12%, transparent);
-  --interactive-surface-pressed: color-mix(in srgb, var(--color-slate-50) 20%, transparent);
+  --interactive-surface-hover: color-mix(in srgb, var(--color-grey-50) 12%, transparent);
+  --interactive-surface-pressed: color-mix(in srgb, var(--color-grey-50) 20%, transparent);
 }

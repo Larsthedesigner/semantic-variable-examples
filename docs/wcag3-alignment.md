@@ -43,7 +43,7 @@ WCAG 3.0 stabilizes.
   silver/gold) once the W3C publishes stable scoring guidance, so
   component docs can state a conformance *level*, not just a binary pass.
 - **Non-color status cues**: this example only ships a two-ramp
-  (slate/blue) palette, so it has no status/error color to worry about yet
+  (grey/blue) palette, so it has no status/error color to worry about yet
   — but the same principle applies the moment one is added: pair any
   status color with an icon/shape, never color alone, per WCAG 3.0's
   outcome model.
