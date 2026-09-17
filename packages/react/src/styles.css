@@ -21,9 +21,12 @@
   opacity: 0.6;
 }
 
-.svx-button:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 2px;
+/* Reusable focus ring — apply alongside any interactive element's own class.
+ * Outline naturally follows the element's own border-radius (incl. at an
+ * offset) in modern browsers, so the ring nests concentrically for free. */
+.svx-focus-ring:focus-visible {
+  outline: var(--interactive-focus-ring-width) solid var(--interactive-focus-ring);
+  outline-offset: var(--interactive-focus-ring-offset);
 }
 
 /* sizes — label typography is the --component-label-* composite token, not

@@ -39,8 +39,7 @@
  * -------------------------
  *  1. text (primary / on-solid)
  *  2. border (default / focus)
- *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring)
- *  4. space (t-shirt sized scale, px + rem, built from the primitive size ramp)
+ *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring) *  4. space (t-shirt sized scale, px + rem, built from the primitive size ramp)
  *  5. radius (t-shirt sized scale, built from the primitive size (rem) ramp)
  *  6. component (control sizing — includes the WCAG target-size floor)
  *  7. component/label (typography composite tokens for control labels)
@@ -96,6 +95,8 @@
 
   --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
   --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
+  --interactive-focus-ring-width: 2px; /* ring thickness — not primitive-derived, mirrors outline convention */
+  --interactive-focus-ring-offset: 2px; /* gap between control edge and ring; outline auto-follows border-radius at this offset */
 
   /* ── space — t-shirt sized scale, px ramp, built from the primitive size ramp ── */
 

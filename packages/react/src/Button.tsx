@@ -8,7 +8,7 @@ import type { PolymorphicProps } from './polymorphic';
  * Variant classes map 1:1 to semantic tokens from @svx/tokens (see styles.css) —
  * never to raw color values — so theming stays centralized in the token layer.
  */
-export const buttonVariants = cva('svx-button', {
+export const buttonVariants = cva('svx-button svx-focus-ring', {
   variants: {
     variant: {
       solid: 'svx-button--solid',
