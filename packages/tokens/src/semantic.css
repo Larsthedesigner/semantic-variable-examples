@@ -95,8 +95,8 @@
 
   --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
   --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
-  --interactive-focus-ring-width: 2px; /* ring thickness — not primitive-derived, mirrors outline convention */
-  --interactive-focus-ring-offset: 2px; /* gap between control edge and ring; outline auto-follows border-radius at this offset */
+  --interactive-focus-ring-width: var(--space-sm-px); /* ring thickness — not primitive-derived, mirrors outline convention */
+  --interactive-focus-ring-offset: var(--space-sm-px); /* gap between control edge and ring; outline auto-follows border-radius at this offset */
 
   /* ── space — t-shirt sized scale, px ramp, built from the primitive size ramp ── */
 
