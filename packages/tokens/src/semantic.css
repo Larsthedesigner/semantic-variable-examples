@@ -41,7 +41,7 @@
  *  2. border (default / focus)
  *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring)
  *  4. space (t-shirt sized scale, px + rem, built from the primitive size ramp)
- *  5. radius (t-shirt sized scale, built from the primitive radius ramp)
+ *  5. radius (t-shirt sized scale, built from the primitive size (rem) ramp)
  *  6. component (control sizing — includes the WCAG target-size floor)
  *  7. component/label (typography composite tokens for control labels)
  *  8. motion
@@ -110,11 +110,11 @@
   --space-xl-px: var(--size-6-px); /* largest spacing step, px unit — section-level gaps */
   --space-xl-rem: var(--size-6-rem); /* largest spacing step, rem unit (scales with root font size) */
 
-  /* ── radius — t-shirt sized scale, built from the primitive radius ramp ─── */
+  /* ── radius — t-shirt sized scale, built from the primitive size (rem) ramp ── */
 
-  --radius-sm: var(--radius-sm-rem); /* subtle rounding — small controls, chips, tags */
-  --radius-md: var(--radius-md-rem); /* default rounding for most interactive controls */
-  --radius-lg: var(--radius-lg-rem); /* pronounced rounding — cards, modals, large surfaces */
+  --radius-sm: var(--size-1-rem); /* subtle rounding — small controls, chips, tags */
+  --radius-md: var(--size-2-rem); /* default rounding for most interactive controls */
+  --radius-lg: var(--size-3-rem); /* pronounced rounding — cards, modals, large surfaces */
 
   /* ── component/control ───────────────────────────────────────────────────── */
 

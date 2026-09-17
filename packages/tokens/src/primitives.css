@@ -2,11 +2,10 @@
  * primitives.css — PRIMITIVE PALETTE LAYER
  *
  * Raw, primitive design tokens only: two full color ramps (grey/grey +
- * blue), a unitless size scale (mirrored as px + rem ramps), a radius
- * scale (also mirrored as px + rem), type ramp, and duration — only the
- * steps actually consumed by semantic.css. No semantic aliases live here —
- * those live in semantic.css, which must be imported AFTER this file (see
- * index.css).
+ * blue), a unitless size scale (mirrored as px + rem ramps), type ramp,
+ * and duration — only the steps actually consumed by semantic.css. No
+ * semantic aliases live here — those live in semantic.css, which must be
+ * imported AFTER this file (see index.css).
  *
  * Deliberately just 2 color ramps (not the 6+ palettes a full product design
  * system would carry) to keep this example legible. Scale uses the
@@ -26,18 +25,17 @@
  * Semantic tokens (see semantic.css) pick whichever suffix a given use
  * case needs — `-rem` for anything that should scale with the user's root
  * font size (the accessible default), `-px` when a consumer needs a
- * pixel-exact value. The radius scale follows the same px/rem-suffix
- * convention.
+ * pixel-exact value. Semantic radius tokens (see semantic.css) are also
+ * built from this ramp — there is no separate primitive radius scale.
  *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------
  * 1. grey (neutral) ramp    – --color-grey-50..950
  * 2. Blue (accent) ramp     – --color-blue-50..950
  * 3. Size scale             – --size-{step}-px, --size-{step}-rem
- * 4. Radius scale           – --radius-{step}-px, --radius-{step}-rem
- * 5. Type ramp              – --font-family-sans, --font-size-*,
+ * 4. Type ramp              – --font-family-sans, --font-size-*,
  *                              --line-height-*, --font-weight-medium
- * 6. Motion                 – --duration-fast
+ * 5. Motion                 – --duration-fast
  */
 
 @theme static {
@@ -92,18 +90,6 @@
   --size-5-rem: 1.25rem;
   --size-6-rem: 1.5rem;
   --size-7-rem: 1.75rem;
-
-  /* ── Radius scale — px suffix ─────────────────────────────────────────────── */
-
-  --radius-sm-px: 4px;
-  --radius-md-px: 8px;
-  --radius-lg-px: 12px;
-
-  /* ── Radius scale — rem suffix, same steps as the px ramp above ──────────── */
-
-  --radius-sm-rem: 0.25rem;
-  --radius-md-rem: 0.5rem;
-  --radius-lg-rem: 0.75rem;
 
   /* ── Type ramp ───────────────────────────────────────────────────────────── */
 
