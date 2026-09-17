@@ -6,10 +6,28 @@
  * reference these `--*` semantic variables, never `--color-*`/`--space-*`
  * primitives directly, so a theme or brand change only ever touches this file.
  *
+ * INTERACTIVE STATES — color-mix(), not extra swatches
+ * -----------------------------------------------------
+ * Following Forge's `--forge-interactive-surface-hover`/`-pressed` pattern:
+ * hover/pressed states for outlined & ghost controls are a translucent
+ * neutral overlay computed with `color-mix()` rather than a hand-picked
+ * swatch per state. `--interactive-surface-hover`/`-pressed` mix increasing
+ * amounts of the current theme's ink color into transparent (6% / 12% in
+ * light, 12% / 20% in dark — Forge's own light/dark split, since dark
+ * surfaces need a stronger mix to read as "hovered"). Because it's an
+ * overlay, not a fill, it composites correctly over any surface underneath
+ * without a dedicated swatch per state per surface.
+ *
+ * Solid fills (`--interactive-solid*`) are the one place we still step
+ * through fixed ramp swatches rather than color-mix, exactly like Forge's
+ * `--forge-interactive-solid*`: a solid button needs a fully opaque fill, so
+ * hover/pressed are just darker (light mode) / lighter (dark mode, Forge's
+ * own convention — darkening an already-dark fill reads as *less* interactive).
+ *
  * IMPORT ORDER
  * ------------
  * This file MUST be imported AFTER primitives.css so every `var(--color-*)`
- * etc. reference below resolves. See index.css for the canonical import order.
+ * reference below resolves. See index.css for the canonical import order.
  *
  * DARK MODE
  * ---------
@@ -21,14 +39,11 @@
  *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------
- *  1. background
- *  2. surface
- *  3. text
- *  4. border
- *  5. interactive (accent / neutral / danger)
- *  6. status (success / warning / danger / info)
- *  7. component (control sizing — includes the WCAG target-size floor)
- *  8. motion
+ *  1. text (primary / on-solid)
+ *  2. border (default / focus)
+ *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring)
+ *  4. component (control sizing — includes the WCAG target-size floor)
+ *  5. motion
  */
 
 /* ============================================================================
@@ -36,62 +51,32 @@
    ============================================================================ */
 
 @theme static {
-  /* ── background ──────────────────────────────────────────────────────────── */
-
-  --background-canvas: var(--color-slate-2); /* Page canvas. Never use as a component background. */
-
-  /* ── surface ─────────────────────────────────────────────────────────────── */
-
-  --surface-sunken: var(--color-slate-3);
-  --surface-default: var(--color-white);
-  --surface-raised: var(--color-white);
-  --surface-overlay: var(--color-white);
-  --surface-disabled: var(--color-slate-3);
-
   /* ── text ────────────────────────────────────────────────────────────────── */
 
-  --text-primary: var(--color-slate-12);
-  --text-secondary: var(--color-slate-10);
-  --text-disabled: var(--color-slate-7);
-  --text-on-accent: var(--color-white);
-  --text-on-danger: var(--color-white);
+  --text-primary: var(--color-slate-950);
+  --text-on-solid: var(--color-slate-50); /* text/icons on top of --interactive-solid fills */
 
   /* ── border ──────────────────────────────────────────────────────────────── */
 
-  --border-default: var(--color-slate-5);
-  --border-strong: var(--color-slate-7);
-  --border-focus: var(--color-blue-9);
+  --border-default: var(--color-slate-300); /* resting border for outlined controls */
+  --border-focus: var(--color-blue-500); /* keyboard focus ring */
 
-  /* ── interactive/accent ──────────────────────────────────────────────────── */
+  /* ── interactive/solid — fixed ramp steps, needs an opaque fill ─────────── */
 
-  --interactive-accent-default: var(--color-blue-9);
-  --interactive-accent-hover: var(--color-blue-10);
-  --interactive-accent-active: var(--color-blue-11);
-  --interactive-accent-disabled: var(--color-slate-6);
+  --interactive-solid: var(--color-blue-500);
+  --interactive-solid-hover: var(--color-blue-600);
+  --interactive-solid-pressed: var(--color-blue-700);
+  --interactive-solid-disabled: var(--color-slate-300);
 
-  /* ── interactive/neutral ─────────────────────────────────────────────────── */
+  /* ── interactive/surface — color-mix() overlay, composites over anything ── */
 
-  --interactive-neutral-default: var(--color-slate-4);
-  --interactive-neutral-hover: var(--color-slate-5);
-  --interactive-neutral-active: var(--color-slate-6);
-  --interactive-neutral-disabled: var(--color-slate-3);
+  --interactive-surface-hover: color-mix(in srgb, var(--color-slate-950) 6%, transparent);
+  --interactive-surface-pressed: color-mix(in srgb, var(--color-slate-950) 12%, transparent);
 
-  /* ── interactive/danger ──────────────────────────────────────────────────── */
+  /* ── interactive/fg + focus-ring — alias other interactive tokens ────────── */
 
-  --interactive-danger-default: var(--color-red-9);
-  --interactive-danger-hover: var(--color-red-10);
-  --interactive-danger-active: var(--color-red-10);
-
-  /* ── status ──────────────────────────────────────────────────────────────── */
-
-  --status-success-bg: var(--color-green-3);
-  --status-success-fg: var(--color-green-10);
-  --status-warning-bg: var(--color-amber-3);
-  --status-warning-fg: var(--color-amber-10);
-  --status-danger-bg: var(--color-red-3);
-  --status-danger-fg: var(--color-red-10);
-  --status-info-bg: var(--color-blue-3);
-  --status-info-fg: var(--color-blue-11);
+  --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
+  --interactive-focus-ring: var(--border-focus);
 
   /* ── component/control ───────────────────────────────────────────────────── */
 
@@ -118,37 +103,28 @@
    ============================================================================ */
 
 .dark {
-  /* ── background + surface ───────────────────────────────────────────────── */
-
-  --background-canvas: var(--color-slate-12);
-  --surface-sunken: var(--color-slate-11);
-  --surface-default: var(--color-slate-12);
-  --surface-raised: var(--color-slate-11);
-  --surface-overlay: var(--color-slate-11);
-  --surface-disabled: var(--color-slate-10);
-
   /* ── text ────────────────────────────────────────────────────────────────── */
 
-  --text-primary: var(--color-slate-1);
-  --text-secondary: var(--color-slate-5);
-  --text-disabled: var(--color-slate-8);
+  --text-primary: var(--color-slate-50);
 
   /* ── border ──────────────────────────────────────────────────────────────── */
 
-  --border-default: var(--color-slate-9);
-  --border-strong: var(--color-slate-7);
-  --border-focus: var(--color-blue-6);
+  --border-default: var(--color-slate-700);
+  --border-focus: var(--color-blue-400);
 
-  /* ── interactive/accent ──────────────────────────────────────────────────── */
+  /* ── interactive/solid ────────────────────────────────────────────────────
+   * Resting fill is unchanged; hover/pressed step LIGHTER (not darker) —
+   * Forge's dark-mode convention, since darkening an already-dark fill reads
+   * as *less* interactive rather than more. */
 
-  --interactive-accent-hover: var(--color-blue-6);
-  --interactive-accent-active: var(--color-blue-6);
-  --interactive-accent-disabled: var(--color-slate-9);
+  --interactive-solid-hover: var(--color-blue-400);
+  --interactive-solid-pressed: var(--color-blue-300);
+  --interactive-solid-disabled: var(--color-slate-700);
 
-  /* ── interactive/neutral ─────────────────────────────────────────────────── */
+  /* ── interactive/surface — same color-mix() overlay, recomputed with a
+   * lighter mix color + stronger percentages so it still reads against dark
+   * surfaces (Forge steps 6/12% light -> 12/20% dark for the same reason). */
 
-  --interactive-neutral-default: var(--color-slate-10);
-  --interactive-neutral-hover: var(--color-slate-9);
-  --interactive-neutral-active: var(--color-slate-8);
-  --interactive-neutral-disabled: var(--color-slate-11);
+  --interactive-surface-hover: color-mix(in srgb, var(--color-slate-50) 12%, transparent);
+  --interactive-surface-pressed: color-mix(in srgb, var(--color-slate-50) 20%, transparent);
 }

@@ -26,12 +26,12 @@ Tokens are authored as CSS, not JSON — the same two-tier pattern as Forge's
 `theme-vars.css` → `semantic-vars.css`:
 
 ```
-packages/tokens/src/primitives.css   @theme static { } raw palette, spacing, radius,
-                                      type ramp, duration scales
+packages/tokens/src/primitives.css   @theme static { } two full color ramps (slate + blue,
+                                      50->950), plus the spacing/radius/type/duration
+                                      steps semantic.css actually references
 packages/tokens/src/semantic.css     @theme static { } intention-based aliases
-                                      (background, surface, text, border, interactive,
-                                      status, component, motion), each var(--...)
-                                      referencing a primitive only, plus a
+                                      (text, border, interactive, component, motion),
+                                      each var(--...) referencing a primitive only, plus a
                                       `.dark { }` block with semantic *overrides* only
                                       (primitives are never redeclared there)
         │
@@ -49,6 +49,13 @@ packages/react/src/styles.css   maps each Button variant to semantic CSS variabl
 packages/react/src/Button.tsx   polymorphic `as`, `asChild` via @radix-ui/react-slot,
                                 variant/size via class-variance-authority, forwardRef
 ```
+
+`--interactive-surface-hover`/`-pressed` (used by the outline/ghost variants)
+are a `color-mix()` overlay, not a hand-picked swatch — the same pattern as
+Forge's `--forge-interactive-surface-hover`/`-pressed`. `--interactive-solid*`
+(the filled variant) still steps through fixed ramp swatches, since a solid
+fill needs to be fully opaque; see the comments atop `semantic.css` for why
+each approach is used where it is.
 
 Any token whose resolved value isn't a plain hex color / px dimension / plain
 number (e.g. a future gradient or `color-mix()`) is intentionally skipped from

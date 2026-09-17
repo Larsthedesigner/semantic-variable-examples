@@ -39,10 +39,8 @@ describe('Button', () => {
   });
 
   it('maps variants to token-driven class names', () => {
-    render(<Button variant="danger">Delete</Button>);
-    expect(screen.getByRole('button', { name: 'Delete' }).className).toContain(
-      'svx-button--danger',
-    );
+    render(<Button variant="ghost">Delete</Button>);
+    expect(screen.getByRole('button', { name: 'Delete' }).className).toContain('svx-button--ghost');
   });
 
   it('forwards click handlers and native props', () => {

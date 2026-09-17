@@ -7,7 +7,7 @@ const meta: Meta<typeof Button> = {
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    variant: { control: 'select', options: ['solid', 'outline', 'ghost', 'danger'] },
+    variant: { control: 'select', options: ['solid', 'outline', 'ghost'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
     asChild: { control: 'boolean' },
   },
@@ -22,7 +22,6 @@ type Story = StoryObj<typeof Button>;
 export const Solid: Story = { args: { variant: 'solid' } };
 export const Outline: Story = { args: { variant: 'outline' } };
 export const Ghost: Story = { args: { variant: 'ghost' } };
-export const Danger: Story = { args: { variant: 'danger' } };
 
 export const Sizes: Story = {
   render: (args: ComponentProps<typeof Button>) => (

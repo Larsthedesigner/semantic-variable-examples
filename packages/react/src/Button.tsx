@@ -14,7 +14,6 @@ export const buttonVariants = cva('svx-button', {
       solid: 'svx-button--solid',
       outline: 'svx-button--outline',
       ghost: 'svx-button--ghost',
-      danger: 'svx-button--danger',
     },
     size: {
       sm: 'svx-button--sm',

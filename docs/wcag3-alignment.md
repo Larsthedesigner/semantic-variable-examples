@@ -33,19 +33,20 @@ WCAG 3.0 stabilizes.
 - **APCA contrast migration**: APCA is polarity- and context-aware (text
   size/weight change the required contrast, and light-on-dark vs
   dark-on-light are scored differently). Once APCA's conformance
-  thresholds are finalized, add an APCA check to the token build (a
-  Style Dictionary lint step) that scores every `text-*`/`surface-*` and
-  `text-*`/`interactive-*` pair and fails the build below the target
-  bronze/silver tier — rather than only checking WCAG 2.x ratios as we do
-  today.
+  thresholds are finalized, add an APCA check to the token build
+  (`build-tokens.mjs` already resolves every token to a literal value —
+  a lint pass just needs to score `text-*`/`interactive-*` pairs) and fail
+  the build below the target bronze/silver tier — rather than only
+  checking WCAG 2.x ratios as we do today.
 - **Outcome-based scoring**: move Storybook's a11y gate from a single
   pass/fail tag to recording an outcome score per component (bronze/
   silver/gold) once the W3C publishes stable scoring guidance, so
   component docs can state a conformance *level*, not just a binary pass.
-- **Non-color status cues**: `status.*` tokens currently pair a
-  background + foreground color; WCAG 3.0 outcomes emphasize not relying
-  on color alone. Track adding a required icon/shape convention
-  alongside `status.*` tokens in a follow-up.
+- **Non-color status cues**: this example only ships a two-ramp
+  (slate/blue) palette, so it has no status/error color to worry about yet
+  — but the same principle applies the moment one is added: pair any
+  status color with an icon/shape, never color alone, per WCAG 3.0's
+  outcome model.
 
 ## Why this belongs in the token layer, not the component
 

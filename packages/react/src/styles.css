@@ -43,49 +43,40 @@
 
 /* variants -> semantic interactive tokens */
 .svx-button--solid {
-  background-color: var(--interactive-accent-default);
-  color: var(--text-on-accent);
+  background-color: var(--interactive-solid);
+  color: var(--text-on-solid);
 }
 .svx-button--solid:hover {
-  background-color: var(--interactive-accent-hover);
+  background-color: var(--interactive-solid-hover);
 }
 .svx-button--solid:active {
-  background-color: var(--interactive-accent-active);
+  background-color: var(--interactive-solid-pressed);
 }
 .svx-button--solid:disabled {
-  background-color: var(--interactive-accent-disabled);
+  background-color: var(--interactive-solid-disabled);
 }
 
+/* outline/ghost hover+active are a color-mix() overlay (see semantic.css),
+ * not a separate swatch, so they composite over transparent identically. */
 .svx-button--outline {
   background-color: transparent;
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  border-color: var(--border-default);
+  color: var(--interactive-fg);
 }
 .svx-button--outline:hover {
-  background-color: var(--interactive-neutral-hover);
+  background-color: var(--interactive-surface-hover);
 }
 .svx-button--outline:active {
-  background-color: var(--interactive-neutral-active);
+  background-color: var(--interactive-surface-pressed);
 }
 
 .svx-button--ghost {
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--interactive-fg);
 }
 .svx-button--ghost:hover {
-  background-color: var(--interactive-neutral-hover);
+  background-color: var(--interactive-surface-hover);
 }
 .svx-button--ghost:active {
-  background-color: var(--interactive-neutral-active);
-}
-
-.svx-button--danger {
-  background-color: var(--interactive-danger-default);
-  color: var(--text-on-danger);
-}
-.svx-button--danger:hover {
-  background-color: var(--interactive-danger-hover);
-}
-.svx-button--danger:active {
-  background-color: var(--interactive-danger-active);
+  background-color: var(--interactive-surface-pressed);
 }
