@@ -1,13 +1,13 @@
 {
   "name": "@svx/tokens",
   "version": "0.1.0",
-  "description": "Two-tier (primitive -> semantic) design tokens, built to CSS, JSON, Kotlin (Jetpack Compose), and Swift.",
+  "description": "Two-tier (primitive -> semantic) design tokens authored as CSS custom properties, built to a portable CSS bundle, JSON, Kotlin (Jetpack Compose), and Swift.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/json/tokens.json",
   "files": [
     "dist",
-    "tokens"
+    "src"
   ],
   "scripts": {
     "build": "node build-tokens.mjs",
@@ -16,7 +16,7 @@
     "typecheck": "echo \"no typecheck configured for tokens\" && exit 0"
   },
   "devDependencies": {
-    "rimraf": "^6.0.1",
-    "style-dictionary": "^4.3.0"
+    "postcss": "^8.4.49",
+    "rimraf": "^6.0.1"
   }
 }

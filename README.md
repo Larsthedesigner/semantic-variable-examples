@@ -17,31 +17,43 @@ small, standalone, public example — not copied code.
 
 | Package | What it is |
 | --- | --- |
-| [`@svx/tokens`](packages/tokens) | Primitive + semantic token source (JSON) and a Style Dictionary build emitting `dist/css`, `dist/json`, `dist/compose` (Kotlin), and `dist/swift`. |
+| [`@svx/tokens`](packages/tokens) | Primitive + semantic tokens authored as plain CSS custom properties, plus a build that lowers/parses them into `dist/css`, `dist/json`, `dist/compose` (Kotlin), and `dist/swift`. |
 | [`@svx/react`](packages/react) | The `Button` component + Storybook. Consumes only semantic tokens, never primitives, directly. |
 
 ## Architecture
 
+Tokens are authored as CSS, not JSON — the same two-tier pattern as Forge's
+`theme-vars.css` → `semantic-vars.css`:
+
 ```
-packages/tokens/tokens/primitives.json   raw palette, spacing, radius, type, duration scales
-packages/tokens/tokens/semantic.json     intention-based aliases (background, surface, text,
-                                          border, interactive, status, component, motion),
-                                          referencing primitives only
-packages/tokens/tokens/semantic.dark.json  dark-mode overrides of the semantic layer only
+packages/tokens/src/primitives.css   @theme static { } raw palette, spacing, radius,
+                                      type ramp, duration scales
+packages/tokens/src/semantic.css     @theme static { } intention-based aliases
+                                      (background, surface, text, border, interactive,
+                                      status, component, motion), each var(--...)
+                                      referencing a primitive only, plus a
+                                      `.dark { }` block with semantic *overrides* only
+                                      (primitives are never redeclared there)
         │
-        ▼  build-tokens.mjs (Style Dictionary, programmatic API)
+        ▼  build-tokens.mjs (parses the CSS with postcss — no separate JSON source)
 packages/tokens/dist/
-  css/index.css        :root { --primitives } + :root/[data-theme='dark'] { --semantics }
-  json/tokens.json      nested snapshot
-  json/tokens.flat.json flat kebab-case snapshot
-  compose/SvxTokens.kt   Jetpack Compose object (Color / .dp)
-  swift/SvxTokens.swift  SwiftUI enum (Color / CGFloat)
+  css/index.css          `@theme static` lowered to plain `:root { }` + `.dark { }`,
+                          so it works with or without Tailwind
+  json/tokens.json        { light: {...}, dark: {...} }, resolved (no var() left), nested by category
+  json/tokens.flat.json   same, flat
+  compose/SvxTokens.kt     SvxTokensLight / SvxTokensDark Kotlin objects (Color / .dp)
+  swift/SvxTokens.swift    SvxTokensLight / SvxTokensDark SwiftUI enums (Color / CGFloat)
         │
         ▼
 packages/react/src/styles.css   maps each Button variant to semantic CSS variables only
 packages/react/src/Button.tsx   polymorphic `as`, `asChild` via @radix-ui/react-slot,
                                 variant/size via class-variance-authority, forwardRef
 ```
+
+Any token whose resolved value isn't a plain hex color / px dimension / plain
+number (e.g. a future gradient or `color-mix()`) is intentionally skipped from
+the Compose/Swift output — flagged in a comment — since CSS-only values like
+gradients have no native platform representation.
 
 See [`docs/wcag3-alignment.md`](docs/wcag3-alignment.md) for how contrast, target
 size, and focus visibility are enforced today and what's tracked for when

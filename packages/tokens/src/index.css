@@ -1,0 +1,12 @@
+/*
+ * index.css — authoring entry point.
+ *
+ * Canonical import order: primitives before semantics, so every var()
+ * reference in semantic.css resolves. This file is for reference/editor
+ * tooling; the token build (../build-tokens.mjs) reads primitives.css and
+ * semantic.css directly and produces the actual `dist/css` output (which
+ * additionally lowers `@theme static { }` to plain `:root { }` so it works
+ * without Tailwind).
+ */
+@import './primitives.css';
+@import './semantic.css';

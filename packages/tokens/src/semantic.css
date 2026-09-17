@@ -1,0 +1,154 @@
+/*
+ * semantic.css — SEMANTIC ALIAS LAYER
+ *
+ * Intention-based token aliases that reference primitive values defined in
+ * primitives.css. Consumers (see ../../react/src/styles.css) should only ever
+ * reference these `--*` semantic variables, never `--color-*`/`--space-*`
+ * primitives directly, so a theme or brand change only ever touches this file.
+ *
+ * IMPORT ORDER
+ * ------------
+ * This file MUST be imported AFTER primitives.css so every `var(--color-*)`
+ * etc. reference below resolves. See index.css for the canonical import order.
+ *
+ * DARK MODE
+ * ---------
+ * Only semantic token *overrides* live in the `.dark { }` block below —
+ * primitives are never redeclared there. Tokens omitted from `.dark { }` are
+ * context-stable and inherit their light-mode value through normal CSS custom
+ * property cascade/inheritance (attach the `dark` class to `<html>` or an
+ * ancestor to activate it).
+ *
+ * TOKEN GROUPS IN THIS FILE
+ * -------------------------
+ *  1. background
+ *  2. surface
+ *  3. text
+ *  4. border
+ *  5. interactive (accent / neutral / danger)
+ *  6. status (success / warning / danger / info)
+ *  7. component (control sizing — includes the WCAG target-size floor)
+ *  8. motion
+ */
+
+/* ============================================================================
+   LIGHT MODE (default) — registered as Tailwind design tokens via @theme
+   ============================================================================ */
+
+@theme static {
+  /* ── background ──────────────────────────────────────────────────────────── */
+
+  --background-canvas: var(--color-slate-2); /* Page canvas. Never use as a component background. */
+
+  /* ── surface ─────────────────────────────────────────────────────────────── */
+
+  --surface-sunken: var(--color-slate-3);
+  --surface-default: var(--color-white);
+  --surface-raised: var(--color-white);
+  --surface-overlay: var(--color-white);
+  --surface-disabled: var(--color-slate-3);
+
+  /* ── text ────────────────────────────────────────────────────────────────── */
+
+  --text-primary: var(--color-slate-12);
+  --text-secondary: var(--color-slate-10);
+  --text-disabled: var(--color-slate-7);
+  --text-on-accent: var(--color-white);
+  --text-on-danger: var(--color-white);
+
+  /* ── border ──────────────────────────────────────────────────────────────── */
+
+  --border-default: var(--color-slate-5);
+  --border-strong: var(--color-slate-7);
+  --border-focus: var(--color-blue-9);
+
+  /* ── interactive/accent ──────────────────────────────────────────────────── */
+
+  --interactive-accent-default: var(--color-blue-9);
+  --interactive-accent-hover: var(--color-blue-10);
+  --interactive-accent-active: var(--color-blue-11);
+  --interactive-accent-disabled: var(--color-slate-6);
+
+  /* ── interactive/neutral ─────────────────────────────────────────────────── */
+
+  --interactive-neutral-default: var(--color-slate-4);
+  --interactive-neutral-hover: var(--color-slate-5);
+  --interactive-neutral-active: var(--color-slate-6);
+  --interactive-neutral-disabled: var(--color-slate-3);
+
+  /* ── interactive/danger ──────────────────────────────────────────────────── */
+
+  --interactive-danger-default: var(--color-red-9);
+  --interactive-danger-hover: var(--color-red-10);
+  --interactive-danger-active: var(--color-red-10);
+
+  /* ── status ──────────────────────────────────────────────────────────────── */
+
+  --status-success-bg: var(--color-green-3);
+  --status-success-fg: var(--color-green-10);
+  --status-warning-bg: var(--color-amber-3);
+  --status-warning-fg: var(--color-amber-10);
+  --status-danger-bg: var(--color-red-3);
+  --status-danger-fg: var(--color-red-10);
+  --status-info-bg: var(--color-blue-3);
+  --status-info-fg: var(--color-blue-11);
+
+  /* ── component/control ───────────────────────────────────────────────────── */
+
+  --component-control-radius: var(--radius-md);
+  --component-control-padding-x-sm: var(--space-3);
+  --component-control-padding-x-md: var(--space-4);
+  --component-control-padding-x-lg: var(--space-6);
+  --component-control-padding-y-sm: var(--space-1);
+  --component-control-padding-y-md: var(--space-2);
+  --component-control-padding-y-lg: var(--space-3);
+  --component-control-gap: var(--space-2);
+  --component-control-min-target: 44px; /* WCAG 2.5.8 / 3.0 target-size floor — not primitive-derived by design. */
+
+  /* ── motion ──────────────────────────────────────────────────────────────── */
+
+  --motion-interactive: var(--duration-fast);
+}
+
+/* ============================================================================
+   DARK MODE
+   Only semantic token overrides below. Primitives (--color-*) are never
+   changed here. Tokens omitted from this block are context-stable and
+   inherit their light-mode value through CSS custom property inheritance.
+   ============================================================================ */
+
+.dark {
+  /* ── background + surface ───────────────────────────────────────────────── */
+
+  --background-canvas: var(--color-slate-12);
+  --surface-sunken: var(--color-slate-11);
+  --surface-default: var(--color-slate-12);
+  --surface-raised: var(--color-slate-11);
+  --surface-overlay: var(--color-slate-11);
+  --surface-disabled: var(--color-slate-10);
+
+  /* ── text ────────────────────────────────────────────────────────────────── */
+
+  --text-primary: var(--color-slate-1);
+  --text-secondary: var(--color-slate-5);
+  --text-disabled: var(--color-slate-8);
+
+  /* ── border ──────────────────────────────────────────────────────────────── */
+
+  --border-default: var(--color-slate-9);
+  --border-strong: var(--color-slate-7);
+  --border-focus: var(--color-blue-6);
+
+  /* ── interactive/accent ──────────────────────────────────────────────────── */
+
+  --interactive-accent-hover: var(--color-blue-6);
+  --interactive-accent-active: var(--color-blue-6);
+  --interactive-accent-disabled: var(--color-slate-9);
+
+  /* ── interactive/neutral ─────────────────────────────────────────────────── */
+
+  --interactive-neutral-default: var(--color-slate-10);
+  --interactive-neutral-hover: var(--color-slate-9);
+  --interactive-neutral-active: var(--color-slate-8);
+  --interactive-neutral-disabled: var(--color-slate-11);
+}

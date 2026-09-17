@@ -1,0 +1,106 @@
+/*
+ * primitives.css — PRIMITIVE PALETTE LAYER
+ *
+ * Raw, primitive design tokens only: exact hex values, spacing/radius scales,
+ * type ramps, and durations. No semantic aliases live here — those live in
+ * semantic.css, which must be imported AFTER this file (see index.css).
+ *
+ * This mirrors the theme-vars.css / semantic-vars.css split used in SMG's
+ * Forge design system: a primitive layer feeding an intention-based semantic
+ * layer, so a theme change only ever touches semantic.css.
+ *
+ * The `@theme static { ... }` wrapper is Tailwind v4 syntax that registers
+ * these as design tokens for utility generation in consuming apps. The
+ * token build (../build-tokens.mjs) also lowers it to a plain `:root { }`
+ * block for `dist/css`, so the compiled output works with or without
+ * Tailwind.
+ *
+ * TOKEN GROUPS IN THIS FILE
+ * -------------------------
+ * 1. Slate (neutral) palette   – --color-slate-*
+ * 2. Blue (accent) palette     – --color-blue-*
+ * 3. Red / green / amber       – --color-red-*, --color-green-*, --color-amber-*
+ * 4. Base colors                – --color-white, --color-black
+ * 5. Spacing scale              – --space-*
+ * 6. Radius scale                – --radius-*
+ * 7. Type ramp                    – --font-size-*, --font-weight-*
+ * 8. Motion                        – --duration-*
+ */
+
+@theme static {
+  /* ── Slate (neutral) palette ─────────────────────────────────────────────── */
+
+  --color-slate-1: #fbfcfd;
+  --color-slate-2: #f5f7f8;
+  --color-slate-3: #eceef0;
+  --color-slate-4: #e2e5e8;
+  --color-slate-5: #d3d8dc;
+  --color-slate-6: #b8c0c6;
+  --color-slate-7: #98a3ab;
+  --color-slate-8: #71818b;
+  --color-slate-9: #57666e;
+  --color-slate-10: #404c53;
+  --color-slate-11: #283136;
+  --color-slate-12: #14181b;
+
+  /* ── Blue (accent) palette ───────────────────────────────────────────────── */
+
+  --color-blue-3: #dbeafe;
+  --color-blue-6: #93c5fd;
+  --color-blue-9: #2563eb;
+  --color-blue-10: #1d4ed8;
+  --color-blue-11: #1e40af;
+
+  /* ── Red / green / amber (status) palettes ───────────────────────────────── */
+
+  --color-red-3: #fee2e2;
+  --color-red-9: #dc2626;
+  --color-red-10: #b91c1c;
+
+  --color-green-3: #dcfce7;
+  --color-green-9: #16a34a;
+  --color-green-10: #15803d;
+
+  --color-amber-3: #fef3c7;
+  --color-amber-9: #d97706;
+  --color-amber-10: #b45309;
+
+  /* ── Base colors ─────────────────────────────────────────────────────────── */
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* ── Spacing scale ───────────────────────────────────────────────────────── */
+
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* ── Radius scale ────────────────────────────────────────────────────────── */
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* ── Type ramp ───────────────────────────────────────────────────────────── */
+
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ── Motion ──────────────────────────────────────────────────────────────── */
+
+  --duration-fast: 120;
+  --duration-base: 200;
+}

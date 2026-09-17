@@ -11,8 +11,8 @@ WCAG 3.0 stabilizes.
 ## What we did now (WCAG 2.2 baseline, enforced)
 
 - **Contrast**: every semantic `text-on-*` / `interactive-*` pairing in
-  [`packages/tokens/tokens/semantic.json`](../../packages/tokens/tokens/semantic.json)
-  and [`semantic.dark.json`](../../packages/tokens/tokens/semantic.dark.json) is chosen to
+  [`packages/tokens/src/semantic.css`](../../packages/tokens/src/semantic.css)
+  (light values, plus the `.dark { }` overrides in the same file) is chosen to
   clear WCAG 2.2 AA (4.5:1 text, 3:1 UI component) in both themes. Storybook's
   `addon-a11y` lints every story against the `wcag22aa` tag on every commit.
 - **Target size**: `--component-control-min-target` is fixed at `44px`,
@@ -51,6 +51,6 @@ WCAG 3.0 stabilizes.
 
 Because `Button` only ever consumes semantic tokens (never raw palette
 values, see [`styles.css`](../../packages/react/src/styles.css)), contrast and
-target-size fixes made in `tokens/semantic*.json` propagate to every
+target-size fixes made in `tokens/src/semantic.css` propagate to every
 consumer and platform output (CSS/JSON/Compose/Swift) without touching
 component code — the same reason the primitive/semantic split exists.

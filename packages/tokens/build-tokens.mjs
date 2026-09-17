@@ -1,237 +1,233 @@
-import StyleDictionary from 'style-dictionary';
+import postcss from 'postcss';
 import { promises as fs } from 'node:fs';
 
 /**
- * Two-tier token build: `tokens/primitives.json` (raw palette/scale values)
- * feed `tokens/semantic.json` (+ `semantic.dark.json` overrides) via
- * Style Dictionary references. One source of truth builds four platform
- * outputs: CSS custom properties, a flat JSON snapshot, Kotlin (Jetpack
- * Compose) objects, and a Swift enum.
+ * Tokens are authored as plain CSS custom properties (src/primitives.css,
+ * src/semantic.css) — the same two-tier pattern as Forge's
+ * theme-vars.css -> semantic-vars.css. This script parses that CSS (rather
+ * than a separate JSON source of truth) and builds:
+ *   - dist/css   a portable bundle (`@theme static` lowered to `:root`)
+ *   - dist/json  a resolved (var()-free) snapshot, light + dark
+ *   - dist/compose / dist/swift  native platform constants, resolved
+ * Any token whose final value isn't a plain hex color / px dimension /
+ * plain number (e.g. a future gradient or color-mix()) is skipped for the
+ * native platform outputs — flagged in a comment — since it has no
+ * cross-platform representation.
  */
 
-const PRIMITIVE_ROOTS = new Set(['color', 'space', 'radius', 'font', 'duration']);
+// --- 1. parse CSS custom properties into ordered {prop, value} maps --------
 
-const kebabName = (token) => token.path.join('-').replace(/\./g, '-');
-const pascalName = (token) =>
-  token.path
+async function readDecls(file) {
+  const css = await fs.readFile(file, 'utf8');
+  const root = postcss.parse(css, { from: file });
+  const themeDecls = new Map();
+  const darkDecls = new Map();
+
+  root.walkAtRules('theme', (atRule) => {
+    atRule.walkDecls((decl) => themeDecls.set(decl.prop.replace(/^--/, ''), decl.value));
+  });
+  root.walkRules('.dark', (rule) => {
+    rule.walkDecls((decl) => darkDecls.set(decl.prop.replace(/^--/, ''), decl.value));
+  });
+
+  return { themeDecls, darkDecls };
+}
+
+const primitives = await readDecls('src/primitives.css');
+const semantic = await readDecls('src/semantic.css');
+
+const lightRaw = new Map([...primitives.themeDecls, ...semantic.themeDecls]);
+const darkRaw = new Map([...lightRaw, ...semantic.darkDecls]);
+
+// --- 2. resolve var(--x) chains to literal values --------------------------
+
+function resolve(value, lookup) {
+  let current = value;
+  for (let i = 0; i < 10 && /var\(--[\w-]+\)/.test(current); i += 1) {
+    current = current.replace(/var\(--([\w-]+)\)/g, (_, name) => lookup.get(name) ?? `var(--${name})`);
+  }
+  return current;
+}
+
+function resolveAll(raw) {
+  const resolved = new Map();
+  for (const [name] of raw) resolved.set(name, resolve(raw.get(name), raw));
+  return resolved;
+}
+
+const light = resolveAll(lightRaw);
+const dark = resolveAll(darkRaw);
+
+// --- 3. classify resolved values for native platform export ---------------
+
+const HEX = /^#([0-9a-f]{3,8})$/i;
+const PX = /^-?[\d.]+px$/;
+const NUMBER = /^-?[\d.]+$/;
+
+function classify(value) {
+  if (HEX.test(value)) return 'color';
+  if (PX.test(value)) return 'dimension';
+  if (NUMBER.test(value)) return 'number';
+  return 'raw';
+}
+
+const pascalName = (name) =>
+  name
+    .split('-')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('')
-    .replace(/[^A-Za-z0-9]/g, '');
-const camelName = (token) => {
-  const p = pascalName(token);
+    .join('');
+const camelName = (name) => {
+  const p = pascalName(name);
   return p.charAt(0).toLowerCase() + p.slice(1);
 };
 
-const isDimension = (token) => token.type === 'dimension';
-const isColor = (token) => token.type === 'color';
-const isNumber = (token) => token.type === 'number';
-
-// --- transforms -------------------------------------------------------
-
-StyleDictionary.registerTransform({
-  name: 'name/kebab-path',
-  type: 'name',
-  transform: kebabName,
-});
-
-StyleDictionary.registerTransform({
-  name: 'value/css',
-  type: 'value',
-  transitive: false,
-  filter: isDimension,
-  transform: (token) => `${parseFloat(token.value)}px`,
-});
-
-StyleDictionary.registerTransform({
-  name: 'value/compose-color',
-  type: 'value',
-  transitive: false,
-  filter: isColor,
-  transform: (token) => {
-    const hex = token.value.replace('#', '').toUpperCase();
+function toComposeValue(value, type) {
+  if (type === 'color') {
+    const hex = value.replace('#', '').toUpperCase();
     const argb = hex.length === 6 ? `FF${hex}` : hex;
     return `Color(0x${argb})`;
-  },
-});
+  }
+  if (type === 'dimension') return `${parseFloat(value)}.dp`;
+  return value; // number
+}
 
-StyleDictionary.registerTransform({
-  name: 'value/compose-dp',
-  type: 'value',
-  transitive: false,
-  filter: isDimension,
-  transform: (token) => `${parseFloat(token.value)}.dp`,
-});
-
-StyleDictionary.registerTransform({
-  name: 'value/swift-color',
-  type: 'value',
-  transitive: false,
-  filter: isColor,
-  transform: (token) => {
-    const hex = token.value.replace('#', '');
+function toSwiftValue(value, type) {
+  if (type === 'color') {
+    const hex = value.replace('#', '');
     const r = parseInt(hex.slice(0, 2), 16) / 255;
     const g = parseInt(hex.slice(2, 4), 16) / 255;
     const b = parseInt(hex.slice(4, 6), 16) / 255;
     return `Color(red: ${r.toFixed(4)}, green: ${g.toFixed(4)}, blue: ${b.toFixed(4)})`;
-  },
-});
-
-StyleDictionary.registerTransform({
-  name: 'value/swift-cgfloat',
-  type: 'value',
-  transitive: false,
-  filter: isDimension,
-  transform: (token) => `CGFloat(${parseFloat(token.value)})`,
-});
-
-StyleDictionary.registerTransformGroup({
-  name: 'svx/css',
-  transforms: ['name/kebab-path', 'value/css'],
-});
-
-StyleDictionary.registerTransformGroup({
-  name: 'svx/json',
-  transforms: ['name/kebab-path'],
-});
-
-StyleDictionary.registerTransformGroup({
-  name: 'svx/compose',
-  transforms: ['name/kebab-path', 'value/compose-color', 'value/compose-dp'],
-});
-
-StyleDictionary.registerTransformGroup({
-  name: 'svx/swift',
-  transforms: ['name/kebab-path', 'value/swift-color', 'value/swift-cgfloat'],
-});
-
-// --- formats ------------------------------------------------------------
-
-function cssBlock(tokens, selector) {
-  const lines = tokens.map((t) => `  --${kebabName(t)}: ${t.value};`);
-  return `${selector} {\n${lines.join('\n')}\n}\n`;
+  }
+  if (type === 'dimension') return `CGFloat(${parseFloat(value)})`;
+  return value; // number
 }
 
-StyleDictionary.registerFormat({
-  name: 'css/svx-variables',
-  format: ({ dictionary }) => {
-    const primitives = dictionary.allTokens.filter((t) => PRIMITIVE_ROOTS.has(t.path[0]));
-    const semantic = dictionary.allTokens.filter((t) => !PRIMITIVE_ROOTS.has(t.path[0]));
-    return (
-      '/* Auto-generated by @svx/tokens. Do not edit directly. */\n\n' +
-      cssBlock(primitives, ':root') +
-      '\n' +
-      cssBlock(semantic, ':root')
-    );
-  },
-});
-
-StyleDictionary.registerFormat({
-  name: 'css/svx-dark-variables',
-  format: ({ dictionary }) => {
-    const semantic = dictionary.allTokens.filter((t) => !PRIMITIVE_ROOTS.has(t.path[0]));
-    return (
-      '/* Auto-generated by @svx/tokens. Dark-mode semantic overrides. */\n\n' +
-      cssBlock(semantic, "[data-theme='dark']")
-    );
-  },
-});
-
-StyleDictionary.registerFormat({
-  name: 'json/svx-nested',
-  format: ({ dictionary }) => JSON.stringify(dictionary.tokens, null, 2) + '\n',
-});
-
-StyleDictionary.registerFormat({
-  name: 'json/svx-flat',
-  format: ({ dictionary }) => {
-    const out = {};
-    for (const t of dictionary.allTokens) {
-      out[kebabName(t)] = t.value;
+function nativeMembers(resolved, formatValue) {
+  const lines = [];
+  const skipped = [];
+  for (const [name, value] of resolved) {
+    const type = classify(value);
+    if (type === 'raw') {
+      skipped.push(name);
+      continue;
     }
-    return JSON.stringify(out, null, 2) + '\n';
-  },
-});
+    lines.push({ name, member: formatValue(value, type) });
+  }
+  return { lines, skipped };
+}
 
-StyleDictionary.registerFormat({
-  name: 'compose/svx-object',
-  format: ({ dictionary }) => {
-    const lines = dictionary.allTokens.map((t) => `    val ${camelName(t)} = ${t.value}`);
-    return (
-      '// Auto-generated by @svx/tokens. Do not edit directly.\n' +
+// --- 4. write dist/css (`@theme static` -> `:root`, dark stays `.dark`) ---
+
+async function lowerThemeToRoot(file) {
+  const css = await fs.readFile(file, 'utf8');
+  const root = postcss.parse(css, { from: file });
+  root.walkAtRules('theme', (atRule) => {
+    const rule = postcss.rule({ selector: ':root' });
+    rule.append(atRule.nodes);
+    atRule.replaceWith(rule);
+  });
+  return root.toString();
+}
+
+async function buildCss() {
+  const banner = '/* Auto-generated by @svx/tokens (from src/*.css). Do not edit directly. */\n\n';
+  const primitivesCss = await lowerThemeToRoot('src/primitives.css');
+  const semanticCss = await lowerThemeToRoot('src/semantic.css');
+
+  await fs.mkdir('dist/css', { recursive: true });
+  await fs.writeFile('dist/css/index.css', banner + primitivesCss + '\n' + semanticCss + '\n');
+}
+
+// --- 5. write dist/json (resolved, no var() left) --------------------------
+
+async function buildJson() {
+  const toObject = (resolved) => Object.fromEntries(resolved);
+  const nested = (resolved) => {
+    const out = {};
+    for (const [name, value] of resolved) {
+      const [category, ...rest] = name.split('-');
+      out[category] ??= {};
+      out[category][rest.join('-')] = value;
+    }
+    return out;
+  };
+
+  await fs.mkdir('dist/json', { recursive: true });
+  await fs.writeFile(
+    'dist/json/tokens.flat.json',
+    JSON.stringify({ light: toObject(light), dark: toObject(dark) }, null, 2) + '\n',
+  );
+  await fs.writeFile(
+    'dist/json/tokens.json',
+    JSON.stringify({ light: nested(light), dark: nested(dark) }, null, 2) + '\n',
+  );
+}
+
+// --- 6. write dist/compose/SvxTokens.kt -------------------------------------
+
+async function buildCompose() {
+  const lightMembers = nativeMembers(light, toComposeValue);
+  const darkMembers = nativeMembers(dark, toComposeValue);
+
+  const objectBody = (members) => members.lines.map((l) => `    val ${camelName(l.name)} = ${l.member}`).join('\n');
+
+  const skippedComment = (members) =>
+    members.skipped.length ? `\n// Skipped (no native representation): ${members.skipped.join(', ')}` : '';
+
+  await fs.mkdir('dist/compose', { recursive: true });
+  await fs.writeFile(
+    'dist/compose/SvxTokens.kt',
+    '// Auto-generated by @svx/tokens. Do not edit directly.\n' +
       'package com.svx.tokens\n\n' +
       'import androidx.compose.ui.graphics.Color\n' +
       'import androidx.compose.ui.unit.dp\n\n' +
-      'object SvxTokens {\n' +
-      lines.join('\n') +
-      '\n}\n'
-    );
-  },
-});
+      'object SvxTokensLight {\n' +
+      objectBody(lightMembers) +
+      '\n}' +
+      skippedComment(lightMembers) +
+      '\n\n' +
+      'object SvxTokensDark {\n' +
+      objectBody(darkMembers) +
+      '\n}' +
+      skippedComment(darkMembers) +
+      '\n',
+  );
+}
 
-StyleDictionary.registerFormat({
-  name: 'swift/svx-enum',
-  format: ({ dictionary }) => {
-    const lines = dictionary.allTokens.map((t) => `    static let ${camelName(t)} = ${t.value}`);
-    return (
-      '// Auto-generated by @svx/tokens. Do not edit directly.\n' +
+// --- 7. write dist/swift/SvxTokens.swift ------------------------------------
+
+async function buildSwift() {
+  const lightMembers = nativeMembers(light, toSwiftValue);
+  const darkMembers = nativeMembers(dark, toSwiftValue);
+
+  const enumBody = (members) =>
+    members.lines.map((l) => `    static let ${camelName(l.name)} = ${l.member}`).join('\n');
+
+  const skippedComment = (members) =>
+    members.skipped.length ? `\n// Skipped (no native representation): ${members.skipped.join(', ')}` : '';
+
+  await fs.mkdir('dist/swift', { recursive: true });
+  await fs.writeFile(
+    'dist/swift/SvxTokens.swift',
+    '// Auto-generated by @svx/tokens. Do not edit directly.\n' +
       'import SwiftUI\n\n' +
-      'public enum SvxTokens {\n' +
-      lines.join('\n') +
-      '\n}\n'
-    );
-  },
-});
+      'public enum SvxTokensLight {\n' +
+      enumBody(lightMembers) +
+      '\n}' +
+      skippedComment(lightMembers) +
+      '\n\n' +
+      'public enum SvxTokensDark {\n' +
+      enumBody(darkMembers) +
+      '\n}' +
+      skippedComment(darkMembers) +
+      '\n',
+  );
+}
 
-// --- build ----------------------------------------------------------------
+await buildCss();
+await buildJson();
+await buildCompose();
+await buildSwift();
 
-const light = new StyleDictionary({
-  source: ['tokens/primitives.json', 'tokens/semantic.json'],
-  platforms: {
-    css: {
-      transformGroup: 'svx/css',
-      buildPath: 'dist/css/',
-      files: [{ destination: 'variables.css', format: 'css/svx-variables' }],
-    },
-    json: {
-      transformGroup: 'svx/json',
-      buildPath: 'dist/json/',
-      files: [
-        { destination: 'tokens.json', format: 'json/svx-nested' },
-        { destination: 'tokens.flat.json', format: 'json/svx-flat' },
-      ],
-    },
-    compose: {
-      transformGroup: 'svx/compose',
-      buildPath: 'dist/compose/',
-      files: [{ destination: 'SvxTokens.kt', format: 'compose/svx-object' }],
-    },
-    swift: {
-      transformGroup: 'svx/swift',
-      buildPath: 'dist/swift/',
-      files: [{ destination: 'SvxTokens.swift', format: 'swift/svx-enum' }],
-    },
-  },
-});
-
-const dark = new StyleDictionary({
-  source: ['tokens/primitives.json', 'tokens/semantic.json', 'tokens/semantic.dark.json'],
-  platforms: {
-    css: {
-      transformGroup: 'svx/css',
-      buildPath: 'dist/css/',
-      files: [{ destination: 'variables.dark.css', format: 'css/svx-dark-variables' }],
-    },
-  },
-});
-
-await light.buildAllPlatforms();
-await dark.buildAllPlatforms();
-
-// Combine light + dark into a single convenience stylesheet.
-const [base, darkOverrides] = await Promise.all([
-  fs.readFile('dist/css/variables.css', 'utf8'),
-  fs.readFile('dist/css/variables.dark.css', 'utf8'),
-]);
-await fs.writeFile('dist/css/index.css', `${base}\n${darkOverrides}`);
-
-console.log('Built tokens -> dist/{css,json,compose,swift}');
+console.log('Built tokens from src/*.css -> dist/{css,json,compose,swift}');
