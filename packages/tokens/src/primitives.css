@@ -2,9 +2,10 @@
  * primitives.css — PRIMITIVE PALETTE LAYER
  *
  * Raw, primitive design tokens only: two full color ramps (grey/grey +
- * blue), spacing/radius scale, type ramp, and duration — only the steps
- * actually consumed by semantic.css. No semantic aliases live here — those
- * live in semantic.css, which must be imported AFTER this file (see index.css).
+ * blue), a unitless size scale (mirrored as px + rem ramps), type ramp,
+ * and duration — only the steps actually consumed by semantic.css. No
+ * semantic aliases live here — those live in semantic.css, which must be
+ * imported AFTER this file (see index.css).
  *
  * Deliberately just 2 color ramps (not the 6+ palettes a full product design
  * system would carry) to keep this example legible. Scale uses the
@@ -15,15 +16,26 @@
  * layer feeding an intention-based semantic layer, so a theme change only
  * ever touches semantic.css.
  *
+ * SIZE SCALE — one ramp, two unit suffixes
+ * -----------------------------------------
+ * `--size-{step}-px` and `--size-{step}-rem` are the same numeric ramp
+ * expressed in two units, following the Tailwind convention where
+ * `step * 4 = px` and `step * 0.25 = rem`. Half-steps (`3-5`, `4-5`) exist
+ * solely to cover the type ramp's font-size/line-height values below.
+ * Semantic tokens (see semantic.css) pick whichever suffix a given use
+ * case needs — `-rem` for anything that should scale with the user's root
+ * font size (the accessible default), `-px` when a consumer needs a
+ * pixel-exact value. Semantic radius tokens (see semantic.css) are also
+ * built from this ramp — there is no separate primitive radius scale.
+ *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------
- * 1. grey (neutral) ramp   – --color-grey-50..950
+ * 1. grey (neutral) ramp    – --color-grey-50..950
  * 2. Blue (accent) ramp     – --color-blue-50..950
- * 3. Spacing scale           – --space-*
- * 4. Radius                   – --radius-md
- * 5. Type ramp                  – --font-family-sans, --font-size-*,
- *                                  --line-height-*, --font-weight-medium
- * 6. Motion                       – --duration-fast
+ * 3. Size scale             – --size-{step}-px, --size-{step}-rem
+ * 4. Type ramp              – --font-family-sans, --font-size-*,
+ *                              --line-height-*, --font-weight-medium
+ * 5. Motion                 – --duration-fast
  */
 
 @theme static {
@@ -55,29 +67,41 @@
   --color-blue-900: #1e3a8a;
   --color-blue-950: #172554;
 
-  /* ── Spacing scale (only steps semantic.css references) ─────────────────── */
+  /* ── Size scale — px suffix (only steps semantic.css/type ramp reference) ── */
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
+  --size-1-px: 4px;
+  --size-2-px: 8px;
+  --size-3-px: 12px;
+  --size-3-5-px: 14px;
+  --size-4-px: 16px;
+  --size-4-5-px: 18px;
+  --size-5-px: 20px;
+  --size-6-px: 24px;
+  --size-7-px: 28px;
 
-  /* ── Radius ──────────────────────────────────────────────────────────────── */
+  /* ── Size scale — rem suffix, same steps as the px ramp above ────────────── */
 
-  --radius-md: 8px;
+  --size-1-rem: 0.25rem;
+  --size-2-rem: 0.5rem;
+  --size-3-rem: 0.75rem;
+  --size-3-5-rem: 0.875rem;
+  --size-4-rem: 1rem;
+  --size-4-5-rem: 1.125rem;
+  --size-5-rem: 1.25rem;
+  --size-6-rem: 1.5rem;
+  --size-7-rem: 1.75rem;
 
   /* ── Type ramp ───────────────────────────────────────────────────────────── */
 
   --font-family-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 18px;
+  --font-size-sm: var(--size-3-5-rem);
+  --font-size-md: var(--size-4-rem);
+  --font-size-lg: var(--size-4-5-rem);
 
-  --line-height-sm: 20px;
-  --line-height-md: 24px;
-  --line-height-lg: 28px;
+  --line-height-sm: var(--size-5-rem);
+  --line-height-md: var(--size-6-rem);
+  --line-height-lg: var(--size-7-rem);
 
   --font-weight-medium: 500;
 
