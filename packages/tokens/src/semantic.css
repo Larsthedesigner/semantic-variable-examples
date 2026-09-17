@@ -8,21 +8,19 @@
  *
  * INTERACTIVE STATES — color-mix(), not extra swatches
  * -----------------------------------------------------
- * Following Forge's `--forge-interactive-surface-hover`/`-pressed` pattern:
- * hover/pressed states for outlined & ghost controls are a translucent
+ * Hover/pressed states for outlined & ghost controls are a translucent
  * neutral overlay computed with `color-mix()` rather than a hand-picked
  * swatch per state. `--interactive-surface-hover`/`-pressed` mix increasing
  * amounts of the current theme's ink color into transparent (6% / 12% in
- * light, 12% / 20% in dark — Forge's own light/dark split, since dark
- * surfaces need a stronger mix to read as "hovered"). Because it's an
- * overlay, not a fill, it composites correctly over any surface underneath
- * without a dedicated swatch per state per surface.
+ * light, 12% / 20% in dark, since dark surfaces need a stronger mix to read
+ * as "hovered"). Because it's an overlay, not a fill, it composites
+ * correctly over any surface underneath without a dedicated swatch per
+ * state per surface.
  *
  * Solid fills (`--interactive-solid*`) are the one place we still step
- * through fixed ramp swatches rather than color-mix, exactly like Forge's
- * `--forge-interactive-solid*`: a solid button needs a fully opaque fill, so
- * hover/pressed are just darker (light mode) / lighter (dark mode, Forge's
- * own convention — darkening an already-dark fill reads as *less* interactive).
+ * through fixed ramp swatches rather than color-mix: a solid button needs a
+ * fully opaque fill, so hover/pressed are just darker (light mode) / lighter
+ * (dark mode — darkening an already-dark fill reads as *less* interactive).
  *
  * IMPORT ORDER
  * ------------
@@ -114,8 +112,8 @@
 
   /* ── interactive/solid ────────────────────────────────────────────────────
    * Resting fill is unchanged; hover/pressed step LIGHTER (not darker) —
-   * Forge's dark-mode convention, since darkening an already-dark fill reads
-   * as *less* interactive rather than more. */
+   * darkening an already-dark fill reads as *less* interactive rather than
+   * more. */
 
   --interactive-solid-hover: var(--color-blue-400);
   --interactive-solid-pressed: var(--color-blue-300);
@@ -123,7 +121,7 @@
 
   /* ── interactive/surface — same color-mix() overlay, recomputed with a
    * lighter mix color + stronger percentages so it still reads against dark
-   * surfaces (Forge steps 6/12% light -> 12/20% dark for the same reason). */
+   * surfaces (6/12% light -> 12/20% dark for the same reason). */
 
   --interactive-surface-hover: color-mix(in srgb, var(--color-slate-50) 12%, transparent);
   --interactive-surface-pressed: color-mix(in srgb, var(--color-slate-50) 20%, transparent);

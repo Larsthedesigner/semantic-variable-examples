@@ -3,9 +3,9 @@ import { promises as fs } from 'node:fs';
 
 /**
  * Tokens are authored as plain CSS custom properties (src/primitives.css,
- * src/semantic.css) — the same two-tier pattern as Forge's
- * theme-vars.css -> semantic-vars.css. This script parses that CSS (rather
- * than a separate JSON source of truth) and builds:
+ * src/semantic.css) — a primitive layer feeding a semantic layer. This
+ * script parses that CSS (rather than a separate JSON source of truth) and
+ * builds:
  *   - dist/css   a portable bundle (`@theme static` lowered to `:root`)
  *   - dist/json  a resolved (var()-free) snapshot, light + dark
  *   - dist/compose / dist/swift  native platform constants, resolved

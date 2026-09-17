@@ -11,9 +11,9 @@
  * Tailwind-style 50->950 convention: lower numbers are lighter, higher
  * numbers are darker, 500 is the "base" swatch of the ramp.
  *
- * This mirrors the theme-vars.css / semantic-vars.css split used in SMG's
- * Forge design system: a primitive layer feeding an intention-based semantic
- * layer, so a theme change only ever touches semantic.css.
+ * This mirrors a common two-tier design-token convention: a primitive
+ * layer feeding an intention-based semantic layer, so a theme change only
+ * ever touches semantic.css.
  *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------

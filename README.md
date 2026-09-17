@@ -8,10 +8,10 @@ production-grade React component (`Button`) that demonstrates the
 ShadCN-style API surface: polymorphic `as`, `asChild` (Radix Slot),
 variant-to-token mapping, and forwarded refs.
 
-The token/semantic split and CSS bridging pattern here are modeled on the
-primitive/semantic layering used in SMG's `smg-web-react-forge` monorepo
-(`theme-vars.css` → `semantic-vars.css`), reimplemented from scratch as a
-small, standalone, public example — not copied code.
+The token/semantic split and CSS bridging pattern here follow a common
+design-system convention — a primitive palette layer feeding an
+intention-based semantic layer — built from scratch as a small, standalone,
+public case study.
 
 ## Packages
 
@@ -22,8 +22,8 @@ small, standalone, public example — not copied code.
 
 ## Architecture
 
-Tokens are authored as CSS, not JSON — the same two-tier pattern as Forge's
-`theme-vars.css` → `semantic-vars.css`:
+Tokens are authored as CSS, not JSON — a primitive layer (`primitives.css`)
+feeding an intention-based semantic layer (`semantic.css`):
 
 ```
 packages/tokens/src/primitives.css   @theme static { } two full color ramps (slate + blue,
@@ -51,11 +51,11 @@ packages/react/src/Button.tsx   polymorphic `as`, `asChild` via @radix-ui/react-
 ```
 
 `--interactive-surface-hover`/`-pressed` (used by the outline/ghost variants)
-are a `color-mix()` overlay, not a hand-picked swatch — the same pattern as
-Forge's `--forge-interactive-surface-hover`/`-pressed`. `--interactive-solid*`
-(the filled variant) still steps through fixed ramp swatches, since a solid
-fill needs to be fully opaque; see the comments atop `semantic.css` for why
-each approach is used where it is.
+are a `color-mix()` overlay, not a hand-picked swatch, so they composite
+correctly over any surface underneath. `--interactive-solid*` (the filled
+variant) still steps through fixed ramp swatches, since a solid fill needs to
+be fully opaque; see the comments atop `semantic.css` for why each approach is
+used where it is.
 
 Any token whose resolved value isn't a plain hex color / px dimension / plain
 number (e.g. a future gradient or `color-mix()`) is intentionally skipped from
