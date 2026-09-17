@@ -97,17 +97,20 @@
   --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
   --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
 
-  /* ── space — t-shirt sized scale, px + rem, built from the primitive size ramp ── */
+  /* ── space — t-shirt sized scale, px ramp, built from the primitive size ramp ── */
 
   --space-xs-px: var(--size-1-px); /* smallest spacing step, px unit — tight gaps/insets */
-  --space-xs-rem: var(--size-1-rem); /* smallest spacing step, rem unit (scales with root font size) */
   --space-sm-px: var(--size-2-px); /* small spacing step, px unit */
-  --space-sm-rem: var(--size-2-rem); /* small spacing step, rem unit (scales with root font size) */
   --space-md-px: var(--size-3-px); /* medium/default spacing step, px unit */
-  --space-md-rem: var(--size-3-rem); /* medium/default spacing step, rem unit (scales with root font size) */
   --space-lg-px: var(--size-4-px); /* large spacing step, px unit */
-  --space-lg-rem: var(--size-4-rem); /* large spacing step, rem unit (scales with root font size) */
   --space-xl-px: var(--size-6-px); /* largest spacing step, px unit — section-level gaps */
+
+  /* ── space — t-shirt sized scale, rem ramp, built from the primitive size ramp ── */
+
+  --space-xs-rem: var(--size-1-rem); /* smallest spacing step, rem unit (scales with root font size) */
+  --space-sm-rem: var(--size-2-rem); /* small spacing step, rem unit (scales with root font size) */
+  --space-md-rem: var(--size-3-rem); /* medium/default spacing step, rem unit (scales with root font size) */
+  --space-lg-rem: var(--size-4-rem); /* large spacing step, rem unit (scales with root font size) */
   --space-xl-rem: var(--size-6-rem); /* largest spacing step, rem unit (scales with root font size) */
 
   /* ── radius — t-shirt sized scale, built from the primitive size (rem) ramp ── */
