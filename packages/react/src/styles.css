@@ -1,0 +1,91 @@
+/* Imports the built semantic/primitive tokens from @svx/tokens. */
+@import '@svx/tokens/dist/css/index.css';
+
+.svx-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--component-control-gap);
+  border-radius: var(--component-control-radius);
+  border: 1px solid transparent;
+  font-weight: var(--font-weight-medium);
+  min-height: var(--component-control-min-target);
+  cursor: pointer;
+  transition:
+    background-color calc(var(--motion-interactive) * 1ms) ease,
+    border-color calc(var(--motion-interactive) * 1ms) ease;
+}
+
+.svx-button:disabled,
+.svx-button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.svx-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* sizes */
+.svx-button--sm {
+  padding: var(--component-control-padding-y-sm) var(--component-control-padding-x-sm);
+  font-size: var(--font-size-sm);
+}
+.svx-button--md {
+  padding: var(--component-control-padding-y-md) var(--component-control-padding-x-md);
+  font-size: var(--font-size-md);
+}
+.svx-button--lg {
+  padding: var(--component-control-padding-y-lg) var(--component-control-padding-x-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* variants -> semantic interactive tokens */
+.svx-button--solid {
+  background-color: var(--interactive-accent-default);
+  color: var(--text-on-accent);
+}
+.svx-button--solid:hover {
+  background-color: var(--interactive-accent-hover);
+}
+.svx-button--solid:active {
+  background-color: var(--interactive-accent-active);
+}
+.svx-button--solid:disabled {
+  background-color: var(--interactive-accent-disabled);
+}
+
+.svx-button--outline {
+  background-color: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+.svx-button--outline:hover {
+  background-color: var(--interactive-neutral-hover);
+}
+.svx-button--outline:active {
+  background-color: var(--interactive-neutral-active);
+}
+
+.svx-button--ghost {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+.svx-button--ghost:hover {
+  background-color: var(--interactive-neutral-hover);
+}
+.svx-button--ghost:active {
+  background-color: var(--interactive-neutral-active);
+}
+
+.svx-button--danger {
+  background-color: var(--interactive-danger-default);
+  color: var(--text-on-danger);
+}
+.svx-button--danger:hover {
+  background-color: var(--interactive-danger-hover);
+}
+.svx-button--danger:active {
+  background-color: var(--interactive-danger-active);
+}
