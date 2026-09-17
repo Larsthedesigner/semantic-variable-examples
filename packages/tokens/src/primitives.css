@@ -2,9 +2,11 @@
  * primitives.css — PRIMITIVE PALETTE LAYER
  *
  * Raw, primitive design tokens only: two full color ramps (grey/grey +
- * blue), spacing/radius scale, type ramp, and duration — only the steps
- * actually consumed by semantic.css. No semantic aliases live here — those
- * live in semantic.css, which must be imported AFTER this file (see index.css).
+ * blue), a unitless size scale (mirrored as px + rem ramps), a radius
+ * scale (also mirrored as px + rem), type ramp, and duration — only the
+ * steps actually consumed by semantic.css. No semantic aliases live here —
+ * those live in semantic.css, which must be imported AFTER this file (see
+ * index.css).
  *
  * Deliberately just 2 color ramps (not the 6+ palettes a full product design
  * system would carry) to keep this example legible. Scale uses the
@@ -15,15 +17,24 @@
  * layer feeding an intention-based semantic layer, so a theme change only
  * ever touches semantic.css.
  *
+ * SIZE SCALE — one ramp, two unit suffixes
+ * -----------------------------------------
+ * `--size-{step}-px` and `--size-{step}-rem` are the same numeric ramp
+ * expressed in two units. Semantic tokens (see semantic.css) pick whichever
+ * suffix a given use case needs — `-rem` for anything that should scale
+ * with the user's root font size (the accessible default), `-px` when a
+ * consumer needs a pixel-exact value. The radius scale follows the same
+ * px/rem-suffix convention.
+ *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------
- * 1. grey (neutral) ramp   – --color-grey-50..950
+ * 1. grey (neutral) ramp    – --color-grey-50..950
  * 2. Blue (accent) ramp     – --color-blue-50..950
- * 3. Spacing scale           – --space-*
- * 4. Radius                   – --radius-md
- * 5. Type ramp                  – --font-family-sans, --font-size-*,
- *                                  --line-height-*, --font-weight-medium
- * 6. Motion                       – --duration-fast
+ * 3. Size scale             – --size-{step}-px, --size-{step}-rem
+ * 4. Radius scale           – --radius-{step}-px, --radius-{step}-rem
+ * 5. Type ramp              – --font-family-sans, --font-size-*,
+ *                              --line-height-*, --font-weight-medium
+ * 6. Motion                 – --duration-fast
  */
 
 @theme static {
@@ -55,17 +66,33 @@
   --color-blue-900: #1e3a8a;
   --color-blue-950: #172554;
 
-  /* ── Spacing scale (only steps semantic.css references) ─────────────────── */
+  /* ── Size scale — px suffix (only steps semantic.css references) ────────── */
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
+  --size-1-px: 4px;
+  --size-2-px: 8px;
+  --size-3-px: 12px;
+  --size-4-px: 16px;
+  --size-6-px: 24px;
 
-  /* ── Radius ──────────────────────────────────────────────────────────────── */
+  /* ── Size scale — rem suffix, same steps as the px ramp above ────────────── */
 
-  --radius-md: 8px;
+  --size-1-rem: 0.25rem;
+  --size-2-rem: 0.5rem;
+  --size-3-rem: 0.75rem;
+  --size-4-rem: 1rem;
+  --size-6-rem: 1.5rem;
+
+  /* ── Radius scale — px suffix ─────────────────────────────────────────────── */
+
+  --radius-sm-px: 4px;
+  --radius-md-px: 8px;
+  --radius-lg-px: 12px;
+
+  /* ── Radius scale — rem suffix, same steps as the px ramp above ──────────── */
+
+  --radius-sm-rem: 0.25rem;
+  --radius-md-rem: 0.5rem;
+  --radius-lg-rem: 0.75rem;
 
   /* ── Type ramp ───────────────────────────────────────────────────────────── */
 

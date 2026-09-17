@@ -3,7 +3,7 @@
  *
  * Intention-based token aliases that reference primitive values defined in
  * primitives.css. Consumers (see ../../react/src/styles.css) should only ever
- * reference these `--*` semantic variables, never `--color-*`/`--space-*`
+ * reference these `--*` semantic variables, never `--color-*`/`--size-*`
  * primitives directly, so a theme or brand change only ever touches this file.
  *
  * INTERACTIVE STATES — color-mix(), not extra swatches
@@ -40,9 +40,11 @@
  *  1. text (primary / on-solid)
  *  2. border (default / focus)
  *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring)
- *  4. component (control sizing — includes the WCAG target-size floor)
- *  5. component/label (typography composite tokens for control labels)
- *  6. motion
+ *  4. space (t-shirt sized scale, px + rem, built from the primitive size ramp)
+ *  5. radius (t-shirt sized scale, built from the primitive radius ramp)
+ *  6. component (control sizing — includes the WCAG target-size floor)
+ *  7. component/label (typography composite tokens for control labels)
+ *  8. motion
  *
  * COMPOSITE TOKENS
  * ----------------
@@ -58,10 +60,11 @@
    LIGHT MODE (default) — registered as Tailwind design tokens via @theme
    ============================================================================ */
 
+
 @theme static {
   /* ── text ────────────────────────────────────────────────────────────────── */
 
-  --text-primary: var(--color-grey-950);
+  --text-primary: var(--color-grey-950); /* default body/label text color for any surface */
   --text-on-solid: var(--color-grey-50); /* text/icons on top of --interactive-solid fills */
 
   /* ── border ──────────────────────────────────────────────────────────────── */
@@ -71,45 +74,72 @@
 
   /* ── interactive/solid — fixed ramp steps, needs an opaque fill ─────────── */
 
-  --interactive-solid: var(--color-blue-500);
-  --interactive-solid-hover: var(--color-blue-600);
-  --interactive-solid-pressed: var(--color-blue-700);
-  --interactive-solid-disabled: var(--color-grey-300);
+  --interactive-solid: var(--color-blue-500); /* resting fill for the primary/high-emphasis action */
+  --interactive-solid-hover: var(--color-blue-600); /* fill while hovered */
+  --interactive-solid-pressed: var(--color-blue-700); /* fill while actively pressed/clicked */
+  --interactive-solid-disabled: var(--color-grey-300); /* fill when the control is non-interactive */
 
   /* ── interactive/surface — color-mix() overlay, composites over anything ── */
 
-  --interactive-surface-hover: color-mix(in srgb, var(--color-grey-950) 6%, transparent);
-  --interactive-surface-pressed: color-mix(in srgb, var(--color-grey-950) 12%, transparent);
+  --interactive-surface-hover: color-mix(
+    in srgb,
+    var(--color-grey-950) 6%,
+    transparent
+  ); /* low-emphasis (outline/ghost) hover overlay, over any surface */
+  --interactive-surface-pressed: color-mix(
+    in srgb,
+    var(--color-grey-950) 12%,
+    transparent
+  ); /* low-emphasis (outline/ghost) pressed overlay, over any surface */
 
   /* ── interactive/fg + focus-ring — alias other interactive tokens ────────── */
 
   --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
-  --interactive-focus-ring: var(--border-focus);
+  --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
+
+  /* ── space — t-shirt sized scale, px + rem, built from the primitive size ramp ── */
+
+  --space-xs-px: var(--size-1-px); /* smallest spacing step, px unit — tight gaps/insets */
+  --space-xs-rem: var(--size-1-rem); /* smallest spacing step, rem unit (scales with root font size) */
+  --space-sm-px: var(--size-2-px); /* small spacing step, px unit */
+  --space-sm-rem: var(--size-2-rem); /* small spacing step, rem unit (scales with root font size) */
+  --space-md-px: var(--size-3-px); /* medium/default spacing step, px unit */
+  --space-md-rem: var(--size-3-rem); /* medium/default spacing step, rem unit (scales with root font size) */
+  --space-lg-px: var(--size-4-px); /* large spacing step, px unit */
+  --space-lg-rem: var(--size-4-rem); /* large spacing step, rem unit (scales with root font size) */
+  --space-xl-px: var(--size-6-px); /* largest spacing step, px unit — section-level gaps */
+  --space-xl-rem: var(--size-6-rem); /* largest spacing step, rem unit (scales with root font size) */
+
+  /* ── radius — t-shirt sized scale, built from the primitive radius ramp ─── */
+
+  --radius-sm: var(--radius-sm-rem); /* subtle rounding — small controls, chips, tags */
+  --radius-md: var(--radius-md-rem); /* default rounding for most interactive controls */
+  --radius-lg: var(--radius-lg-rem); /* pronounced rounding — cards, modals, large surfaces */
 
   /* ── component/control ───────────────────────────────────────────────────── */
 
-  --component-control-radius: var(--radius-md);
-  --component-control-padding-x-sm: var(--space-3);
-  --component-control-padding-x-md: var(--space-4);
-  --component-control-padding-x-lg: var(--space-6);
-  --component-control-padding-y-sm: var(--space-1);
-  --component-control-padding-y-md: var(--space-2);
-  --component-control-padding-y-lg: var(--space-3);
-  --component-control-gap: var(--space-2);
+  --component-control-radius: var(--radius-md); /* corner rounding for standard interactive controls */
+  --component-control-padding-x-sm: var(--space-md-rem); /* horizontal inset, small control size */
+  --component-control-padding-x-md: var(--space-lg-rem); /* horizontal inset, medium control size */
+  --component-control-padding-x-lg: var(--space-xl-rem); /* horizontal inset, large control size */
+  --component-control-padding-y-sm: var(--space-xs-rem); /* vertical inset, small control size */
+  --component-control-padding-y-md: var(--space-sm-rem); /* vertical inset, medium control size */
+  --component-control-padding-y-lg: var(--space-md-rem); /* vertical inset, large control size */
+  --component-control-gap: var(--space-sm-rem); /* gap between a control's internal elements (icon + label) */
   --component-control-min-target: 44px; /* WCAG 2.5.8 / 3.0 target-size floor — not primitive-derived by design. */
 
   /* ── component/label — typography composite (font shorthand) ────────────── */
 
   --component-label-sm: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
-    var(--font-family-sans);
+    var(--font-family-sans); /* label typography for small controls */
   --component-label-md: var(--font-weight-medium) var(--font-size-md)/var(--line-height-md)
-    var(--font-family-sans);
+    var(--font-family-sans); /* label typography for medium (default) controls */
   --component-label-lg: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-lg)
-    var(--font-family-sans);
+    var(--font-family-sans); /* label typography for large controls */
 
   /* ── motion ──────────────────────────────────────────────────────────────── */
 
-  --motion-interactive: var(--duration-fast);
+  --motion-interactive: var(--duration-fast); /* transition duration for interactive state changes */
 }
 
 /* ============================================================================
