@@ -21,12 +21,22 @@
   opacity: 0.6;
 }
 
-/* Reusable focus ring — apply alongside any interactive element's own class.
- * Outline naturally follows the element's own border-radius (incl. at an
- * offset) in modern browsers, so the ring nests concentrically for free. */
+/* Reusable focus ring (Forge parity: box-shadow "ring", not outline) — apply
+ * alongside any interactive element's own class. A solid --surface-raised
+ * band stands in for Tailwind's ring-offset-color, then the ring color band
+ * outside it; box-shadow paints on top, so z-index lets it cleanly overlay
+ * a touching sibling (e.g. SplitButton's joined halves) instead of the two
+ * controls' outlines fighting at the shared edge. */
+.svx-focus-ring {
+  position: relative;
+}
 .svx-focus-ring:focus-visible {
-  outline: var(--interactive-focus-ring-width) solid var(--interactive-focus-ring);
-  outline-offset: var(--interactive-focus-ring-offset);
+  z-index: 1;
+  outline: none;
+  box-shadow:
+    0 0 0 var(--interactive-focus-ring-offset) var(--surface-raised),
+    0 0 0 calc(var(--interactive-focus-ring-offset) + var(--interactive-focus-ring-width))
+      var(--interactive-focus-ring);
 }
 
 /* sizes — label typography is the --component-label-* composite token, not
@@ -83,3 +93,54 @@
 .svx-button--ghost:active {
   background-color: var(--interactive-surface-pressed);
 }
+
+/* ── Menu — Radix DropdownMenu, mapped to semantic tokens only ────────────── */
+
+.svx-menu-content {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--component-control-radius);
+  box-shadow: var(--elevation-md);
+  padding: var(--space-1);
+  min-width: 10rem;
+}
+
+.svx-menu-item {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-md);
+  padding: var(--component-control-padding-y-sm) var(--component-control-padding-x-sm);
+  font: var(--component-label-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+/* [data-highlighted] covers hover *and* keyboard arrow-nav — one rule, both inputs. */
+.svx-menu-item[data-highlighted] {
+  background-color: var(--interactive-surface-hover);
+}
+.svx-menu-item[data-disabled] {
+  color: var(--interactive-solid-disabled);
+  cursor: not-allowed;
+}
+
+/* ── SplitButton — two Buttons fused by layout-only modifier classes ─────── */
+
+.svx-split-button {
+  display: inline-flex;
+}
+.svx-split-button__primary {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.svx-split-button__trigger {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-inline: var(--component-control-padding-y-md);
+  /* Divider reuses the same color-mix() overlay technique as the hover states
+   * above, mixed against the trigger's own foreground so it reads correctly
+   * on solid, outline, and ghost variants alike without a dedicated token. */
+  border-left: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+

@@ -69,6 +69,7 @@
 
   /* ── Size scale — px suffix (only steps semantic.css/type ramp reference) ── */
 
+  --size-0-5-px: 2px;
   --size-1-px: 4px;
   --size-2-px: 8px;
   --size-3-px: 12px;
@@ -81,6 +82,7 @@
 
   /* ── Size scale — rem suffix, same steps as the px ramp above ────────────── */
 
+  --size-0-5-rem: 0.125rem;
   --size-1-rem: 0.25rem;
   --size-2-rem: 0.5rem;
   --size-3-rem: 0.75rem;

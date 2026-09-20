@@ -66,10 +66,14 @@
   --text-primary: var(--color-grey-950); /* default body/label text color for any surface */
   --text-on-solid: var(--color-grey-50); /* text/icons on top of --interactive-solid fills */
 
+  /* ── surface ─────────────────────────────────────────────────────────────── */
+
+  --surface-raised: var(--color-grey-50); /* elevated surface bg (menus/popovers); also the focus-ring offset band color */
+
   /* ── border ──────────────────────────────────────────────────────────────── */
 
   --border-default: var(--color-grey-300); /* resting border for outlined controls */
-  --border-focus: var(--color-blue-500); /* keyboard focus ring */
+  --border-focus: var(--interactive-solid); /* keyboard focus ring */
 
   /* ── interactive/solid — fixed ramp steps, needs an opaque fill ─────────── */
 
@@ -95,11 +99,12 @@
 
   --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
   --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
-  --interactive-focus-ring-width: var(--space-sm-px); /* ring thickness — not primitive-derived, mirrors outline convention */
-  --interactive-focus-ring-offset: var(--space-sm-px); /* gap between control edge and ring; outline auto-follows border-radius at this offset */
+  --interactive-focus-ring-width: var(--space-2xs-px); /* ring thickness */
+  --interactive-focus-ring-offset: var(--space-2xs-px); /* gap between control edge and ring */
 
   /* ── space — t-shirt sized scale, px ramp, built from the primitive size ramp ── */
 
+  --space-2xs-px: var(--size-0-5-px); /* compact spacing step, px unit */
   --space-xs-px: var(--size-1-px); /* smallest spacing step, px unit — tight gaps/insets */
   --space-sm-px: var(--size-2-px); /* small spacing step, px unit */
   --space-md-px: var(--size-3-px); /* medium/default spacing step, px unit */
@@ -108,6 +113,7 @@
 
   /* ── space — t-shirt sized scale, rem ramp, built from the primitive size ramp ── */
 
+  --space-2xs-rem: var(--size-0-5-rem); /* compact spacing step, rem unit */
   --space-xs-rem: var(--size-1-rem); /* smallest spacing step, rem unit (scales with root font size) */
   --space-sm-rem: var(--size-2-rem); /* small spacing step, rem unit (scales with root font size) */
   --space-md-rem: var(--size-3-rem); /* medium/default spacing step, rem unit (scales with root font size) */
@@ -157,6 +163,10 @@
   /* ── text ────────────────────────────────────────────────────────────────── */
 
   --text-primary: var(--color-grey-50);
+
+  /* ── surface ─────────────────────────────────────────────────────────────── */
+
+  --surface-raised: var(--color-grey-900);
 
   /* ── border ──────────────────────────────────────────────────────────────── */
 
