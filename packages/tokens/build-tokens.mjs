@@ -7,7 +7,7 @@ import { promises as fs } from 'node:fs';
  * script parses that CSS (rather than a separate JSON source of truth) and
  * builds:
  *   - dist/css   a portable bundle (`@theme static` lowered to `:root`)
- *   - dist/json  a resolved (var()-free) snapshot, light + dark
+ *   - dist/json  a resolved (var()-free) snapshot for light, dark, and high contrast
  *   - dist/compose / dist/swift  native platform constants, resolved
  * Any token whose final value isn't a plain hex color / px dimension /
  * plain number (e.g. a future gradient or color-mix()) is skipped for the
@@ -22,6 +22,7 @@ async function readDecls(file) {
   const root = postcss.parse(css, { from: file });
   const themeDecls = new Map();
   const darkDecls = new Map();
+  const highContrastDecls = new Map();
 
   root.walkAtRules('theme', (atRule) => {
     atRule.walkDecls((decl) => themeDecls.set(decl.prop.replace(/^--/, ''), decl.value));
@@ -29,8 +30,11 @@ async function readDecls(file) {
   root.walkRules('.dark', (rule) => {
     rule.walkDecls((decl) => darkDecls.set(decl.prop.replace(/^--/, ''), decl.value));
   });
+  root.walkRules('.high-contrast', (rule) => {
+    rule.walkDecls((decl) => highContrastDecls.set(decl.prop.replace(/^--/, ''), decl.value));
+  });
 
-  return { themeDecls, darkDecls };
+  return { themeDecls, darkDecls, highContrastDecls };
 }
 
 const primitives = await readDecls('src/primitives.css');
@@ -38,6 +42,7 @@ const semantic = await readDecls('src/semantic.css');
 
 const lightRaw = new Map([...primitives.themeDecls, ...semantic.themeDecls]);
 const darkRaw = new Map([...lightRaw, ...semantic.darkDecls]);
+const highContrastRaw = new Map([...lightRaw, ...semantic.highContrastDecls]);
 
 // --- 2. resolve var(--x) chains to literal values --------------------------
 
@@ -57,6 +62,7 @@ function resolveAll(raw) {
 
 const light = resolveAll(lightRaw);
 const dark = resolveAll(darkRaw);
+const highContrast = resolveAll(highContrastRaw);
 
 // --- 3. classify resolved values for native platform export ---------------
 
@@ -156,11 +162,19 @@ async function buildJson() {
   await fs.mkdir('dist/json', { recursive: true });
   await fs.writeFile(
     'dist/json/tokens.flat.json',
-    JSON.stringify({ light: toObject(light), dark: toObject(dark) }, null, 2) + '\n',
+    JSON.stringify(
+      { light: toObject(light), dark: toObject(dark), highContrast: toObject(highContrast) },
+      null,
+      2,
+    ) + '\n',
   );
   await fs.writeFile(
     'dist/json/tokens.json',
-    JSON.stringify({ light: nested(light), dark: nested(dark) }, null, 2) + '\n',
+    JSON.stringify(
+      { light: nested(light), dark: nested(dark), highContrast: nested(highContrast) },
+      null,
+      2,
+    ) + '\n',
   );
 }
 
@@ -169,6 +183,7 @@ async function buildJson() {
 async function buildCompose() {
   const lightMembers = nativeMembers(light, toComposeValue);
   const darkMembers = nativeMembers(dark, toComposeValue);
+  const highContrastMembers = nativeMembers(highContrast, toComposeValue);
 
   const objectBody = (members) => members.lines.map((l) => `    val ${camelName(l.name)} = ${l.member}`).join('\n');
 
@@ -191,6 +206,10 @@ async function buildCompose() {
       objectBody(darkMembers) +
       '\n}' +
       skippedComment(darkMembers) +
+      '\n\nobject SvxTokensHighContrast {\n' +
+      objectBody(highContrastMembers) +
+      '\n}' +
+      skippedComment(highContrastMembers) +
       '\n',
   );
 }
@@ -200,6 +219,7 @@ async function buildCompose() {
 async function buildSwift() {
   const lightMembers = nativeMembers(light, toSwiftValue);
   const darkMembers = nativeMembers(dark, toSwiftValue);
+  const highContrastMembers = nativeMembers(highContrast, toSwiftValue);
 
   const enumBody = (members) =>
     members.lines.map((l) => `    static let ${camelName(l.name)} = ${l.member}`).join('\n');
@@ -221,6 +241,10 @@ async function buildSwift() {
       enumBody(darkMembers) +
       '\n}' +
       skippedComment(darkMembers) +
+      '\n\npublic enum SvxTokensHighContrast {\n' +
+      enumBody(highContrastMembers) +
+      '\n}' +
+      skippedComment(highContrastMembers) +
       '\n',
   );
 }
@@ -230,4 +254,4 @@ await buildJson();
 await buildCompose();
 await buildSwift();
 
-console.log('Built tokens from src/*.css -> dist/{css,json,compose,swift}');
+console.log('Built light, dark, and high-contrast tokens -> dist/{css,json,compose,swift}');

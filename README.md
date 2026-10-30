@@ -26,23 +26,21 @@ Tokens are authored as CSS, not JSON — a primitive layer (`primitives.css`)
 feeding an intention-based semantic layer (`semantic.css`):
 
 ```
-packages/tokens/src/primitives.css   @theme static { } two full color ramps (grey + blue,
-                                      50->950), plus the spacing/radius/type/duration
-                                      steps semantic.css actually references
-packages/tokens/src/semantic.css     @theme static { } intention-based aliases
-                                      (text, border, interactive, component, motion),
-                                      each var(--...) referencing a primitive only, plus a
-                                      `.dark { }` block with semantic *overrides* only
-                                      (primitives are never redeclared there)
+packages/tokens/src/primitives.css   @theme static { } existing size/type values plus
+                                      palette values needed by the system semantic
+                                      surface/text/icon/border/interactive/status roles
+packages/tokens/src/semantic.css     existing control tokens plus the system semantic
+                                      API; `.dark { }` and `.high-contrast { }` contain
+                                      semantic overrides only (never primitive overrides)
         │
         ▼  build-tokens.mjs (parses the CSS with postcss — no separate JSON source)
 packages/tokens/dist/
-  css/index.css          `@theme static` lowered to plain `:root { }` + `.dark { }`,
+  css/index.css          `@theme static` lowered to plain `:root { }` + mode overrides,
                           so it works with or without Tailwind
-  json/tokens.json        { light: {...}, dark: {...} }, resolved (no var() left), nested by category
+  json/tokens.json        { light, dark, highContrast }, resolved, nested by category
   json/tokens.flat.json   same, flat
-  compose/SvxTokens.kt     SvxTokensLight / SvxTokensDark Kotlin objects (Color / .dp)
-  swift/SvxTokens.swift    SvxTokensLight / SvxTokensDark SwiftUI enums (Color / CGFloat)
+  compose/SvxTokens.kt     SvxTokensLight / SvxTokensDark / SvxTokensHighContrast
+  swift/SvxTokens.swift    SvxTokensLight / SvxTokensDark / SvxTokensHighContrast
         │
         ▼
 packages/react/src/styles.css   maps each Button variant to semantic CSS variables only
