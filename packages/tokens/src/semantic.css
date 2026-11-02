@@ -48,14 +48,14 @@
    * --component-label-sm, --component-label-md, --component-label-lg,
    * --motion-interactive.
    */
-  --interactive-focus-ring-width: var(--size-0-5-px);
-  --interactive-focus-ring-offset: var(--size-0-5-px);
-  --space-xs-rem: var(--size-1-rem);
-  --space-sm-rem: var(--size-2-rem);
-  --space-md-rem: var(--size-3-rem);
-  --space-lg-rem: var(--size-4-rem);
-  --space-xl-rem: var(--size-6-rem);
-  --radius-md: var(--size-2-rem);
+  --interactive-focus-ring-width: var(--size-2-px);
+  --interactive-focus-ring-offset: var(--size-2-px);
+  --space-xs-rem: var(--size-4-rem);
+  --space-sm-rem: var(--size-8-rem);
+  --space-md-rem: var(--size-12-rem);
+  --space-lg-rem: var(--size-16-rem);
+  --space-xl-rem: var(--size-24-rem);
+  --radius-md: var(--size-8-rem);
 
   --component-control-radius: var(--radius-md); /* corner rounding for standard interactive controls */
   --component-control-padding-x-sm: var(--space-md-rem); /* horizontal inset, small control size */
@@ -66,18 +66,18 @@
   --component-control-padding-y-lg: var(--space-md-rem); /* vertical inset, large control size */
   --component-control-gap: var(--space-sm-rem); /* gap between a control's internal elements (icon + label) */
   /* Button sizes: sm/md/lg use 24px/32px/40px heights. */
-  --component-button-height-sm: var(--size-6-px);
-  --component-button-height-md: var(--size-8-px);
-  --component-button-height-lg: var(--size-10-px);
-  --component-button-padding-x-sm: var(--size-2-px);
-  --component-button-padding-x-md: var(--size-3-px);
-  --component-button-padding-x-lg: var(--size-4-px);
-  --component-button-gap-sm: var(--size-1-px);
-  --component-button-gap-md: var(--size-2-px);
-  --component-button-gap-lg: var(--size-3-px);
+  --component-button-height-sm: var(--size-24-px);
+  --component-button-height-md: var(--size-32-px);
+  --component-button-height-lg: var(--size-40-px);
+  --component-button-padding-x-sm: var(--size-8-px);
+  --component-button-padding-x-md: var(--size-12-px);
+  --component-button-padding-x-lg: var(--size-16-px);
+  --component-button-gap-sm: var(--size-4-px);
+  --component-button-gap-md: var(--size-8-px);
+  --component-button-gap-lg: var(--size-12-px);
   --component-button-radius-sm: var(--radius-md);
   --component-button-radius-md: var(--radius-md);
-  --component-button-radius-lg: var(--size-2-5-px);
+  --component-button-radius-lg: var(--size-10-px);
   --component-button-label-sm: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-xs)
     var(--font-family-sans);
   --component-button-label-md: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
@@ -94,17 +94,17 @@
 
   --motion-interactive: var(--duration-fast); /* transition duration for interactive state changes */
   /* surface */
-  --system-surface-sunken: var(--color-slate-3);
-  --system-surface-sunken-soft: var(--color-slate-2);
+  --system-surface-sunken: var(--color-neutral-300);
+  --system-surface-sunken-soft: var(--color-neutral-200);
   --system-surface-default: var(--color-white);
   --system-surface-raised: var(--color-white);
   --system-surface-overlay: var(--system-surface-default);
   --system-surface-panel: var(--color-white);
   --system-surface-tooltip: var(--system-surface-deep);
   --system-surface-white: var(--color-white);
-  --system-surface-disabled: var(--color-slate-3);
-  --system-surface-inverse: var(--color-slate-12);
-  --system-surface-deep: var(--color-slate-12);
+  --system-surface-disabled: var(--color-neutral-300);
+  --system-surface-inverse: var(--color-neutral-1400);
+  --system-surface-deep: var(--color-neutral-1400);
 
   /* deep */
   --system-deep-interactive: rgb(255 255 255 / 0.12);
@@ -117,139 +117,139 @@
   --system-surface-white-pressed: #e4e4e5;
 
   /* text */
-  --system-text-primary: var(--color-slate-12);
-  --system-text-secondary: var(--color-slate-11);
-  --system-text-muted: var(--color-slate-10-5);
-  --system-text-disabled: var(--color-slate-8);
-  --system-text-placeholder: var(--color-slate-10-5);
+  --system-text-primary: var(--color-neutral-1400);
+  --system-text-secondary: var(--color-neutral-1200);
+  --system-text-muted: var(--color-neutral-1100);
+  --system-text-disabled: var(--color-neutral-800);
+  --system-text-placeholder: var(--color-neutral-1100);
   --system-text-inverse: var(--color-white);
   --system-text-on-accent: var(--color-white);
   --system-text-on-deep: var(--color-white);
 
   /* icon */
-  --system-icon-deep: var(--color-slate-12);
-  --system-icon-default: var(--color-slate-10);
-  --system-icon-muted: var(--color-slate-9);
-  --system-icon-disabled: var(--color-slate-8);
+  --system-icon-deep: var(--color-neutral-1400);
+  --system-icon-default: var(--color-neutral-1000);
+  --system-icon-muted: var(--color-neutral-900);
+  --system-icon-disabled: var(--color-neutral-800);
   --system-icon-on-accent: var(--color-white);
   --system-icon-on-deep: var(--color-white);
 
   /* border */
-  --system-border-default: var(--color-slate-7);
-  --system-border-subtle: var(--color-slate-5);
-  --system-border-strong: var(--color-slate-8);
-  --system-border-control: var(--color-slate-10);
-  --system-border-control-hover: var(--color-slate-11);
-  --system-border-disabled: var(--color-slate-7);
-  --system-border-focus: var(--color-blue-50-r-11);
+  --system-border-default: var(--color-neutral-700);
+  --system-border-subtle: var(--color-neutral-500);
+  --system-border-strong: var(--color-neutral-800);
+  --system-border-control: var(--color-neutral-1000);
+  --system-border-control-hover: var(--color-neutral-1200);
+  --system-border-disabled: var(--color-neutral-700);
+  --system-border-focus: var(--color-blue-900);
 
   /* interactive */
-  --system-interactive-solid: var(--color-blue-50-r-11);
-  --system-interactive-solid-hover: var(--color-blue-55);
-  --system-interactive-solid-pressed: var(--color-blue-70);
-  --system-interactive-solid-selected: var(--color-blue-60);
+  --system-interactive-solid: var(--color-blue-900);
+  --system-interactive-solid-hover: var(--color-blue-1000);
+  --system-interactive-solid-pressed: var(--color-blue-1200);
+  --system-interactive-solid-selected: var(--color-blue-1100);
   --system-interactive-on-solid: var(--color-white);
-  --system-interactive-surface: var(--color-blue-r-2);
-  --system-interactive-surface-hover: color-mix(in srgb, var(--color-slate-12) 6%, transparent);
-  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
-  --system-interactive-surface-selected: var(--color-blue-10-r-3);
-  --system-interactive-surface-foreground: var(--color-blue-80-r-12);
+  --system-interactive-surface: var(--color-blue-100);
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-neutral-1400) 6%, transparent);
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-neutral-1400) 12%, transparent);
+  --system-interactive-surface-selected: var(--color-blue-200);
+  --system-interactive-surface-foreground: var(--color-blue-1300);
   --system-interactive-fg: var(--system-interactive-solid);
-  --system-interactive-fg-variant: var(--color-blue-80-r-12);
+  --system-interactive-fg-variant: var(--color-blue-1300);
   --system-interactive-hover: var(--system-interactive-surface-hover);
-  --system-interactive-pressed: var(--color-blue-60);
-  --system-interactive-disabled: var(--color-slate-6);
-  --system-interactive-border-default: var(--color-blue-r-7);
-  --system-interactive-border-strong: var(--color-blue-55);
+  --system-interactive-pressed: var(--color-blue-1100);
+  --system-interactive-disabled: var(--color-neutral-600);
+  --system-interactive-border-default: var(--color-blue-500);
+  --system-interactive-border-strong: var(--color-blue-1000);
   --system-interactive-focus-ring: var(--system-border-focus);
 
   /* status/error */
-  --system-status-error-solid: var(--color-error-10);
-  --system-status-error-solid-hover: var(--color-error-11);
-  --system-status-error-solid-pressed: var(--color-error-12);
-  --system-status-error-solid-selected: var(--color-error-11);
+  --system-status-error-solid: var(--color-error-800);
+  --system-status-error-solid-hover: var(--color-error-900);
+  --system-status-error-solid-pressed: var(--color-error-1000);
+  --system-status-error-solid-selected: var(--color-error-900);
   --system-status-error-on-solid: var(--color-white);
-  --system-status-error-surface: var(--color-error-2);
-  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-10) 6%, transparent);
-  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-10) 12%, transparent);
-  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-10) 9%, transparent);
-  --system-status-error-interactive-surface: var(--color-error-3);
-  --system-status-error-fg: var(--color-error-10);
-  --system-status-error-subtle-text: var(--color-error-11);
-  --system-status-error-border: var(--color-error-8);
-  --system-status-error-border-strong: var(--color-error-10);
+  --system-status-error-surface: var(--color-error-200);
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-800) 6%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-800) 12%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-800) 9%, transparent);
+  --system-status-error-interactive-surface: var(--color-error-100);
+  --system-status-error-fg: var(--color-error-800);
+  --system-status-error-subtle-text: var(--color-error-900);
+  --system-status-error-border: var(--color-error-600);
+  --system-status-error-border-strong: var(--color-error-800);
 
   /* status/success */
-  --system-status-success-solid: var(--color-success-11);
-  --system-status-success-solid-hover: var(--color-success-12);
-  --system-status-success-solid-pressed: var(--color-success-13);
-  --system-status-success-solid-selected: var(--color-success-12);
+  --system-status-success-solid: var(--color-success-800);
+  --system-status-success-solid-hover: var(--color-success-900);
+  --system-status-success-solid-pressed: var(--color-success-1000);
+  --system-status-success-solid-selected: var(--color-success-900);
   --system-status-success-on-solid: var(--color-white);
-  --system-status-success-surface: var(--color-success-2);
-  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-11) 6%, transparent);
-  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-11) 12%, transparent);
-  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-11) 10%, transparent);
-  --system-status-success-interactive-surface: var(--color-success-3);
-  --system-status-success-fg: var(--color-success-11);
-  --system-status-success-border: var(--color-success-9);
-  --system-status-success-border-strong: var(--color-success-10);
+  --system-status-success-surface: var(--color-success-100);
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-800) 6%, transparent);
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-800) 12%, transparent);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-800) 10%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-200);
+  --system-status-success-fg: var(--color-success-800);
+  --system-status-success-border: var(--color-success-600);
+  --system-status-success-border-strong: var(--color-success-700);
 
   /* status/warning */
-  --system-status-warning-solid: var(--color-warning-11);
-  --system-status-warning-solid-hover: var(--color-warning-12);
-  --system-status-warning-solid-pressed: var(--color-warning-13);
-  --system-status-warning-solid-selected: var(--color-warning-12);
+  --system-status-warning-solid: var(--color-warning-800);
+  --system-status-warning-solid-hover: var(--color-warning-900);
+  --system-status-warning-solid-pressed: var(--color-warning-900);
+  --system-status-warning-solid-selected: var(--color-warning-900);
   --system-status-warning-on-solid: var(--color-white);
-  --system-status-warning-surface: var(--color-warning-2);
-  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-11) 6%, transparent);
-  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-11) 12%, transparent);
-  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-11) 10%, transparent);
-  --system-status-warning-interactive-surface: var(--color-warning-3);
-  --system-status-warning-fg: var(--color-warning-11);
-  --system-status-warning-border: var(--color-warning-8);
-  --system-status-warning-border-strong: var(--color-warning-10);
+  --system-status-warning-surface: var(--color-warning-100);
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-800) 6%, transparent);
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-800) 12%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-800) 10%, transparent);
+  --system-status-warning-interactive-surface: var(--color-warning-200);
+  --system-status-warning-fg: var(--color-warning-800);
+  --system-status-warning-border: var(--color-warning-600);
+  --system-status-warning-border-strong: var(--color-warning-700);
 
   /* status/info */
-  --system-status-info-solid: var(--color-info-11);
-  --system-status-info-solid-hover: var(--color-info-12);
-  --system-status-info-solid-pressed: var(--color-info-12);
-  --system-status-info-solid-selected: var(--color-info-12);
+  --system-status-info-solid: var(--color-info-800);
+  --system-status-info-solid-hover: var(--color-info-900);
+  --system-status-info-solid-pressed: var(--color-info-900);
+  --system-status-info-solid-selected: var(--color-info-900);
   --system-status-info-on-solid: var(--color-white);
-  --system-status-info-surface: var(--color-info-2);
-  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-11) 6%, transparent);
-  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-11) 12%, transparent);
-  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-9) 10%, transparent);
-  --system-status-info-interactive-surface: var(--color-info-3);
-  --system-status-info-fg: var(--color-info-11);
-  --system-status-info-border: var(--color-info-8);
-  --system-status-info-border-strong: var(--color-info-10);
+  --system-status-info-surface: var(--color-info-100);
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-800) 6%, transparent);
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-800) 12%, transparent);
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-600) 10%, transparent);
+  --system-status-info-interactive-surface: var(--color-info-200);
+  --system-status-info-fg: var(--color-info-800);
+  --system-status-info-border: var(--color-info-500);
+  --system-status-info-border-strong: var(--color-info-700);
 
   /* status/neutral */
-  --system-status-neutral-solid: var(--color-slate-11);
-  --system-status-neutral-solid-hover: var(--color-slate-11-5);
-  --system-status-neutral-solid-pressed: var(--color-slate-12);
-  --system-status-neutral-solid-selected: var(--color-slate-11-5);
-  --system-status-neutral-on-solid: var(--color-slate-1);
-  --system-status-neutral-surface: var(--color-slate-2);
-  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-slate-12) 6%, transparent);
-  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
-  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-slate-12) 10%, transparent);
-  --system-status-neutral-interactive-surface: var(--color-slate-3);
-  --system-status-neutral-fg: var(--color-slate-11);
-  --system-status-neutral-border: var(--color-slate-8);
-  --system-status-neutral-border-strong: var(--color-slate-10);
+  --system-status-neutral-solid: var(--color-neutral-1200);
+  --system-status-neutral-solid-hover: var(--color-neutral-1300);
+  --system-status-neutral-solid-pressed: var(--color-neutral-1400);
+  --system-status-neutral-solid-selected: var(--color-neutral-1300);
+  --system-status-neutral-on-solid: var(--color-neutral-100);
+  --system-status-neutral-surface: var(--color-neutral-200);
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-neutral-1400) 6%, transparent);
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-neutral-1400) 12%, transparent);
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-neutral-1400) 10%, transparent);
+  --system-status-neutral-interactive-surface: var(--color-neutral-300);
+  --system-status-neutral-fg: var(--color-neutral-1200);
+  --system-status-neutral-border: var(--color-neutral-800);
+  --system-status-neutral-border-strong: var(--color-neutral-1000);
 
   /* status/disabled */
-  --system-status-disabled: var(--color-slate-8);
+  --system-status-disabled: var(--color-neutral-800);
 
   /* status/muted */
-  --system-status-muted: var(--color-slate-10);
+  --system-status-muted: var(--color-neutral-1000);
 
   /* status/primary */
-  --system-status-primary: var(--color-slate-12);
+  --system-status-primary: var(--color-neutral-1400);
 
   /* status/secondary */
-  --system-status-secondary: var(--color-slate-11);
+  --system-status-secondary: var(--color-neutral-1200);
 
   /* status/inverse */
   --system-status-inverse: var(--color-white);
@@ -258,16 +258,16 @@
   --system-status-on-accent: var(--color-white);
 
   /* status/placeholder */
-  --system-status-placeholder: var(--color-slate-9);
+  --system-status-placeholder: var(--color-neutral-900);
 
   /* status/text */
   --system-status-text-on-deep: var(--color-white);
 
   /* status/status */
-  --system-status-status-breakdown-escalated: var(--color-magenta-60);
-  --system-status-status-breakdown-in-progress: var(--color-warning-10);
-  --system-status-status-breakdown-open: var(--color-slate-8);
-  --system-status-status-breakdown-resolved: var(--color-success-10);
+  --system-status-status-breakdown-escalated: var(--color-magenta-100);
+  --system-status-status-breakdown-in-progress: var(--color-warning-700);
+  --system-status-status-breakdown-open: var(--color-neutral-800);
+  --system-status-status-breakdown-resolved: var(--color-success-700);
 }
 
 /* ============================================================================
@@ -279,266 +279,266 @@
 
 .dark {
   /* surface */
-  --system-surface-default: var(--color-slate-11-5);
-  --system-surface-raised: var(--color-slate-11);
+  --system-surface-default: var(--color-neutral-1300);
+  --system-surface-raised: var(--color-neutral-1200);
   --system-surface-overlay: var(--system-surface-default);
-  --system-surface-panel: var(--color-slate-11);
-  --system-surface-sunken: var(--color-slate-12);
-  --system-surface-sunken-soft: var(--color-slate-11-5);
-  --system-surface-disabled: var(--color-slate-12);
-  --system-surface-inverse: var(--color-slate-1);
+  --system-surface-panel: var(--color-neutral-1200);
+  --system-surface-sunken: var(--color-neutral-1400);
+  --system-surface-sunken-soft: var(--color-neutral-1300);
+  --system-surface-disabled: var(--color-neutral-1400);
+  --system-surface-inverse: var(--color-neutral-100);
 
   /* text */
-  --system-text-primary: var(--color-slate-1);
-  --system-text-secondary: var(--color-slate-2);
-  --system-text-muted: var(--color-slate-3);
-  --system-text-disabled: var(--color-slate-11);
-  --system-text-placeholder: var(--color-slate-4);
-  --system-text-inverse: var(--color-slate-12);
+  --system-text-primary: var(--color-neutral-100);
+  --system-text-secondary: var(--color-neutral-200);
+  --system-text-muted: var(--color-neutral-300);
+  --system-text-disabled: var(--color-neutral-1200);
+  --system-text-placeholder: var(--color-neutral-400);
+  --system-text-inverse: var(--color-neutral-1400);
 
   /* icon */
-  --system-icon-default: var(--color-slate-3);
-  --system-icon-muted: var(--color-slate-4);
-  --system-icon-disabled: var(--color-slate-11);
+  --system-icon-default: var(--color-neutral-300);
+  --system-icon-muted: var(--color-neutral-400);
+  --system-icon-disabled: var(--color-neutral-1200);
 
   /* border */
-  --system-border-default: var(--color-slate-9);
-  --system-border-subtle: var(--color-slate-10);
-  --system-border-control: var(--color-slate-6);
-  --system-border-control-hover: var(--color-slate-5);
-  --system-border-disabled: var(--color-slate-11);
-  --system-border-focus: var(--color-blue-40-r-9);
+  --system-border-default: var(--color-neutral-900);
+  --system-border-subtle: var(--color-neutral-1000);
+  --system-border-control: var(--color-neutral-600);
+  --system-border-control-hover: var(--color-neutral-500);
+  --system-border-disabled: var(--color-neutral-1200);
+  --system-border-focus: var(--color-blue-700);
 
   /* interactive */
-  --system-interactive-solid: var(--color-blue-50-r-11);
-  --system-interactive-solid-hover: var(--color-blue-40-r-9);
-  --system-interactive-solid-pressed: var(--color-blue-30-r-8);
-  --system-interactive-solid-selected: var(--color-blue-r-10);
-  --system-interactive-surface: var(--color-blue-80-r-12);
-  --system-interactive-surface-hover: color-mix(in srgb, var(--color-slate-8) 12%, transparent);
-  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-slate-8) 20%, transparent);
-  --system-interactive-surface-selected: var(--color-blue-70);
-  --system-interactive-surface-foreground: var(--color-blue-r-7);
-  --system-interactive-fg-variant: var(--color-blue-r-7);
-  --system-interactive-disabled: var(--color-slate-9);
-  --system-interactive-border-default: var(--color-blue-30-r-8);
-  --system-interactive-border-strong: var(--color-blue-20-r-6);
+  --system-interactive-solid: var(--color-blue-900);
+  --system-interactive-solid-hover: var(--color-blue-700);
+  --system-interactive-solid-pressed: var(--color-blue-600);
+  --system-interactive-solid-selected: var(--color-blue-800);
+  --system-interactive-surface: var(--color-blue-1300);
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-neutral-800) 12%, transparent);
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-neutral-800) 20%, transparent);
+  --system-interactive-surface-selected: var(--color-blue-1200);
+  --system-interactive-surface-foreground: var(--color-blue-500);
+  --system-interactive-fg-variant: var(--color-blue-500);
+  --system-interactive-disabled: var(--color-neutral-900);
+  --system-interactive-border-default: var(--color-blue-600);
+  --system-interactive-border-strong: var(--color-blue-400);
 
   /* status/error */
-  --system-status-error-solid: var(--color-error-10);
-  --system-status-error-solid-hover: var(--color-error-9);
-  --system-status-error-solid-pressed: var(--color-error-8);
-  --system-status-error-solid-selected: var(--color-error-9);
-  --system-status-error-surface: var(--color-error-12);
-  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-7) 8%, transparent);
-  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-7) 15%, transparent);
-  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-8) 25%, transparent);
-  --system-status-error-interactive-surface: var(--color-error-11);
-  --system-status-error-fg: var(--color-error-6);
-  --system-status-error-subtle-text: var(--color-error-12);
-  --system-status-error-border: var(--color-error-7);
-  --system-status-error-border-strong: var(--color-error-8);
+  --system-status-error-solid: var(--color-error-800);
+  --system-status-error-solid-hover: var(--color-error-700);
+  --system-status-error-solid-pressed: var(--color-error-600);
+  --system-status-error-solid-selected: var(--color-error-700);
+  --system-status-error-surface: var(--color-error-1000);
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-500) 8%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-500) 15%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-600) 25%, transparent);
+  --system-status-error-interactive-surface: var(--color-error-900);
+  --system-status-error-fg: var(--color-error-400);
+  --system-status-error-subtle-text: var(--color-error-1000);
+  --system-status-error-border: var(--color-error-500);
+  --system-status-error-border-strong: var(--color-error-600);
 
   /* status/success */
-  --system-status-success-solid: var(--color-success-11);
-  --system-status-success-solid-hover: var(--color-success-10);
-  --system-status-success-solid-pressed: var(--color-success-9);
-  --system-status-success-solid-selected: var(--color-success-10);
-  --system-status-success-surface: var(--color-success-12);
-  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-7) 8%, transparent);
-  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-7) 15%, transparent);
-  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-7) 25%, transparent);
-  --system-status-success-interactive-surface: var(--color-success-11);
-  --system-status-success-fg: var(--color-success-7);
-  --system-status-success-border: var(--color-success-7);
-  --system-status-success-border-strong: var(--color-success-8);
+  --system-status-success-solid: var(--color-success-800);
+  --system-status-success-solid-hover: var(--color-success-700);
+  --system-status-success-solid-pressed: var(--color-success-600);
+  --system-status-success-solid-selected: var(--color-success-700);
+  --system-status-success-surface: var(--color-success-900);
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-400) 8%, transparent);
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-400) 15%, transparent);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-400) 25%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-800);
+  --system-status-success-fg: var(--color-success-400);
+  --system-status-success-border: var(--color-success-400);
+  --system-status-success-border-strong: var(--color-success-500);
 
   /* status/warning */
-  --system-status-warning-solid: var(--color-warning-9);
-  --system-status-warning-solid-hover: var(--color-warning-8);
-  --system-status-warning-solid-pressed: var(--color-warning-10);
-  --system-status-warning-solid-selected: var(--color-warning-8);
-  --system-status-warning-on-solid: var(--color-warning-12);
-  --system-status-warning-surface: var(--color-warning-12);
-  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-9) 8%, transparent);
-  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-9) 15%, transparent);
-  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-9) 25%, transparent);
-  --system-status-warning-interactive-surface: var(--color-warning-12);
-  --system-status-warning-fg: var(--color-warning-9);
-  --system-status-warning-border: var(--color-warning-7);
-  --system-status-warning-border-strong: var(--color-warning-8);
+  --system-status-warning-solid: var(--color-warning-400);
+  --system-status-warning-solid-hover: var(--color-warning-600);
+  --system-status-warning-solid-pressed: var(--color-warning-700);
+  --system-status-warning-solid-selected: var(--color-warning-600);
+  --system-status-warning-on-solid: var(--color-warning-900);
+  --system-status-warning-surface: var(--color-warning-900);
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-400) 8%, transparent);
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-400) 15%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-400) 25%, transparent);
+  --system-status-warning-interactive-surface: var(--color-warning-900);
+  --system-status-warning-fg: var(--color-warning-400);
+  --system-status-warning-border: var(--color-warning-500);
+  --system-status-warning-border-strong: var(--color-warning-600);
 
   /* status/info */
-  --system-status-info-solid: var(--color-info-11);
-  --system-status-info-solid-hover: var(--color-info-10);
-  --system-status-info-solid-pressed: var(--color-info-9);
-  --system-status-info-solid-selected: var(--color-info-10);
-  --system-status-info-surface: var(--color-info-12);
-  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-9) 8%, transparent);
-  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-9) 15%, transparent);
-  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-9) 25%, transparent);
-  --system-status-info-interactive-surface: var(--color-info-11);
-  --system-status-info-fg: var(--color-info-7);
-  --system-status-info-border: var(--color-info-7);
-  --system-status-info-border-strong: var(--color-info-8);
+  --system-status-info-solid: var(--color-info-800);
+  --system-status-info-solid-hover: var(--color-info-700);
+  --system-status-info-solid-pressed: var(--color-info-600);
+  --system-status-info-solid-selected: var(--color-info-700);
+  --system-status-info-surface: var(--color-info-900);
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-600) 8%, transparent);
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-600) 15%, transparent);
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-600) 25%, transparent);
+  --system-status-info-interactive-surface: var(--color-info-800);
+  --system-status-info-fg: var(--color-info-400);
+  --system-status-info-border: var(--color-info-400);
+  --system-status-info-border-strong: var(--color-info-500);
 
   /* status/neutral */
-  --system-status-neutral-solid: var(--color-slate-11-5);
-  --system-status-neutral-solid-hover: var(--color-slate-12);
-  --system-status-neutral-solid-pressed: var(--color-slate-12);
-  --system-status-neutral-solid-selected: var(--color-slate-12);
-  --system-status-neutral-on-solid: var(--color-slate-1);
-  --system-status-neutral-surface: var(--color-slate-12);
-  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-slate-1) 8%, transparent);
-  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-slate-1) 25%, transparent);
-  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-slate-1) 15%, transparent);
-  --system-status-neutral-interactive-surface: var(--color-slate-11-5);
-  --system-status-neutral-fg: var(--color-slate-2);
-  --system-status-neutral-border: var(--color-slate-7);
-  --system-status-neutral-border-strong: var(--color-slate-8);
+  --system-status-neutral-solid: var(--color-neutral-1300);
+  --system-status-neutral-solid-hover: var(--color-neutral-1400);
+  --system-status-neutral-solid-pressed: var(--color-neutral-1400);
+  --system-status-neutral-solid-selected: var(--color-neutral-1400);
+  --system-status-neutral-on-solid: var(--color-neutral-100);
+  --system-status-neutral-surface: var(--color-neutral-1400);
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-neutral-100) 8%, transparent);
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-neutral-100) 25%, transparent);
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-neutral-100) 15%, transparent);
+  --system-status-neutral-interactive-surface: var(--color-neutral-1300);
+  --system-status-neutral-fg: var(--color-neutral-200);
+  --system-status-neutral-border: var(--color-neutral-700);
+  --system-status-neutral-border-strong: var(--color-neutral-800);
 
   /* status/disabled */
-  --system-status-disabled: var(--color-slate-11);
+  --system-status-disabled: var(--color-neutral-1200);
 
   /* status/muted */
-  --system-status-muted: var(--color-slate-3);
+  --system-status-muted: var(--color-neutral-300);
 
   /* status/primary */
-  --system-status-primary: var(--color-slate-1);
+  --system-status-primary: var(--color-neutral-100);
 
   /* status/secondary */
-  --system-status-secondary: var(--color-slate-2);
+  --system-status-secondary: var(--color-neutral-200);
 
   /* status/inverse */
-  --system-status-inverse: var(--color-slate-12);
+  --system-status-inverse: var(--color-neutral-1400);
 
   /* status/placeholder */
-  --system-status-placeholder: var(--color-slate-4);
+  --system-status-placeholder: var(--color-neutral-400);
 }
 
 /* System semantics adapted from the reference design system. */
 
 .high-contrast {
   /* surface */
-  --system-surface-sunken: var(--color-slate-4);
-  --system-surface-sunken-soft: var(--color-slate-3);
-  --system-surface-disabled: var(--color-slate-4);
+  --system-surface-sunken: var(--color-neutral-400);
+  --system-surface-sunken-soft: var(--color-neutral-300);
+  --system-surface-disabled: var(--color-neutral-400);
 
   /* text */
-  --system-text-secondary: var(--color-slate-12);
-  --system-text-muted: var(--color-slate-11);
-  --system-text-placeholder: var(--color-slate-10);
+  --system-text-secondary: var(--color-neutral-1400);
+  --system-text-muted: var(--color-neutral-1200);
+  --system-text-placeholder: var(--color-neutral-1000);
 
   /* icon */
-  --system-icon-default: var(--color-slate-12);
-  --system-icon-muted: var(--color-slate-10);
+  --system-icon-default: var(--color-neutral-1400);
+  --system-icon-muted: var(--color-neutral-1000);
 
   /* border */
-  --system-border-default: var(--color-slate-9);
-  --system-border-subtle: var(--color-slate-7);
-  --system-border-strong: var(--color-slate-10);
-  --system-border-control: var(--color-slate-11-5);
-  --system-border-control-hover: var(--color-slate-12);
+  --system-border-default: var(--color-neutral-900);
+  --system-border-subtle: var(--color-neutral-700);
+  --system-border-strong: var(--color-neutral-1000);
+  --system-border-control: var(--color-neutral-1300);
+  --system-border-control-hover: var(--color-neutral-1400);
 
   /* interactive */
-  --system-interactive-solid: var(--color-blue-80-r-12);
-  --system-interactive-solid-hover: var(--color-blue-70);
-  --system-interactive-solid-pressed: var(--color-blue-90);
-  --system-interactive-solid-selected: var(--color-blue-80-r-12);
-  --system-interactive-surface: var(--color-blue-10-r-3);
-  --system-interactive-surface-hover: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
-  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-slate-12) 20%, transparent);
-  --system-interactive-surface-selected: var(--color-blue-r-5);
-  --system-interactive-surface-foreground: var(--color-blue-80-r-12);
+  --system-interactive-solid: var(--color-blue-1300);
+  --system-interactive-solid-hover: var(--color-blue-1200);
+  --system-interactive-solid-pressed: var(--color-blue-1400);
+  --system-interactive-solid-selected: var(--color-blue-1300);
+  --system-interactive-surface: var(--color-blue-200);
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-neutral-1400) 12%, transparent);
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-neutral-1400) 20%, transparent);
+  --system-interactive-surface-selected: var(--color-blue-300);
+  --system-interactive-surface-foreground: var(--color-blue-1300);
   --system-interactive-fg: var(--system-interactive-solid);
-  --system-interactive-fg-variant: var(--color-blue-90);
-  --system-interactive-hover: var(--color-blue-70);
-  --system-interactive-pressed: var(--color-blue-90);
-  --system-interactive-border-default: var(--color-blue-55);
-  --system-interactive-border-strong: var(--color-blue-80-r-12);
+  --system-interactive-fg-variant: var(--color-blue-1400);
+  --system-interactive-hover: var(--color-blue-1200);
+  --system-interactive-pressed: var(--color-blue-1400);
+  --system-interactive-border-default: var(--color-blue-1000);
+  --system-interactive-border-strong: var(--color-blue-1300);
 
   /* status/error */
-  --system-status-error-solid: var(--color-error-11);
-  --system-status-error-solid-hover: var(--color-error-12);
-  --system-status-error-solid-pressed: var(--color-error-12);
-  --system-status-error-solid-selected: var(--color-error-12);
-  --system-status-error-surface: var(--color-error-3);
-  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-12) 6%, transparent);
-  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-11) 12%, transparent);
-  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-11) 20%, transparent);
-  --system-status-error-interactive-surface: var(--color-error-4);
-  --system-status-error-fg: var(--color-error-11);
-  --system-status-error-border: var(--color-error-9);
-  --system-status-error-border-strong: var(--color-error-11);
+  --system-status-error-solid: var(--color-error-900);
+  --system-status-error-solid-hover: var(--color-error-1000);
+  --system-status-error-solid-pressed: var(--color-error-1000);
+  --system-status-error-solid-selected: var(--color-error-1000);
+  --system-status-error-surface: var(--color-error-100);
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-1000) 6%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-900) 12%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-900) 20%, transparent);
+  --system-status-error-interactive-surface: var(--color-error-300);
+  --system-status-error-fg: var(--color-error-900);
+  --system-status-error-border: var(--color-error-700);
+  --system-status-error-border-strong: var(--color-error-900);
 
   /* status/success */
-  --system-status-success-solid: var(--color-success-11);
-  --system-status-success-solid-hover: var(--color-success-12);
-  --system-status-success-solid-pressed: var(--color-success-12);
-  --system-status-success-solid-selected: var(--color-success-12);
-  --system-status-success-surface: var(--color-success-3);
-  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-hc-overlay) 12%, transparent);
-  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-hc-overlay) 20%, transparent);
-  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-hc-overlay) 15%, transparent);
-  --system-status-success-interactive-surface: var(--color-success-4);
-  --system-status-success-fg: var(--color-success-12);
-  --system-status-success-border: var(--color-success-9);
-  --system-status-success-border-strong: var(--color-success-11);
+  --system-status-success-solid: var(--color-success-800);
+  --system-status-success-solid-hover: var(--color-success-900);
+  --system-status-success-solid-pressed: var(--color-success-900);
+  --system-status-success-solid-selected: var(--color-success-900);
+  --system-status-success-surface: var(--color-success-200);
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-1100) 12%, transparent);
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-1100) 20%, transparent);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-1100) 15%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-300);
+  --system-status-success-fg: var(--color-success-900);
+  --system-status-success-border: var(--color-success-600);
+  --system-status-success-border-strong: var(--color-success-800);
 
   /* status/warning */
-  --system-status-warning-solid: var(--color-warning-12);
-  --system-status-warning-solid-hover: var(--color-warning-12);
-  --system-status-warning-solid-pressed: var(--color-warning-12);
-  --system-status-warning-solid-selected: var(--color-warning-12);
-  --system-status-warning-surface: var(--color-warning-3);
-  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-12) 12%, transparent);
-  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-12) 20%, transparent);
-  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-12) 15%, transparent);
-  --system-status-warning-interactive-surface: var(--color-warning-4);
-  --system-status-warning-fg: var(--color-warning-12);
-  --system-status-warning-border: var(--color-warning-9);
-  --system-status-warning-border-strong: var(--color-warning-11);
+  --system-status-warning-solid: var(--color-warning-900);
+  --system-status-warning-solid-hover: var(--color-warning-900);
+  --system-status-warning-solid-pressed: var(--color-warning-900);
+  --system-status-warning-solid-selected: var(--color-warning-900);
+  --system-status-warning-surface: var(--color-warning-200);
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-900) 12%, transparent);
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-900) 20%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-900) 15%, transparent);
+  --system-status-warning-interactive-surface: var(--color-warning-300);
+  --system-status-warning-fg: var(--color-warning-900);
+  --system-status-warning-border: var(--color-warning-400);
+  --system-status-warning-border-strong: var(--color-warning-800);
 
   /* status/info */
-  --system-status-info-solid-hover: var(--color-info-12);
-  --system-status-info-solid-pressed: var(--color-info-12);
-  --system-status-info-solid-selected: var(--color-info-12);
-  --system-status-info-surface: var(--color-info-3);
-  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-12) 12%, transparent);
-  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-12) 20%, transparent);
-  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-12) 15%, transparent);
-  --system-status-info-interactive-surface: var(--color-info-4);
-  --system-status-info-fg: var(--color-info-12);
-  --system-status-info-border: var(--color-info-9);
-  --system-status-info-border-strong: var(--color-info-9);
+  --system-status-info-solid-hover: var(--color-info-900);
+  --system-status-info-solid-pressed: var(--color-info-900);
+  --system-status-info-solid-selected: var(--color-info-900);
+  --system-status-info-surface: var(--color-info-200);
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-900) 12%, transparent);
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-900) 20%, transparent);
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-900) 15%, transparent);
+  --system-status-info-interactive-surface: var(--color-info-300);
+  --system-status-info-fg: var(--color-info-900);
+  --system-status-info-border: var(--color-info-600);
+  --system-status-info-border-strong: var(--color-info-600);
 
   /* status/neutral */
-  --system-status-neutral-solid: var(--color-slate-11);
-  --system-status-neutral-solid-hover: var(--color-slate-11-5);
-  --system-status-neutral-solid-pressed: var(--color-slate-12);
-  --system-status-neutral-solid-selected: var(--color-slate-11-5);
+  --system-status-neutral-solid: var(--color-neutral-1200);
+  --system-status-neutral-solid-hover: var(--color-neutral-1300);
+  --system-status-neutral-solid-pressed: var(--color-neutral-1400);
+  --system-status-neutral-solid-selected: var(--color-neutral-1300);
   --system-status-neutral-on-solid: var(--color-white);
-  --system-status-neutral-surface: var(--color-slate-3);
-  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
-  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-slate-12) 15%, transparent);
-  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-slate-12) 20%, transparent);
-  --system-status-neutral-interactive-surface: var(--color-slate-4);
-  --system-status-neutral-fg: var(--color-slate-12);
-  --system-status-neutral-border: var(--color-slate-9);
-  --system-status-neutral-border-strong: var(--color-slate-11);
+  --system-status-neutral-surface: var(--color-neutral-300);
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-neutral-1400) 12%, transparent);
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-neutral-1400) 15%, transparent);
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-neutral-1400) 20%, transparent);
+  --system-status-neutral-interactive-surface: var(--color-neutral-400);
+  --system-status-neutral-fg: var(--color-neutral-1400);
+  --system-status-neutral-border: var(--color-neutral-900);
+  --system-status-neutral-border-strong: var(--color-neutral-1200);
 
   /* status/muted */
-  --system-status-muted: var(--color-slate-11);
+  --system-status-muted: var(--color-neutral-1200);
 
   /* status/secondary */
-  --system-status-secondary: var(--color-slate-12);
+  --system-status-secondary: var(--color-neutral-1400);
 
   /* status/placeholder */
-  --system-status-placeholder: var(--color-slate-10);
+  --system-status-placeholder: var(--color-neutral-1000);
 
   /* status/status */
-  --system-status-status-breakdown-escalated: var(--color-magenta-80);
-  --system-status-status-breakdown-in-progress: var(--color-warning-11);
-  --system-status-status-breakdown-open: var(--color-slate-10);
-  --system-status-status-breakdown-resolved: var(--color-success-11);
+  --system-status-status-breakdown-escalated: var(--color-magenta-200);
+  --system-status-status-breakdown-in-progress: var(--color-warning-800);
+  --system-status-status-breakdown-open: var(--color-neutral-1000);
+  --system-status-status-breakdown-resolved: var(--color-success-800);
 }

@@ -1,14 +1,15 @@
 /*
  * primitives.css — PRIMITIVE PALETTE LAYER
  *
- * Raw, primitive design tokens only: slate, blue, and status
+ * Raw, primitive design tokens only: neutral, blue, and status
  * palette values alongside the existing size/type ramps and duration. No
  * semantic aliases live here — those live in semantic.css, which must be
  * imported AFTER this file (see index.css).
  *
  * Color values are added only when required by the semantic token API.
- * Imported palette names and values retain their source scales; not every
- * ramp is a regular numeric sequence.
+ * Each color family uses integer stops in increments of 100, ordered from
+ * light to dark. Stops are ordinal, not equal perceptual intervals or
+ * matching lightness values across families. White is a standalone endpoint.
  *
  * This mirrors a common two-tier design-token convention: a primitive
  * layer feeding an intention-based semantic layer, so a theme change only
@@ -16,10 +17,11 @@
  *
  * SIZE SCALE — one ramp, two unit suffixes
  * -----------------------------------------
- * `--size-{step}-px` and `--size-{step}-rem` are the same numeric ramp
- * expressed in two units, following the Tailwind convention where
- * `step * 4 = px` and `step * 0.25 = rem`. Half-steps (`3-5`, `4-5`) exist
- * solely to cover the type ramp's font-size/line-height values below.
+ * `--size-{step}-px` and `--size-{step}-rem` use pixel-equivalent steps:
+ * --size-14-px is 14px and --size-14-rem is 0.875rem at a 16px root.
+ * The rem values still scale with the user's root font size; their names
+ * describe the baseline, not a fixed rendered size. Only currently needed
+ * variants are declared.
  * Semantic tokens (see semantic.css) pick whichever suffix a given use
  * case needs — `-rem` for anything that should scale with the user's root
  * font size (the accessible default), `-px` when a consumer needs a
@@ -28,85 +30,56 @@
  *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------
- * 1. Existing neutral / accent ramp – --color-grey-*, --color-blue-*
- * 2. System semantic palettes      – --color-slate-*, blue/status stops
- * 3. Size scale                    – --size-{step}-px, --size-{step}-rem
- * 4. Type ramp                     – --font-family-sans, --font-size-*,
+ * 1. Size scale                    – --size-{step}-px, --size-{step}-rem
+ * 2. Type ramp                     – --font-family-sans, --font-size-*,
  *                              --line-height-*, --font-weight-medium
- * 5. Motion                        – --duration-fast
+ * 3. Motion                        – --duration-fast
+ * 4. Color palettes                – white, blue, status, magenta, neutral
  */
 
 @theme static {
-  /* ── grey (neutral) ramp — full 50->950 ─────────────────────────────────── */
-
-  --color-grey-50: #f8fafc;
-  --color-grey-100: #f1f5f9;
-  --color-grey-200: #e2e8f0;
-  --color-grey-300: #cbd5e1;
-  --color-grey-400: #94a3b8;
-  --color-grey-500: #64748b;
-  --color-grey-600: #475569;
-  --color-grey-700: #334155;
-  --color-grey-800: #1e293b;
-  --color-grey-900: #0f172a;
-  --color-grey-950: #020617;
-
-  /* ── Blue (accent) ramp — full 50->950 ───────────────────────────────────── */
-
-  --color-blue-50: #eff6ff;
-  --color-blue-100: #dbeafe;
-  --color-blue-200: #bfdbfe;
-  --color-blue-300: #93c5fd;
-  --color-blue-400: #60a5fa;
-  --color-blue-500: #3b82f6;
-  --color-blue-600: #2563eb;
-  --color-blue-700: #1d4ed8;
-  --color-blue-800: #1e40af;
-  --color-blue-900: #1e3a8a;
-  --color-blue-950: #172554;
-
   /* ── Size scale — px suffix (only steps semantic.css/type ramp reference) ── */
 
-  --size-0-5-px: 2px;
-  --size-1-px: 4px;
-  --size-2-px: 8px;
-  --size-2-5-px: 10px;
-  --size-3-px: 12px;
-  --size-3-5-px: 14px;
-  --size-4-px: 16px;
-  --size-4-5-px: 18px;
-  --size-5-px: 20px;
-  --size-6-px: 24px;
-  --size-7-px: 28px;
-  --size-8-px: 32px;
-  --size-10-px: 40px;
+  --size-2-px: 2px;
+  --size-4-px: 4px;
+  --size-8-px: 8px;
+  --size-10-px: 10px;
+  --size-12-px: 12px;
+  --size-14-px: 14px;
+  --size-16-px: 16px;
+  --size-18-px: 18px;
+  --size-20-px: 20px;
+  --size-24-px: 24px;
+  --size-28-px: 28px;
+  --size-32-px: 32px;
+  --size-40-px: 40px;
 
-  /* ── Size scale — rem suffix, same steps as the px ramp above ────────────── */
+  /* ── Size scale — rem suffix, pixel equivalents at a 16px root ──────────── */
 
-  --size-0-5-rem: 0.125rem;
-  --size-1-rem: 0.25rem;
-  --size-2-rem: 0.5rem;
-  --size-3-rem: 0.75rem;
-  --size-3-5-rem: 0.875rem;
-  --size-4-rem: 1rem;
-  --size-4-5-rem: 1.125rem;
-  --size-5-rem: 1.25rem;
-  --size-6-rem: 1.5rem;
-  --size-7-rem: 1.75rem;
+  --size-2-rem: 0.125rem;
+  --size-4-rem: 0.25rem;
+  --size-8-rem: 0.5rem;
+  --size-12-rem: 0.75rem;
+  --size-14-rem: 0.875rem;
+  --size-16-rem: 1rem;
+  --size-18-rem: 1.125rem;
+  --size-20-rem: 1.25rem;
+  --size-24-rem: 1.5rem;
+  --size-28-rem: 1.75rem;
 
   /* ── Type ramp ───────────────────────────────────────────────────────────── */
 
   --font-family-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --font-size-sm: var(--size-3-5-rem);
-  --font-size-md: var(--size-4-rem);
-  --font-size-lg: var(--size-4-5-rem);
-  --font-size-xs: var(--size-3-rem);
+  --font-size-sm: var(--size-14-rem);
+  --font-size-md: var(--size-16-rem);
+  --font-size-lg: var(--size-18-rem);
+  --font-size-xs: var(--size-12-rem);
 
-  --line-height-sm: var(--size-5-rem);
-  --line-height-md: var(--size-6-rem);
-  --line-height-lg: var(--size-7-rem);
-  --line-height-xs: var(--size-4-rem);
+  --line-height-sm: var(--size-20-rem);
+  --line-height-md: var(--size-24-rem);
+  --line-height-lg: var(--size-28-rem);
+  --line-height-xs: var(--size-16-rem);
 
   --font-weight-medium: 500;
 
@@ -119,94 +92,85 @@
   --color-white: #ffffff;
 
   /* blue palette */
-  --color-blue-50-r-11: #0976d6;
-  --color-blue-55: #0966b7;
-  --color-blue-80-r-12: #0e3659;
-  --color-blue-r-2: #f1f8ff;
-  --color-blue-10-r-3: #e0f4ff;
-  --color-blue-r-5: #c0e4fc;
-  --color-blue-20-r-6: #a5d9fa;
-  --color-blue-r-7: #81c7f9;
-  --color-blue-30-r-8: #59b5f7;
-  --color-blue-40-r-9: #2193eb;
-  --color-blue-r-10: #1f82da;
-  --color-blue-60: #085ba8;
-  --color-blue-70: #0a4780;
-  --color-blue-90: #142d42;
+  --color-blue-100: #f1f8ff;
+  --color-blue-200: #e0f4ff;
+  --color-blue-300: #c0e4fc;
+  --color-blue-400: #a5d9fa;
+  --color-blue-500: #81c7f9;
+  --color-blue-600: #59b5f7;
+  --color-blue-700: #2193eb;
+  --color-blue-800: #1f82da;
+  --color-blue-900: #0976d6;
+  --color-blue-1000: #0966b7;
+  --color-blue-1100: #085ba8;
+  --color-blue-1200: #0a4780;
+  --color-blue-1300: #0e3659;
+  --color-blue-1400: #142d42;
 
   /* error palette */
-  --color-error-2: #fdf0f3;
-  --color-error-3: #fff0f6;
-  --color-error-4: #ffdbe1;
-  --color-error-6: #ffbdc7;
-  --color-error-7: #EA879A;
-  --color-error-8: #E56D85;
-  --color-error-9: #DB4F6C;
-  --color-error-10: #C93455;
-  --color-error-11: #A82443;
-  --color-error-12: #7A1730;
+  --color-error-100: #fff0f6;
+  --color-error-200: #fdf0f3;
+  --color-error-300: #ffdbe1;
+  --color-error-400: #ffbdc7;
+  --color-error-500: #EA879A;
+  --color-error-600: #E56D85;
+  --color-error-700: #DB4F6C;
+  --color-error-800: #C93455;
+  --color-error-900: #A82443;
+  --color-error-1000: #7A1730;
 
   /* success palette */
-  --color-success-2: #e3faf7;
-  --color-success-3: var(--color-teal-10);
-  --color-success-4: #b8f2ec;
-  --color-success-7: var(--color-teal-30);
-  --color-success-8: #66d6ca;
-  --color-success-9: #4fbfaf;
-  --color-success-10: var(--color-teal-40);
-  --color-success-11: var(--color-teal-50);
-  --color-success-12: var(--color-teal-60);
-  --color-success-13: var(--color-teal-70);
-  --color-success-hc-overlay: #1d3237;
-
-  /* teal palette */
-  --color-teal-10: #cef6f2;
-  --color-teal-30: #7de7d9;
-  --color-teal-40: #489c8f;
-  --color-teal-50: #35746b;
-  --color-teal-60: #224e47;
-  --color-teal-70: #1a3d39;
+  --color-success-100: #e3faf7;
+  --color-success-200: #cef6f2;
+  --color-success-300: #b8f2ec;
+  --color-success-400: #7de7d9;
+  --color-success-500: #66d6ca;
+  --color-success-600: #4fbfaf;
+  --color-success-700: #489c8f;
+  --color-success-800: #35746b;
+  --color-success-900: #224e47;
+  --color-success-1000: #1a3d39;
+  --color-success-1100: #1d3237;
 
   /* warning palette */
-  --color-warning-2: #fffbe5;
-  --color-warning-3: #fff7c2;
-  --color-warning-4: #ffee9c;
-  --color-warning-7: #e9c162;
-  --color-warning-8: #e2a336;
-  --color-warning-9: #ffc53d;
-  --color-warning-10: #d08216;
-  --color-warning-11: #9a5c04;
-  --color-warning-12: #563201;
-  --color-warning-13: #563201;
+  --color-warning-100: #fffbe5;
+  --color-warning-200: #fff7c2;
+  --color-warning-300: #ffee9c;
+  --color-warning-400: #ffc53d;
+  --color-warning-500: #e9c162;
+  --color-warning-600: #e2a336;
+  --color-warning-700: #d08216;
+  --color-warning-800: #9a5c04;
+  --color-warning-900: #563201;
 
   /* info palette */
-  --color-info-2: #f0f8ff;
-  --color-info-3: #e5f3ff;
-  --color-info-4: #d8edff;
-  --color-info-7: #8dcaff;
-  --color-info-8: #4daafb;
-  --color-info-9: #0e8dfb;
-  --color-info-10: #1f82da;
-  --color-info-11: #006ac7;
-  --color-info-12: #00396b;
+  --color-info-100: #f0f8ff;
+  --color-info-200: #e5f3ff;
+  --color-info-300: #d8edff;
+  --color-info-400: #8dcaff;
+  --color-info-500: #4daafb;
+  --color-info-600: #0e8dfb;
+  --color-info-700: #1f82da;
+  --color-info-800: #006ac7;
+  --color-info-900: #00396b;
 
   /* magenta palette */
-  --color-magenta-60: #b81291;
-  --color-magenta-80: #6b0d62;
+  --color-magenta-100: #b81291;
+  --color-magenta-200: #6b0d62;
 
-  /* slate palette */
-  --color-slate-1: #fcfcfd;
-  --color-slate-2: #f9f9fb;
-  --color-slate-3: #f0f0f3;
-  --color-slate-4: #e8e8ec;
-  --color-slate-5: #e0e1e6;
-  --color-slate-6: #d9d9e0;
-  --color-slate-7: #cdced6;
-  --color-slate-8: #b9bbc6;
-  --color-slate-9: #8b8d98;
-  --color-slate-10: #80838d;
-  --color-slate-10-5: #797488;
-  --color-slate-11: #60646c;
-  --color-slate-11-5: #32343b;
-  --color-slate-12: #1c2024;
+  /* neutral palette */
+  --color-neutral-100: #fcfcfd;
+  --color-neutral-200: #f9f9fb;
+  --color-neutral-300: #f0f0f3;
+  --color-neutral-400: #e8e8ec;
+  --color-neutral-500: #e0e1e6;
+  --color-neutral-600: #d9d9e0;
+  --color-neutral-700: #cdced6;
+  --color-neutral-800: #b9bbc6;
+  --color-neutral-900: #8b8d98;
+  --color-neutral-1000: #80838d;
+  --color-neutral-1100: #797488;
+  --color-neutral-1200: #60646c;
+  --color-neutral-1300: #32343b;
+  --color-neutral-1400: #1c2024;
 }
