@@ -26,6 +26,14 @@ public case study.
 Tokens are authored as CSS, not JSON — a primitive layer (`primitives.css`)
 feeding an intention-based semantic layer (`semantic.css`):
 
+Primitive color families use ordinal stops in increments of 100, ordered
+light to dark (for example, `--color-neutral-100`). These numbers do not imply
+equal perceptual intervals or equivalent lightness across different families.
+Size primitives use pixel-equivalent suffixes: `--size-2-px` is 2px,
+`--size-8-px` is 8px, and `--size-14-rem` is 0.875rem (14px at a 16px
+root). The rem values scale with the user's root font size. Existing px/rem
+variants share the same naming scale; only needed stops are declared.
+
 ```
 packages/tokens/src/primitives.css   @theme static { } existing size/type values plus
                                       palette values needed by the system semantic
