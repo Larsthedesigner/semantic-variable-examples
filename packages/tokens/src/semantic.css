@@ -6,22 +6,6 @@
  * reference these `--*` semantic variables, never `--color-*`/`--size-*`
  * primitives directly, so a theme or brand change only ever touches this file.
  *
- * INTERACTIVE STATES — color-mix(), not extra swatches
- * -----------------------------------------------------
- * Hover/pressed states for outlined & ghost controls are a translucent
- * neutral overlay computed with `color-mix()` rather than a hand-picked
- * swatch per state. `--interactive-surface-hover`/`-pressed` mix increasing
- * amounts of the current theme's ink color into transparent (6% / 12% in
- * light, 12% / 20% in dark, since dark surfaces need a stronger mix to read
- * as "hovered"). Because it's an overlay, not a fill, it composites
- * correctly over any surface underneath without a dedicated swatch per
- * state per surface.
- *
- * Solid fills (`--interactive-solid*`) are the one place we still step
- * through fixed ramp swatches rather than color-mix: a solid button needs a
- * fully opaque fill, so hover/pressed are just darker (light mode) / lighter
- * (dark mode — darkening an already-dark fill reads as *less* interactive).
- *
  * IMPORT ORDER
  * ------------
  * This file MUST be imported AFTER primitives.css so every `var(--color-*)`
@@ -35,24 +19,14 @@
  * property cascade/inheritance (attach the `dark` class to `<html>` or an
  * ancestor to activate it).
  *
- * TOKEN GROUPS IN THIS FILE
- * -------------------------
- *  1. text (primary / on-solid)
- *  2. border (default / focus)
- *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring) *  4. space (t-shirt sized scale, px + rem, built from the primitive size ramp)
- *  5. radius (t-shirt sized scale, built from the primitive size (rem) ramp)
- *  6. component (control sizing — includes the WCAG target-size floor)
- *  7. component/label (typography composite tokens for control labels)
- *  8. motion
+ * HIGH-CONTRAST MODE
+ * ------------------
+ * System semantic overrides for high contrast live in `.high-contrast { }`.
+ * Primitive palette values remain stable across modes.
  *
- * COMPOSITE TOKENS
- * ----------------
- * `--component-label-*` are composite tokens: instead of a component
- * referencing `--font-size-*`/`--font-weight-*`/etc. individually, each
- * bundles the full type-ramp step (family, size, line-height, weight) behind
- * one semantic variable via the CSS `font` shorthand, so consumers set a
- * label's typography in one declaration (`font: var(--component-label-md)`)
- * and a type-ramp change never requires touching consuming components.
+ * The old generic text/surface/border/interactive color aliases were replaced
+ * by the system semantic API below. Remaining non-system tokens are temporary
+ * compatibility values that still have current component consumers.
  */
 
 /* ============================================================================
@@ -61,66 +35,27 @@
 
 
 @theme static {
-  /* ── text ────────────────────────────────────────────────────────────────── */
-
-  --text-primary: var(--color-grey-950); /* default body/label text color for any surface */
-  --text-on-solid: var(--color-grey-50); /* text/icons on top of --interactive-solid fills */
-
-  /* ── border ──────────────────────────────────────────────────────────────── */
-
-  --border-default: var(--color-grey-300); /* resting border for outlined controls */
-  --border-focus: var(--color-blue-500); /* keyboard focus ring */
-
-  /* ── interactive/solid — fixed ramp steps, needs an opaque fill ─────────── */
-
-  --interactive-solid: var(--color-blue-500); /* resting fill for the primary/high-emphasis action */
-  --interactive-solid-hover: var(--color-blue-600); /* fill while hovered */
-  --interactive-solid-pressed: var(--color-blue-700); /* fill while actively pressed/clicked */
-  --interactive-solid-disabled: var(--color-grey-300); /* fill when the control is non-interactive */
-
-  /* ── interactive/surface — color-mix() overlay, composites over anything ── */
-
-  --interactive-surface-hover: color-mix(
-    in srgb,
-    var(--color-grey-950) 6%,
-    transparent
-  ); /* low-emphasis (outline/ghost) hover overlay, over any surface */
-  --interactive-surface-pressed: color-mix(
-    in srgb,
-    var(--color-grey-950) 12%,
-    transparent
-  ); /* low-emphasis (outline/ghost) pressed overlay, over any surface */
-
-  /* ── interactive/fg + focus-ring — alias other interactive tokens ────────── */
-
-  --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
-  --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
-  --interactive-focus-ring-width: var(--space-sm-px); /* ring thickness — not primitive-derived, mirrors outline convention */
-  --interactive-focus-ring-offset: var(--space-sm-px); /* gap between control edge and ring; outline auto-follows border-radius at this offset */
-
-  /* ── space — t-shirt sized scale, px ramp, built from the primitive size ramp ── */
-
-  --space-xs-px: var(--size-1-px); /* smallest spacing step, px unit — tight gaps/insets */
-  --space-sm-px: var(--size-2-px); /* small spacing step, px unit */
-  --space-md-px: var(--size-3-px); /* medium/default spacing step, px unit */
-  --space-lg-px: var(--size-4-px); /* large spacing step, px unit */
-  --space-xl-px: var(--size-6-px); /* largest spacing step, px unit — section-level gaps */
-
-  /* ── space — t-shirt sized scale, rem ramp, built from the primitive size ramp ── */
-
-  --space-xs-rem: var(--size-1-rem); /* smallest spacing step, rem unit (scales with root font size) */
-  --space-sm-rem: var(--size-2-rem); /* small spacing step, rem unit (scales with root font size) */
-  --space-md-rem: var(--size-3-rem); /* medium/default spacing step, rem unit (scales with root font size) */
-  --space-lg-rem: var(--size-4-rem); /* large spacing step, rem unit (scales with root font size) */
-  --space-xl-rem: var(--size-6-rem); /* largest spacing step, rem unit (scales with root font size) */
-
-  /* ── radius — t-shirt sized scale, built from the primitive size (rem) ramp ── */
-
-  --radius-sm: var(--size-1-rem); /* subtle rounding — small controls, chips, tags */
-  --radius-md: var(--size-2-rem); /* default rounding for most interactive controls */
-  --radius-lg: var(--size-3-rem); /* pronounced rounding — cards, modals, large surfaces */
-
-  /* ── component/control ───────────────────────────────────────────────────── */
+  /* TECH DEBT: these compatibility tokens are still consumed by
+   * packages/react/src/styles.css. Plan system-scoped replacements before
+   * removing them:
+   * --interactive-focus-ring-width, --interactive-focus-ring-offset,
+   * --space-xs-rem, --space-sm-rem, --space-md-rem, --space-lg-rem, --space-xl-rem,
+   * --radius-md, --component-control-radius,
+   * --component-control-padding-x-sm, --component-control-padding-x-md,
+   * --component-control-padding-x-lg, --component-control-padding-y-sm,
+   * --component-control-padding-y-md, --component-control-padding-y-lg,
+   * --component-control-gap,
+   * --component-label-sm, --component-label-md, --component-label-lg,
+   * --motion-interactive.
+   */
+  --interactive-focus-ring-width: var(--size-0-5-px);
+  --interactive-focus-ring-offset: var(--size-0-5-px);
+  --space-xs-rem: var(--size-1-rem);
+  --space-sm-rem: var(--size-2-rem);
+  --space-md-rem: var(--size-3-rem);
+  --space-lg-rem: var(--size-4-rem);
+  --space-xl-rem: var(--size-6-rem);
+  --radius-md: var(--size-2-rem);
 
   --component-control-radius: var(--radius-md); /* corner rounding for standard interactive controls */
   --component-control-padding-x-sm: var(--space-md-rem); /* horizontal inset, small control size */
@@ -130,9 +65,25 @@
   --component-control-padding-y-md: var(--space-sm-rem); /* vertical inset, medium control size */
   --component-control-padding-y-lg: var(--space-md-rem); /* vertical inset, large control size */
   --component-control-gap: var(--space-sm-rem); /* gap between a control's internal elements (icon + label) */
-  --component-control-min-target: 44px; /* WCAG 2.5.8 / 3.0 target-size floor — not primitive-derived by design. */
-
-  /* ── component/label — typography composite (font shorthand) ────────────── */
+  /* Button sizes: sm/md/lg use 24px/32px/40px heights. */
+  --component-button-height-sm: var(--size-6-px);
+  --component-button-height-md: var(--size-8-px);
+  --component-button-height-lg: var(--size-10-px);
+  --component-button-padding-x-sm: var(--size-2-px);
+  --component-button-padding-x-md: var(--size-3-px);
+  --component-button-padding-x-lg: var(--size-4-px);
+  --component-button-gap-sm: var(--size-1-px);
+  --component-button-gap-md: var(--size-2-px);
+  --component-button-gap-lg: var(--size-3-px);
+  --component-button-radius-sm: var(--radius-md);
+  --component-button-radius-md: var(--radius-md);
+  --component-button-radius-lg: var(--size-2-5-px);
+  --component-button-label-sm: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-xs)
+    var(--font-family-sans);
+  --component-button-label-md: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
+    var(--font-family-sans);
+  --component-button-label-lg: var(--font-weight-medium) var(--font-size-md)/var(--line-height-md)
+    var(--font-family-sans);
 
   --component-label-sm: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
     var(--font-family-sans); /* label typography for small controls */
@@ -141,9 +92,182 @@
   --component-label-lg: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-lg)
     var(--font-family-sans); /* label typography for large controls */
 
-  /* ── motion ──────────────────────────────────────────────────────────────── */
-
   --motion-interactive: var(--duration-fast); /* transition duration for interactive state changes */
+  /* surface */
+  --system-surface-sunken: var(--color-slate-3);
+  --system-surface-sunken-soft: var(--color-slate-2);
+  --system-surface-default: var(--color-white);
+  --system-surface-raised: var(--color-white);
+  --system-surface-overlay: var(--system-surface-default);
+  --system-surface-panel: var(--color-white);
+  --system-surface-tooltip: var(--system-surface-deep);
+  --system-surface-white: var(--color-white);
+  --system-surface-disabled: var(--color-slate-3);
+  --system-surface-inverse: var(--color-slate-12);
+  --system-surface-deep: var(--color-slate-12);
+
+  /* deep */
+  --system-deep-interactive: rgb(255 255 255 / 0.12);
+  --system-deep-hover: rgb(255 255 255 / 0.2);
+  --system-deep-pressed: rgb(255 255 255 / 0.3);
+  --system-deep-selected: rgb(255 255 255 / 0.25);
+
+  /* surface */
+  --system-surface-white-hover: #f0f0f0;
+  --system-surface-white-pressed: #e4e4e5;
+
+  /* text */
+  --system-text-primary: var(--color-slate-12);
+  --system-text-secondary: var(--color-slate-11);
+  --system-text-muted: var(--color-slate-10-5);
+  --system-text-disabled: var(--color-slate-8);
+  --system-text-placeholder: var(--color-slate-10-5);
+  --system-text-inverse: var(--color-white);
+  --system-text-on-accent: var(--color-white);
+  --system-text-on-deep: var(--color-white);
+
+  /* icon */
+  --system-icon-deep: var(--color-slate-12);
+  --system-icon-default: var(--color-slate-10);
+  --system-icon-muted: var(--color-slate-9);
+  --system-icon-disabled: var(--color-slate-8);
+  --system-icon-on-accent: var(--color-white);
+  --system-icon-on-deep: var(--color-white);
+
+  /* border */
+  --system-border-default: var(--color-slate-7);
+  --system-border-subtle: var(--color-slate-5);
+  --system-border-strong: var(--color-slate-8);
+  --system-border-control: var(--color-slate-10);
+  --system-border-control-hover: var(--color-slate-11);
+  --system-border-disabled: var(--color-slate-7);
+  --system-border-focus: var(--color-blue-50-r-11);
+
+  /* interactive */
+  --system-interactive-solid: var(--color-blue-50-r-11);
+  --system-interactive-solid-hover: var(--color-blue-55);
+  --system-interactive-solid-pressed: var(--color-blue-70);
+  --system-interactive-solid-selected: var(--color-blue-60);
+  --system-interactive-on-solid: var(--color-white);
+  --system-interactive-surface: var(--color-blue-r-2);
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-slate-12) 6%, transparent);
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
+  --system-interactive-surface-selected: var(--color-blue-10-r-3);
+  --system-interactive-surface-foreground: var(--color-blue-80-r-12);
+  --system-interactive-fg: var(--system-interactive-solid);
+  --system-interactive-fg-variant: var(--color-blue-80-r-12);
+  --system-interactive-hover: var(--system-interactive-surface-hover);
+  --system-interactive-pressed: var(--color-blue-60);
+  --system-interactive-disabled: var(--color-slate-6);
+  --system-interactive-border-default: var(--color-blue-r-7);
+  --system-interactive-border-strong: var(--color-blue-55);
+  --system-interactive-focus-ring: var(--system-border-focus);
+
+  /* status/error */
+  --system-status-error-solid: var(--color-error-10);
+  --system-status-error-solid-hover: var(--color-error-11);
+  --system-status-error-solid-pressed: var(--color-error-12);
+  --system-status-error-solid-selected: var(--color-error-11);
+  --system-status-error-on-solid: var(--color-white);
+  --system-status-error-surface: var(--color-error-2);
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-10) 6%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-10) 12%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-10) 9%, transparent);
+  --system-status-error-interactive-surface: var(--color-error-3);
+  --system-status-error-fg: var(--color-error-10);
+  --system-status-error-subtle-text: var(--color-error-11);
+  --system-status-error-border: var(--color-error-8);
+  --system-status-error-border-strong: var(--color-error-10);
+
+  /* status/success */
+  --system-status-success-solid: var(--color-success-11);
+  --system-status-success-solid-hover: var(--color-success-12);
+  --system-status-success-solid-pressed: var(--color-success-13);
+  --system-status-success-solid-selected: var(--color-success-12);
+  --system-status-success-on-solid: var(--color-white);
+  --system-status-success-surface: var(--color-success-2);
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-11) 6%, transparent);
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-11) 12%, transparent);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-11) 10%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-3);
+  --system-status-success-fg: var(--color-success-11);
+  --system-status-success-border: var(--color-success-9);
+  --system-status-success-border-strong: var(--color-success-10);
+
+  /* status/warning */
+  --system-status-warning-solid: var(--color-warning-11);
+  --system-status-warning-solid-hover: var(--color-warning-12);
+  --system-status-warning-solid-pressed: var(--color-warning-13);
+  --system-status-warning-solid-selected: var(--color-warning-12);
+  --system-status-warning-on-solid: var(--color-white);
+  --system-status-warning-surface: var(--color-warning-2);
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-11) 6%, transparent);
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-11) 12%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-11) 10%, transparent);
+  --system-status-warning-interactive-surface: var(--color-warning-3);
+  --system-status-warning-fg: var(--color-warning-11);
+  --system-status-warning-border: var(--color-warning-8);
+  --system-status-warning-border-strong: var(--color-warning-10);
+
+  /* status/info */
+  --system-status-info-solid: var(--color-info-11);
+  --system-status-info-solid-hover: var(--color-info-12);
+  --system-status-info-solid-pressed: var(--color-info-12);
+  --system-status-info-solid-selected: var(--color-info-12);
+  --system-status-info-on-solid: var(--color-white);
+  --system-status-info-surface: var(--color-info-2);
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-11) 6%, transparent);
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-11) 12%, transparent);
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-9) 10%, transparent);
+  --system-status-info-interactive-surface: var(--color-info-3);
+  --system-status-info-fg: var(--color-info-11);
+  --system-status-info-border: var(--color-info-8);
+  --system-status-info-border-strong: var(--color-info-10);
+
+  /* status/neutral */
+  --system-status-neutral-solid: var(--color-slate-11);
+  --system-status-neutral-solid-hover: var(--color-slate-11-5);
+  --system-status-neutral-solid-pressed: var(--color-slate-12);
+  --system-status-neutral-solid-selected: var(--color-slate-11-5);
+  --system-status-neutral-on-solid: var(--color-slate-1);
+  --system-status-neutral-surface: var(--color-slate-2);
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-slate-12) 6%, transparent);
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-slate-12) 10%, transparent);
+  --system-status-neutral-interactive-surface: var(--color-slate-3);
+  --system-status-neutral-fg: var(--color-slate-11);
+  --system-status-neutral-border: var(--color-slate-8);
+  --system-status-neutral-border-strong: var(--color-slate-10);
+
+  /* status/disabled */
+  --system-status-disabled: var(--color-slate-8);
+
+  /* status/muted */
+  --system-status-muted: var(--color-slate-10);
+
+  /* status/primary */
+  --system-status-primary: var(--color-slate-12);
+
+  /* status/secondary */
+  --system-status-secondary: var(--color-slate-11);
+
+  /* status/inverse */
+  --system-status-inverse: var(--color-white);
+
+  /* status/on */
+  --system-status-on-accent: var(--color-white);
+
+  /* status/placeholder */
+  --system-status-placeholder: var(--color-slate-9);
+
+  /* status/text */
+  --system-status-text-on-deep: var(--color-white);
+
+  /* status/status */
+  --system-status-status-breakdown-escalated: var(--color-magenta-60);
+  --system-status-status-breakdown-in-progress: var(--color-warning-10);
+  --system-status-status-breakdown-open: var(--color-slate-8);
+  --system-status-status-breakdown-resolved: var(--color-success-10);
 }
 
 /* ============================================================================
@@ -154,28 +278,267 @@
    ============================================================================ */
 
 .dark {
-  /* ── text ────────────────────────────────────────────────────────────────── */
+  /* surface */
+  --system-surface-default: var(--color-slate-11-5);
+  --system-surface-raised: var(--color-slate-11);
+  --system-surface-overlay: var(--system-surface-default);
+  --system-surface-panel: var(--color-slate-11);
+  --system-surface-sunken: var(--color-slate-12);
+  --system-surface-sunken-soft: var(--color-slate-11-5);
+  --system-surface-disabled: var(--color-slate-12);
+  --system-surface-inverse: var(--color-slate-1);
 
-  --text-primary: var(--color-grey-50);
+  /* text */
+  --system-text-primary: var(--color-slate-1);
+  --system-text-secondary: var(--color-slate-2);
+  --system-text-muted: var(--color-slate-3);
+  --system-text-disabled: var(--color-slate-11);
+  --system-text-placeholder: var(--color-slate-4);
+  --system-text-inverse: var(--color-slate-12);
 
-  /* ── border ──────────────────────────────────────────────────────────────── */
+  /* icon */
+  --system-icon-default: var(--color-slate-3);
+  --system-icon-muted: var(--color-slate-4);
+  --system-icon-disabled: var(--color-slate-11);
 
-  --border-default: var(--color-grey-700);
-  --border-focus: var(--color-blue-400);
+  /* border */
+  --system-border-default: var(--color-slate-9);
+  --system-border-subtle: var(--color-slate-10);
+  --system-border-control: var(--color-slate-6);
+  --system-border-control-hover: var(--color-slate-5);
+  --system-border-disabled: var(--color-slate-11);
+  --system-border-focus: var(--color-blue-40-r-9);
 
-  /* ── interactive/solid ────────────────────────────────────────────────────
-   * Resting fill is unchanged; hover/pressed step LIGHTER (not darker) —
-   * darkening an already-dark fill reads as *less* interactive rather than
-   * more. */
+  /* interactive */
+  --system-interactive-solid: var(--color-blue-50-r-11);
+  --system-interactive-solid-hover: var(--color-blue-40-r-9);
+  --system-interactive-solid-pressed: var(--color-blue-30-r-8);
+  --system-interactive-solid-selected: var(--color-blue-r-10);
+  --system-interactive-surface: var(--color-blue-80-r-12);
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-slate-8) 12%, transparent);
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-slate-8) 20%, transparent);
+  --system-interactive-surface-selected: var(--color-blue-70);
+  --system-interactive-surface-foreground: var(--color-blue-r-7);
+  --system-interactive-fg-variant: var(--color-blue-r-7);
+  --system-interactive-disabled: var(--color-slate-9);
+  --system-interactive-border-default: var(--color-blue-30-r-8);
+  --system-interactive-border-strong: var(--color-blue-20-r-6);
 
-  --interactive-solid-hover: var(--color-blue-400);
-  --interactive-solid-pressed: var(--color-blue-300);
-  --interactive-solid-disabled: var(--color-grey-700);
+  /* status/error */
+  --system-status-error-solid: var(--color-error-10);
+  --system-status-error-solid-hover: var(--color-error-9);
+  --system-status-error-solid-pressed: var(--color-error-8);
+  --system-status-error-solid-selected: var(--color-error-9);
+  --system-status-error-surface: var(--color-error-12);
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-7) 8%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-7) 15%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-8) 25%, transparent);
+  --system-status-error-interactive-surface: var(--color-error-11);
+  --system-status-error-fg: var(--color-error-6);
+  --system-status-error-subtle-text: var(--color-error-12);
+  --system-status-error-border: var(--color-error-7);
+  --system-status-error-border-strong: var(--color-error-8);
 
-  /* ── interactive/surface — same color-mix() overlay, recomputed with a
-   * lighter mix color + stronger percentages so it still reads against dark
-   * surfaces (6/12% light -> 12/20% dark for the same reason). */
+  /* status/success */
+  --system-status-success-solid: var(--color-success-11);
+  --system-status-success-solid-hover: var(--color-success-10);
+  --system-status-success-solid-pressed: var(--color-success-9);
+  --system-status-success-solid-selected: var(--color-success-10);
+  --system-status-success-surface: var(--color-success-12);
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-7) 8%, transparent);
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-7) 15%, transparent);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-7) 25%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-11);
+  --system-status-success-fg: var(--color-success-7);
+  --system-status-success-border: var(--color-success-7);
+  --system-status-success-border-strong: var(--color-success-8);
 
-  --interactive-surface-hover: color-mix(in srgb, var(--color-grey-50) 12%, transparent);
-  --interactive-surface-pressed: color-mix(in srgb, var(--color-grey-50) 20%, transparent);
+  /* status/warning */
+  --system-status-warning-solid: var(--color-warning-9);
+  --system-status-warning-solid-hover: var(--color-warning-8);
+  --system-status-warning-solid-pressed: var(--color-warning-10);
+  --system-status-warning-solid-selected: var(--color-warning-8);
+  --system-status-warning-on-solid: var(--color-warning-12);
+  --system-status-warning-surface: var(--color-warning-12);
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-9) 8%, transparent);
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-9) 15%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-9) 25%, transparent);
+  --system-status-warning-interactive-surface: var(--color-warning-12);
+  --system-status-warning-fg: var(--color-warning-9);
+  --system-status-warning-border: var(--color-warning-7);
+  --system-status-warning-border-strong: var(--color-warning-8);
+
+  /* status/info */
+  --system-status-info-solid: var(--color-info-11);
+  --system-status-info-solid-hover: var(--color-info-10);
+  --system-status-info-solid-pressed: var(--color-info-9);
+  --system-status-info-solid-selected: var(--color-info-10);
+  --system-status-info-surface: var(--color-info-12);
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-9) 8%, transparent);
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-9) 15%, transparent);
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-9) 25%, transparent);
+  --system-status-info-interactive-surface: var(--color-info-11);
+  --system-status-info-fg: var(--color-info-7);
+  --system-status-info-border: var(--color-info-7);
+  --system-status-info-border-strong: var(--color-info-8);
+
+  /* status/neutral */
+  --system-status-neutral-solid: var(--color-slate-11-5);
+  --system-status-neutral-solid-hover: var(--color-slate-12);
+  --system-status-neutral-solid-pressed: var(--color-slate-12);
+  --system-status-neutral-solid-selected: var(--color-slate-12);
+  --system-status-neutral-on-solid: var(--color-slate-1);
+  --system-status-neutral-surface: var(--color-slate-12);
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-slate-1) 8%, transparent);
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-slate-1) 25%, transparent);
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-slate-1) 15%, transparent);
+  --system-status-neutral-interactive-surface: var(--color-slate-11-5);
+  --system-status-neutral-fg: var(--color-slate-2);
+  --system-status-neutral-border: var(--color-slate-7);
+  --system-status-neutral-border-strong: var(--color-slate-8);
+
+  /* status/disabled */
+  --system-status-disabled: var(--color-slate-11);
+
+  /* status/muted */
+  --system-status-muted: var(--color-slate-3);
+
+  /* status/primary */
+  --system-status-primary: var(--color-slate-1);
+
+  /* status/secondary */
+  --system-status-secondary: var(--color-slate-2);
+
+  /* status/inverse */
+  --system-status-inverse: var(--color-slate-12);
+
+  /* status/placeholder */
+  --system-status-placeholder: var(--color-slate-4);
+}
+
+/* System semantics adapted from the reference design system. */
+
+.high-contrast {
+  /* surface */
+  --system-surface-sunken: var(--color-slate-4);
+  --system-surface-sunken-soft: var(--color-slate-3);
+  --system-surface-disabled: var(--color-slate-4);
+
+  /* text */
+  --system-text-secondary: var(--color-slate-12);
+  --system-text-muted: var(--color-slate-11);
+  --system-text-placeholder: var(--color-slate-10);
+
+  /* icon */
+  --system-icon-default: var(--color-slate-12);
+  --system-icon-muted: var(--color-slate-10);
+
+  /* border */
+  --system-border-default: var(--color-slate-9);
+  --system-border-subtle: var(--color-slate-7);
+  --system-border-strong: var(--color-slate-10);
+  --system-border-control: var(--color-slate-11-5);
+  --system-border-control-hover: var(--color-slate-12);
+
+  /* interactive */
+  --system-interactive-solid: var(--color-blue-80-r-12);
+  --system-interactive-solid-hover: var(--color-blue-70);
+  --system-interactive-solid-pressed: var(--color-blue-90);
+  --system-interactive-solid-selected: var(--color-blue-80-r-12);
+  --system-interactive-surface: var(--color-blue-10-r-3);
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-slate-12) 20%, transparent);
+  --system-interactive-surface-selected: var(--color-blue-r-5);
+  --system-interactive-surface-foreground: var(--color-blue-80-r-12);
+  --system-interactive-fg: var(--system-interactive-solid);
+  --system-interactive-fg-variant: var(--color-blue-90);
+  --system-interactive-hover: var(--color-blue-70);
+  --system-interactive-pressed: var(--color-blue-90);
+  --system-interactive-border-default: var(--color-blue-55);
+  --system-interactive-border-strong: var(--color-blue-80-r-12);
+
+  /* status/error */
+  --system-status-error-solid: var(--color-error-11);
+  --system-status-error-solid-hover: var(--color-error-12);
+  --system-status-error-solid-pressed: var(--color-error-12);
+  --system-status-error-solid-selected: var(--color-error-12);
+  --system-status-error-surface: var(--color-error-3);
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-12) 6%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-11) 12%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-11) 20%, transparent);
+  --system-status-error-interactive-surface: var(--color-error-4);
+  --system-status-error-fg: var(--color-error-11);
+  --system-status-error-border: var(--color-error-9);
+  --system-status-error-border-strong: var(--color-error-11);
+
+  /* status/success */
+  --system-status-success-solid: var(--color-success-11);
+  --system-status-success-solid-hover: var(--color-success-12);
+  --system-status-success-solid-pressed: var(--color-success-12);
+  --system-status-success-solid-selected: var(--color-success-12);
+  --system-status-success-surface: var(--color-success-3);
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-hc-overlay) 12%, transparent);
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-hc-overlay) 20%, transparent);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-hc-overlay) 15%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-4);
+  --system-status-success-fg: var(--color-success-12);
+  --system-status-success-border: var(--color-success-9);
+  --system-status-success-border-strong: var(--color-success-11);
+
+  /* status/warning */
+  --system-status-warning-solid: var(--color-warning-12);
+  --system-status-warning-solid-hover: var(--color-warning-12);
+  --system-status-warning-solid-pressed: var(--color-warning-12);
+  --system-status-warning-solid-selected: var(--color-warning-12);
+  --system-status-warning-surface: var(--color-warning-3);
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-12) 12%, transparent);
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-12) 20%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-12) 15%, transparent);
+  --system-status-warning-interactive-surface: var(--color-warning-4);
+  --system-status-warning-fg: var(--color-warning-12);
+  --system-status-warning-border: var(--color-warning-9);
+  --system-status-warning-border-strong: var(--color-warning-11);
+
+  /* status/info */
+  --system-status-info-solid-hover: var(--color-info-12);
+  --system-status-info-solid-pressed: var(--color-info-12);
+  --system-status-info-solid-selected: var(--color-info-12);
+  --system-status-info-surface: var(--color-info-3);
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-12) 12%, transparent);
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-12) 20%, transparent);
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-12) 15%, transparent);
+  --system-status-info-interactive-surface: var(--color-info-4);
+  --system-status-info-fg: var(--color-info-12);
+  --system-status-info-border: var(--color-info-9);
+  --system-status-info-border-strong: var(--color-info-9);
+
+  /* status/neutral */
+  --system-status-neutral-solid: var(--color-slate-11);
+  --system-status-neutral-solid-hover: var(--color-slate-11-5);
+  --system-status-neutral-solid-pressed: var(--color-slate-12);
+  --system-status-neutral-solid-selected: var(--color-slate-11-5);
+  --system-status-neutral-on-solid: var(--color-white);
+  --system-status-neutral-surface: var(--color-slate-3);
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-slate-12) 12%, transparent);
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-slate-12) 15%, transparent);
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-slate-12) 20%, transparent);
+  --system-status-neutral-interactive-surface: var(--color-slate-4);
+  --system-status-neutral-fg: var(--color-slate-12);
+  --system-status-neutral-border: var(--color-slate-9);
+  --system-status-neutral-border-strong: var(--color-slate-11);
+
+  /* status/muted */
+  --system-status-muted: var(--color-slate-11);
+
+  /* status/secondary */
+  --system-status-secondary: var(--color-slate-12);
+
+  /* status/placeholder */
+  --system-status-placeholder: var(--color-slate-10);
+
+  /* status/status */
+  --system-status-status-breakdown-escalated: var(--color-magenta-80);
+  --system-status-status-breakdown-in-progress: var(--color-warning-11);
+  --system-status-status-breakdown-open: var(--color-slate-10);
+  --system-status-status-breakdown-resolved: var(--color-success-11);
 }

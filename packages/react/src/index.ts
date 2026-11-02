@@ -1,3 +1,10 @@
-export { Button, buttonVariants } from './Button';
-export type { ButtonProps, ButtonOwnProps } from './Button';
+export { Button, buttonColors, buttonVariants } from './button/button';
+export type { ButtonProps, ButtonOwnProps } from './button/button';
+export { IconButton } from './icon-button/icon-button';
+export type { IconButtonProps } from './icon-button/icon-button';
+export { MaterialSymbol, materialSymbolSizes } from './icons/material-symbol';
+export type { MaterialSymbolProps, MaterialSymbolSize, MaterialSymbolWeight } from './icons/material-symbol';
 export type { PolymorphicProps } from './polymorphic';
+export { Menu, MenuTrigger, MenuContent, MenuItem } from './menu/menu';
+export { SplitButton } from './split-button/split-button';
+export type { SplitButtonProps, SplitButtonAction } from './split-button/split-button';
