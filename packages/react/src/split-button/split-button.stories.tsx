@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SplitButton } from './SplitButton';
+import { SplitButton } from './split-button';
 
 const actions = [
   { value: 'duplicate', label: 'Duplicate' },

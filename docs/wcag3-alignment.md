@@ -15,12 +15,12 @@ WCAG 3.0 stabilizes.
   (light values, plus the `.dark { }` overrides in the same file) is chosen to
   clear WCAG 2.2 AA (4.5:1 text, 3:1 UI component) in both themes. Storybook's
   `addon-a11y` lints every story against the `wcag22aa` tag on every commit.
-- **Target size**: `--component-control-min-target` is fixed at `44px`,
-  satisfying both WCAG 2.2 SC 2.5.8 (Target Size Minimum) and the
-  WCAG 3.0 draft's target-size outcome, so `Button` never needs a
-  post-3.0 resize.
+- **Target size**: Button's visual heights are 24px, 32px, and
+  40px. The smallest size does not guarantee a 44px hit area; consumers should
+  ensure each instance satisfies WCAG 2.2 SC 2.5.8 through its target dimensions
+  and applicable spacing exception, or provide a larger hit area where needed.
 - **Focus visibility**: `Button` uses `:focus-visible` with a
-  `--border-focus` outline at 2px + 2px offset, keeping focus indication
+  `--system-interactive-focus-ring` box-shadow ring, keeping focus indication
   as a token (not a hardcoded color) so future outcome-level focus
   requirements can be tuned centrally.
 - **Keyboard & semantics**: `Button` renders a native `<button>` by

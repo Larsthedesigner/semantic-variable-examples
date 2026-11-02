@@ -1,7 +1,7 @@
 /*
  * primitives.css — PRIMITIVE PALETTE LAYER
  *
- * Raw, primitive design tokens only: Forge-derived slate, blue, and status
+ * Raw, primitive design tokens only: slate, blue, and status
  * palette values alongside the existing size/type ramps and duration. No
  * semantic aliases live here — those live in semantic.css, which must be
  * imported AFTER this file (see index.css).
@@ -70,6 +70,7 @@
   --size-0-5-px: 2px;
   --size-1-px: 4px;
   --size-2-px: 8px;
+  --size-2-5-px: 10px;
   --size-3-px: 12px;
   --size-3-5-px: 14px;
   --size-4-px: 16px;
@@ -77,6 +78,8 @@
   --size-5-px: 20px;
   --size-6-px: 24px;
   --size-7-px: 28px;
+  --size-8-px: 32px;
+  --size-10-px: 40px;
 
   /* ── Size scale — rem suffix, same steps as the px ramp above ────────────── */
 
@@ -98,10 +101,12 @@
   --font-size-sm: var(--size-3-5-rem);
   --font-size-md: var(--size-4-rem);
   --font-size-lg: var(--size-4-5-rem);
+  --font-size-xs: var(--size-3-rem);
 
   --line-height-sm: var(--size-5-rem);
   --line-height-md: var(--size-6-rem);
   --line-height-lg: var(--size-7-rem);
+  --line-height-xs: var(--size-4-rem);
 
   --font-weight-medium: 500;
 

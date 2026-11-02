@@ -3,10 +3,11 @@
 A small, real reference implementation of a two-tier design token
 architecture — **primitives → semantics** — with a multi-platform build
 (CSS custom properties, JSON, Kotlin/Jetpack Compose, Swift), semantic
-versioning + changelogs per package, a public Storybook, and one
-production-grade React component (`Button`) that demonstrates the
-ShadCN-style API surface: polymorphic `as`, `asChild` (Radix Slot),
-variant-to-token mapping, and forwarded refs.
+versioning + changelogs per package, a public Storybook, and React components
+including a production-grade `Button` that demonstrates the ShadCN-style API
+surface (polymorphic `as`, `asChild` via Radix Slot, variant-to-token mapping,
+and forwarded refs), an `IconButton` with a required accessible name, and a
+Material Symbols wrapper with shared fixed-size presets.
 
 The token/semantic split and CSS bridging pattern here follow a common
 design-system convention — a primitive palette layer feeding an
@@ -18,7 +19,7 @@ public case study.
 | Package | What it is |
 | --- | --- |
 | [`@svx/tokens`](packages/tokens) | Primitive + semantic tokens authored as plain CSS custom properties, plus a build that lowers/parses them into `dist/css`, `dist/json`, `dist/compose` (Kotlin), and `dist/swift`. |
-| [`@svx/react`](packages/react) | The `Button` component + Storybook. Consumes only semantic tokens, never primitives, directly. |
+| [`@svx/react`](packages/react) | `Button`, `IconButton`, and `MaterialSymbol` components + Storybook. Consumes only semantic tokens, never primitives, directly. |
 
 ## Architecture
 
@@ -44,16 +45,42 @@ packages/tokens/dist/
         │
         ▼
 packages/react/src/styles.css   maps each Button variant to semantic CSS variables only
-packages/react/src/Button.tsx   polymorphic `as`, `asChild` via @radix-ui/react-slot,
+packages/react/src/button/      polymorphic `as`, `asChild` via @radix-ui/react-slot,
                                 variant/size via class-variance-authority, forwardRef
+packages/react/src/icon-button/ builds on Button with a required accessible name
+packages/react/src/icons/       provides the Material Symbols Rounded wrapper and size presets
 ```
 
-`--interactive-surface-hover`/`-pressed` (used by the outline/ghost variants)
+`MaterialSymbol` icons are decorative by default and accept a ligature name
+(for example, `add`). The optional `@svx/react/material-symbols.css` stylesheet
+loads the Material Symbols Rounded variable font from Google Fonts; import it
+alongside `@svx/react/styles.css` to render those ligatures. Applications that
+need self-hosted fonts can provide the same font family locally instead. The
+font is distributed under the Apache License 2.0.
+
+Button and IconButton support only Material Symbols for their icon props.
+Pass ligature names rather than React elements; each control renders
+`MaterialSymbol` internally. SplitButton uses IconButton for its dropdown
+trigger. All three share icon sizes of 12px / 16px / 20px for `sm` / `md` /
+`lg` controls, and the internal SVG loading spinner follows the same sizing.
+
+```tsx
+<Button iconStartIcon="add" iconEndIcon="arrow_forward">Add item</Button>
+<IconButton label="Add item" icon="add" />
+```
+
+This replaces the previous React-node icon props: change
+`icon={<MaterialSymbol name="add" />}` to `icon="add"` (and likewise for
+`iconStartIcon` / `iconEndIcon`). Load the font stylesheet or supply a
+self-hosted font for all three controls, including SplitButton.
+
+`--system-interactive-surface-hover`/`-pressed` (used by the outline/ghost variants)
 are a `color-mix()` overlay, not a hand-picked swatch, so they composite
-correctly over any surface underneath. `--interactive-solid*` (the filled
+correctly over any surface underneath. `--system-interactive-solid*` (the filled
 variant) still steps through fixed ramp swatches, since a solid fill needs to
-be fully opaque; see the comments atop `semantic.css` for why each approach is
-used where it is.
+be fully opaque; see the comments in `semantic.css` for why each approach is
+used where it is. A few pre-existing non-color component sizing tokens remain
+temporarily; the token file identifies them and their consumers for follow-up.
 
 Any token whose resolved value isn't a plain hex color / px dimension / plain
 number (e.g. a future gradient or `color-mix()`) is intentionally skipped from

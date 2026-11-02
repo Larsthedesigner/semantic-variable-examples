@@ -1,28 +1,184 @@
 /* Imports the built semantic/primitive tokens from @svx/tokens. */
 @import '@svx/tokens/dist/css/index.css';
 
+:root {
+  --svx-material-symbol-size-xs: 12px;
+  --svx-material-symbol-size-sm: 16px;
+  --svx-material-symbol-size-md: 20px;
+  --svx-material-symbol-size-lg: 24px;
+  --svx-material-symbol-size-xl: 32px;
+}
+
 .svx-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--component-control-gap);
-  border-radius: var(--component-control-radius);
+  box-sizing: border-box;
   border: 1px solid transparent;
-  min-height: var(--component-control-min-target);
   cursor: pointer;
   transition:
     background-color calc(var(--motion-interactive) * 1ms) ease,
-    border-color calc(var(--motion-interactive) * 1ms) ease;
+    border-color calc(var(--motion-interactive) * 1ms) ease,
+    color calc(var(--motion-interactive) * 1ms) ease;
 }
 
 .svx-button:disabled,
 .svx-button[aria-disabled='true'] {
   cursor: not-allowed;
-  opacity: 0.6;
+  pointer-events: none;
 }
 
-/* Reusable focus ring (Forge parity: box-shadow "ring", not outline) — apply
- * alongside any interactive element's own class. A solid --surface-raised
+.svx-button__icon {
+  --svx-material-symbol-size: var(--svx-button-icon-size);
+  pointer-events: none;
+}
+
+.svx-icon-button {
+  padding-inline: 0;
+}
+.svx-icon-button.svx-button--sm {
+  width: var(--component-button-height-sm);
+}
+.svx-icon-button.svx-button--md {
+  width: var(--component-button-height-md);
+}
+.svx-icon-button.svx-button--lg {
+  width: var(--component-button-height-lg);
+}
+
+.svx-material-symbol {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  font-family: 'Material Symbols Rounded', sans-serif;
+  font-size: var(--svx-material-symbol-size, var(--svx-material-symbol-size-lg));
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  font-optical-sizing: auto;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+.svx-material-symbol--xs {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-xs);
+}
+.svx-material-symbol--sm {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-sm);
+}
+.svx-material-symbol--md {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-md);
+}
+.svx-material-symbol--lg {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-lg);
+}
+.svx-material-symbol--xl {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-xl);
+}
+
+.svx-button--color-accent {
+  --svx-button-solid: var(--system-interactive-solid);
+  --svx-button-solid-hover: var(--system-interactive-solid-hover);
+  --svx-button-solid-pressed: var(--system-interactive-solid-pressed);
+  --svx-button-on-solid: var(--system-interactive-on-solid);
+  --svx-button-surface: var(--system-interactive-surface);
+  --svx-button-surface-hover: var(--system-interactive-surface-hover);
+  --svx-button-surface-pressed: var(--system-interactive-surface-pressed);
+  --svx-button-fg: var(--system-interactive-fg);
+  --svx-button-border: var(--system-interactive-border-default);
+}
+.svx-button--color-neutral {
+  --svx-button-solid: var(--system-status-neutral-solid);
+  --svx-button-solid-hover: var(--system-status-neutral-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-neutral-solid-pressed);
+  --svx-button-on-solid: var(--system-status-neutral-on-solid);
+  --svx-button-surface: var(--system-status-neutral-surface);
+  --svx-button-surface-hover: var(--system-status-neutral-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-neutral-surface-pressed);
+  --svx-button-fg: var(--system-status-neutral-fg);
+  --svx-button-border: var(--system-status-neutral-border);
+}
+.svx-button--color-error {
+  --svx-button-solid: var(--system-status-error-solid);
+  --svx-button-solid-hover: var(--system-status-error-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-error-solid-pressed);
+  --svx-button-on-solid: var(--system-status-error-on-solid);
+  --svx-button-surface: var(--system-status-error-surface);
+  --svx-button-surface-hover: var(--system-status-error-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-error-surface-pressed);
+  --svx-button-fg: var(--system-status-error-fg);
+  --svx-button-border: var(--system-status-error-border);
+}
+.svx-button--color-success {
+  --svx-button-solid: var(--system-status-success-solid);
+  --svx-button-solid-hover: var(--system-status-success-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-success-solid-pressed);
+  --svx-button-on-solid: var(--system-status-success-on-solid);
+  --svx-button-surface: var(--system-status-success-surface);
+  --svx-button-surface-hover: var(--system-status-success-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-success-surface-pressed);
+  --svx-button-fg: var(--system-status-success-fg);
+  --svx-button-border: var(--system-status-success-border);
+}
+.svx-button--color-warning {
+  --svx-button-solid: var(--system-status-warning-solid);
+  --svx-button-solid-hover: var(--system-status-warning-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-warning-solid-pressed);
+  --svx-button-on-solid: var(--system-status-warning-on-solid);
+  --svx-button-surface: var(--system-status-warning-surface);
+  --svx-button-surface-hover: var(--system-status-warning-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-warning-surface-pressed);
+  --svx-button-fg: var(--system-status-warning-fg);
+  --svx-button-border: var(--system-status-warning-border);
+}
+.svx-button--color-info {
+  --svx-button-solid: var(--system-status-info-solid);
+  --svx-button-solid-hover: var(--system-status-info-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-info-solid-pressed);
+  --svx-button-on-solid: var(--system-status-info-on-solid);
+  --svx-button-surface: var(--system-status-info-surface);
+  --svx-button-surface-hover: var(--system-status-info-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-info-surface-pressed);
+  --svx-button-fg: var(--system-status-info-fg);
+  --svx-button-border: var(--system-status-info-border);
+}
+
+.svx-button__spinner {
+  width: var(--svx-button-icon-size);
+  height: var(--svx-button-icon-size);
+  flex: none;
+  animation: svx-button-spin 0.8s linear infinite;
+}
+.svx-button__spinner circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-dasharray: 42 15;
+  stroke-linecap: round;
+}
+@keyframes svx-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svx-button__spinner {
+    animation-duration: 2s;
+  }
+}
+
+/* Reusable focus ring (box-shadow "ring", not outline) — apply alongside any
+ * interactive element's own class. A solid system surface
  * band stands in for Tailwind's ring-offset-color, then the ring color band
  * outside it; box-shadow paints on top, so z-index lets it cleanly overlay
  * a touching sibling (e.g. SplitButton's joined halves) instead of the two
@@ -34,74 +190,112 @@
   z-index: 1;
   outline: none;
   box-shadow:
-    0 0 0 var(--interactive-focus-ring-offset) var(--surface-raised),
+    0 0 0 var(--interactive-focus-ring-offset) var(--system-surface-raised),
     0 0 0 calc(var(--interactive-focus-ring-offset) + var(--interactive-focus-ring-width))
-      var(--interactive-focus-ring);
+      var(--system-interactive-focus-ring);
 }
 
-/* sizes — label typography is the --component-label-* composite token, not
- * raw --font-size-*/--font-weight-* primitives */
 .svx-button--sm {
-  padding: var(--component-control-padding-y-sm) var(--component-control-padding-x-sm);
-  font: var(--component-label-sm);
+  --svx-button-icon-size: var(--svx-material-symbol-size-xs);
+  height: var(--component-button-height-sm);
+  padding-inline: var(--component-button-padding-x-sm);
+  gap: var(--component-button-gap-sm);
+  border-radius: var(--component-button-radius-sm);
+  font: var(--component-button-label-sm);
 }
 .svx-button--md {
-  padding: var(--component-control-padding-y-md) var(--component-control-padding-x-md);
-  font: var(--component-label-md);
+  --svx-button-icon-size: var(--svx-material-symbol-size-sm);
+  height: var(--component-button-height-md);
+  padding-inline: var(--component-button-padding-x-md);
+  gap: var(--component-button-gap-md);
+  border-radius: var(--component-button-radius-md);
+  font: var(--component-button-label-md);
 }
 .svx-button--lg {
-  padding: var(--component-control-padding-y-lg) var(--component-control-padding-x-lg);
-  font: var(--component-label-lg);
+  --svx-button-icon-size: var(--svx-material-symbol-size-md);
+  height: var(--component-button-height-lg);
+  padding-inline: var(--component-button-padding-x-lg);
+  gap: var(--component-button-gap-lg);
+  border-radius: var(--component-button-radius-lg);
+  font: var(--component-button-label-lg);
 }
 
 /* variants -> semantic interactive tokens */
 .svx-button--solid {
-  background-color: var(--interactive-solid);
-  color: var(--text-on-solid);
+  background-color: var(--svx-button-solid);
+  color: var(--svx-button-on-solid);
 }
-.svx-button--solid:hover {
-  background-color: var(--interactive-solid-hover);
+.svx-button--solid:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-solid-hover);
 }
-.svx-button--solid:active {
-  background-color: var(--interactive-solid-pressed);
+.svx-button--solid:active:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-solid-pressed);
 }
 .svx-button--solid:disabled {
-  background-color: var(--interactive-solid-disabled);
+  background-color: var(--system-interactive-disabled);
+  color: var(--system-text-disabled);
+}
+.svx-button--solid[aria-disabled='true'] {
+  background-color: var(--system-interactive-disabled);
+  color: var(--system-text-disabled);
 }
 
-/* outline/ghost hover+active are a color-mix() overlay (see semantic.css),
- * not a separate swatch, so they composite over transparent identically. */
+.svx-button--soft {
+  background-color: var(--svx-button-surface);
+  color: var(--svx-button-fg);
+}
+.svx-button--soft:hover:not(:disabled):not([aria-disabled='true']) {
+  background-image: linear-gradient(var(--svx-button-surface-hover), var(--svx-button-surface-hover));
+}
+.svx-button--soft:active:not(:disabled):not([aria-disabled='true']) {
+  background-image: linear-gradient(var(--svx-button-surface-pressed), var(--svx-button-surface-pressed));
+}
+.svx-button--soft:disabled,
+.svx-button--soft[aria-disabled='true'] {
+  background-color: var(--system-surface-default);
+  color: var(--system-text-disabled);
+}
+
 .svx-button--outline {
   background-color: transparent;
-  border-color: var(--border-default);
-  color: var(--interactive-fg);
+  border-color: var(--svx-button-border);
+  color: var(--svx-button-fg);
 }
-.svx-button--outline:hover {
-  background-color: var(--interactive-surface-hover);
+.svx-button--outline:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-hover);
 }
-.svx-button--outline:active {
-  background-color: var(--interactive-surface-pressed);
+.svx-button--outline:active:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-pressed);
+}
+.svx-button--outline:disabled,
+.svx-button--outline[aria-disabled='true'] {
+  background-color: var(--system-surface-default);
+  border-color: var(--system-border-disabled);
+  color: var(--system-text-disabled);
 }
 
 .svx-button--ghost {
   background-color: transparent;
-  color: var(--interactive-fg);
+  color: var(--svx-button-fg);
 }
-.svx-button--ghost:hover {
-  background-color: var(--interactive-surface-hover);
+.svx-button--ghost:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-hover);
 }
-.svx-button--ghost:active {
-  background-color: var(--interactive-surface-pressed);
+.svx-button--ghost:active:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-pressed);
+}
+.svx-button--ghost:disabled,
+.svx-button--ghost[aria-disabled='true'] {
+  color: var(--system-text-disabled);
 }
 
 /* ── Menu — Radix DropdownMenu, mapped to semantic tokens only ────────────── */
 
 .svx-menu-content {
-  background-color: var(--surface-raised);
-  border: 1px solid var(--border-default);
+  background-color: var(--system-surface-raised);
+  border: 1px solid var(--system-border-default);
   border-radius: var(--component-control-radius);
-  box-shadow: var(--elevation-md);
-  padding: var(--space-1);
+  padding: var(--space-xs-rem);
   min-width: 10rem;
 }
 
@@ -111,17 +305,17 @@
   border-radius: var(--radius-md);
   padding: var(--component-control-padding-y-sm) var(--component-control-padding-x-sm);
   font: var(--component-label-sm);
-  color: var(--text-primary);
+  color: var(--system-text-primary);
   cursor: pointer;
   outline: none;
   user-select: none;
 }
 /* [data-highlighted] covers hover *and* keyboard arrow-nav — one rule, both inputs. */
 .svx-menu-item[data-highlighted] {
-  background-color: var(--interactive-surface-hover);
+  background-color: var(--system-interactive-surface-hover);
 }
 .svx-menu-item[data-disabled] {
-  color: var(--interactive-solid-disabled);
+  color: var(--system-text-disabled);
   cursor: not-allowed;
 }
 
@@ -137,10 +331,8 @@
 .svx-split-button__trigger {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  padding-inline: var(--component-control-padding-y-md);
   /* Divider reuses the same color-mix() overlay technique as the hover states
    * above, mixed against the trigger's own foreground so it reads correctly
    * on solid, outline, and ghost variants alike without a dedicated token. */
   border-left: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }
-

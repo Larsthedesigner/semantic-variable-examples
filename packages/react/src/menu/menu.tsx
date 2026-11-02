@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 
 /**
- * Menu — a thin, token-only wrapper around Radix's DropdownMenu primitive.
+ * Menu — a small, token-only wrapper around Radix's DropdownMenu primitive.
  * Radix owns positioning/portal/keyboard-nav behavior; this file only maps
  * its parts to semantic classes (see styles.css), the same variant-to-token
  * convention Button follows. `[data-highlighted]` (set by Radix on hover

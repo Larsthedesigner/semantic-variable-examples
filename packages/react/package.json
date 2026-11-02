@@ -13,13 +13,14 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./material-symbols.css": "./dist/material-symbols.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup && cp src/styles.css dist/styles.css",
+    "build": "tsup && cp src/styles.css dist/styles.css && cp src/material-symbols.css dist/material-symbols.css",
     "dev": "tsup --watch",
     "test": "vitest run",
     "lint": "echo \"no lint configured for react\" && exit 0",

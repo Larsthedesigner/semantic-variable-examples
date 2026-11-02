@@ -1,8 +1,9 @@
 import { forwardRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Button } from './Button';
-import type { ButtonOwnProps } from './Button';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from './Menu';
+import { Button } from '../button/button';
+import type { ButtonOwnProps } from '../button/button';
+import { IconButton } from '../icon-button/icon-button';
+import { Menu, MenuContent, MenuItem, MenuTrigger } from '../menu/menu';
 
 export interface SplitButtonAction {
   value: string;
@@ -25,15 +26,9 @@ export interface SplitButtonProps
   wrapperClassName?: string;
 }
 
-const ChevronDownIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-    <path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
 /**
  * SplitButton — a primary action fused to a chevron-triggered Menu of
- * alternatives. Both halves are plain `Button`s (same variant/size/tokens),
+ * alternatives. Button and IconButton share the same variant/size/tokens,
  * joined by layout-only modifier classes (radius + divider) in styles.css —
  * no new color or state tokens, only new *arrangements* of existing ones.
  */
@@ -57,15 +52,14 @@ export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(function
 
       <Menu modal={false} open={open} onOpenChange={disabled ? undefined : setOpen}>
         <MenuTrigger asChild disabled={disabled || actions.length === 0}>
-          <Button
+          <IconButton
             variant={variant}
             size={size}
             disabled={disabled || actions.length === 0}
-            aria-label="More actions"
+            label="More actions"
+            icon="arrow_drop_down"
             className="svx-split-button__trigger"
-          >
-            <ChevronDownIcon />
-          </Button>
+          />
         </MenuTrigger>
 
         <MenuContent align="end">

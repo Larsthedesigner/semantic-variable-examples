@@ -2,7 +2,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { SplitButton } from './SplitButton';
+import { SplitButton } from './split-button';
 
 // Radix's Popper/DropdownMenu primitives rely on APIs jsdom doesn't implement.
 beforeAll(() => {
@@ -56,6 +56,9 @@ describe('SplitButton', () => {
     const trigger = screen.getByRole('button', { name: 'More actions' });
     expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    expect(trigger).toHaveClass('svx-icon-button');
+    expect(screen.getByText('arrow_drop_down')).toHaveClass('svx-material-symbol', 'svx-button__icon');
+    expect(screen.getByText('arrow_drop_down')).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('disables both halves when disabled', () => {

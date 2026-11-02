@@ -6,22 +6,6 @@
  * reference these `--*` semantic variables, never `--color-*`/`--size-*`
  * primitives directly, so a theme or brand change only ever touches this file.
  *
- * INTERACTIVE STATES — color-mix(), not extra swatches
- * -----------------------------------------------------
- * Hover/pressed states for outlined & ghost controls are a translucent
- * neutral overlay computed with `color-mix()` rather than a hand-picked
- * swatch per state. `--interactive-surface-hover`/`-pressed` mix increasing
- * amounts of the current theme's ink color into transparent (6% / 12% in
- * light, 12% / 20% in dark, since dark surfaces need a stronger mix to read
- * as "hovered"). Because it's an overlay, not a fill, it composites
- * correctly over any surface underneath without a dedicated swatch per
- * state per surface.
- *
- * Solid fills (`--interactive-solid*`) are the one place we still step
- * through fixed ramp swatches rather than color-mix: a solid button needs a
- * fully opaque fill, so hover/pressed are just darker (light mode) / lighter
- * (dark mode — darkening an already-dark fill reads as *less* interactive).
- *
  * IMPORT ORDER
  * ------------
  * This file MUST be imported AFTER primitives.css so every `var(--color-*)`
@@ -40,46 +24,9 @@
  * System semantic overrides for high contrast live in `.high-contrast { }`.
  * Primitive palette values remain stable across modes.
  *
- * DESIGN SYSTEM CHECKLIST
- * -----------------------
- * Token foundation:
- * [x] Add source palette values referenced by system surface/text/icon/border/
- *     interactive/status semantics to primitives.css.
- * [x] Add system semantic roles with light, dark, and high-contrast values.
- * [x] Export all three modes from CSS, JSON, Compose, and Swift builds.
- *
- * Component roadmap (priority order):
- * [ ] Button — variants, sizes, loading/disabled states, keyboard focus.
- * [ ] IconButton — shared interaction behavior and accessible name contract.
- * [ ] Label and SupportingText — form typography, required and error states.
- * [ ] Field — compose labels, controls, helper text, and validation.
- * [ ] Input and Textarea — focus, disabled, invalid, and described-by states.
- * [ ] Toggle/Switch — settle the distinct interaction contracts, then implement.
- * [ ] Skeleton — loading surfaces and reduced-motion behavior.
- * [ ] Checkbox and Radio — checked, mixed, invalid, and group semantics.
- * [ ] Select, Tabs, Tooltip/Popover, and Dialog — build on field/focus/surfaces.
- *
- * Track checklist progress here as components are implemented and verified.
- *
- * TOKEN GROUPS IN THIS FILE
- * -------------------------
- *  1. text (primary / on-solid)
- *  2. border (default / focus)
- *  3. interactive (solid fill steps + color-mix surface overlay + fg + focus-ring)
- *  4. space (t-shirt sized scale, px + rem, built from the primitive size ramp)
- *  5. radius (t-shirt sized scale, built from the primitive size (rem) ramp)
- *  6. component (control sizing — includes the WCAG target-size floor)
- *  7. component/label (typography composite tokens for control labels)
- *  8. motion
- *
- * COMPOSITE TOKENS
- * ----------------
- * `--component-label-*` are composite tokens: instead of a component
- * referencing `--font-size-*`/`--font-weight-*`/etc. individually, each
- * bundles the full type-ramp step (family, size, line-height, weight) behind
- * one semantic variable via the CSS `font` shorthand, so consumers set a
- * label's typography in one declaration (`font: var(--component-label-md)`)
- * and a type-ramp change never requires touching consuming components.
+ * The old generic text/surface/border/interactive color aliases were replaced
+ * by the system semantic API below. Remaining non-system tokens are temporary
+ * compatibility values that still have current component consumers.
  */
 
 /* ============================================================================
@@ -88,72 +35,27 @@
 
 
 @theme static {
-  /* ── text ────────────────────────────────────────────────────────────────── */
-
-  --text-primary: var(--color-grey-950); /* default body/label text color for any surface */
-  --text-on-solid: var(--color-grey-50); /* text/icons on top of --interactive-solid fills */
-
-  /* ── surface ─────────────────────────────────────────────────────────────── */
-
-  --surface-raised: var(--color-grey-50); /* elevated surface bg (menus/popovers); also the focus-ring offset band color */
-
-  /* ── border ──────────────────────────────────────────────────────────────── */
-
-  --border-default: var(--color-grey-300); /* resting border for outlined controls */
-  --border-focus: var(--interactive-solid); /* keyboard focus ring */
-
-  /* ── interactive/solid — fixed ramp steps, needs an opaque fill ─────────── */
-
-  --interactive-solid: var(--color-blue-500); /* resting fill for the primary/high-emphasis action */
-  --interactive-solid-hover: var(--color-blue-600); /* fill while hovered */
-  --interactive-solid-pressed: var(--color-blue-700); /* fill while actively pressed/clicked */
-  --interactive-solid-disabled: var(--color-grey-300); /* fill when the control is non-interactive */
-
-  /* ── interactive/surface — color-mix() overlay, composites over anything ── */
-
-  --interactive-surface-hover: color-mix(
-    in srgb,
-    var(--color-grey-950) 6%,
-    transparent
-  ); /* low-emphasis (outline/ghost) hover overlay, over any surface */
-  --interactive-surface-pressed: color-mix(
-    in srgb,
-    var(--color-grey-950) 12%,
-    transparent
-  ); /* low-emphasis (outline/ghost) pressed overlay, over any surface */
-
-  /* ── interactive/fg + focus-ring — alias other interactive tokens ────────── */
-
-  --interactive-fg: var(--interactive-solid); /* text/icon color for outline & ghost variant labels */
-  --interactive-focus-ring: var(--border-focus); /* ring/outline color drawn around a focused control */
-  --interactive-focus-ring-width: var(--space-2xs-px); /* ring thickness */
-  --interactive-focus-ring-offset: var(--space-2xs-px); /* gap between control edge and ring */
-
-  /* ── space — t-shirt sized scale, px ramp, built from the primitive size ramp ── */
-
-  --space-2xs-px: var(--size-0-5-px); /* compact spacing step, px unit */
-  --space-xs-px: var(--size-1-px); /* smallest spacing step, px unit — tight gaps/insets */
-  --space-sm-px: var(--size-2-px); /* small spacing step, px unit */
-  --space-md-px: var(--size-3-px); /* medium/default spacing step, px unit */
-  --space-lg-px: var(--size-4-px); /* large spacing step, px unit */
-  --space-xl-px: var(--size-6-px); /* largest spacing step, px unit — section-level gaps */
-
-  /* ── space — t-shirt sized scale, rem ramp, built from the primitive size ramp ── */
-
-  --space-2xs-rem: var(--size-0-5-rem); /* compact spacing step, rem unit */
-  --space-xs-rem: var(--size-1-rem); /* smallest spacing step, rem unit (scales with root font size) */
-  --space-sm-rem: var(--size-2-rem); /* small spacing step, rem unit (scales with root font size) */
-  --space-md-rem: var(--size-3-rem); /* medium/default spacing step, rem unit (scales with root font size) */
-  --space-lg-rem: var(--size-4-rem); /* large spacing step, rem unit (scales with root font size) */
-  --space-xl-rem: var(--size-6-rem); /* largest spacing step, rem unit (scales with root font size) */
-
-  /* ── radius — t-shirt sized scale, built from the primitive size (rem) ramp ── */
-
-  --radius-sm: var(--size-1-rem); /* subtle rounding — small controls, chips, tags */
-  --radius-md: var(--size-2-rem); /* default rounding for most interactive controls */
-  --radius-lg: var(--size-3-rem); /* pronounced rounding — cards, modals, large surfaces */
-
-  /* ── component/control ───────────────────────────────────────────────────── */
+  /* TECH DEBT: these compatibility tokens are still consumed by
+   * packages/react/src/styles.css. Plan system-scoped replacements before
+   * removing them:
+   * --interactive-focus-ring-width, --interactive-focus-ring-offset,
+   * --space-xs-rem, --space-sm-rem, --space-md-rem, --space-lg-rem, --space-xl-rem,
+   * --radius-md, --component-control-radius,
+   * --component-control-padding-x-sm, --component-control-padding-x-md,
+   * --component-control-padding-x-lg, --component-control-padding-y-sm,
+   * --component-control-padding-y-md, --component-control-padding-y-lg,
+   * --component-control-gap,
+   * --component-label-sm, --component-label-md, --component-label-lg,
+   * --motion-interactive.
+   */
+  --interactive-focus-ring-width: var(--size-0-5-px);
+  --interactive-focus-ring-offset: var(--size-0-5-px);
+  --space-xs-rem: var(--size-1-rem);
+  --space-sm-rem: var(--size-2-rem);
+  --space-md-rem: var(--size-3-rem);
+  --space-lg-rem: var(--size-4-rem);
+  --space-xl-rem: var(--size-6-rem);
+  --radius-md: var(--size-2-rem);
 
   --component-control-radius: var(--radius-md); /* corner rounding for standard interactive controls */
   --component-control-padding-x-sm: var(--space-md-rem); /* horizontal inset, small control size */
@@ -163,9 +65,25 @@
   --component-control-padding-y-md: var(--space-sm-rem); /* vertical inset, medium control size */
   --component-control-padding-y-lg: var(--space-md-rem); /* vertical inset, large control size */
   --component-control-gap: var(--space-sm-rem); /* gap between a control's internal elements (icon + label) */
-  --component-control-min-target: 44px; /* WCAG 2.5.8 / 3.0 target-size floor — not primitive-derived by design. */
-
-  /* ── component/label — typography composite (font shorthand) ────────────── */
+  /* Button sizes: sm/md/lg use 24px/32px/40px heights. */
+  --component-button-height-sm: var(--size-6-px);
+  --component-button-height-md: var(--size-8-px);
+  --component-button-height-lg: var(--size-10-px);
+  --component-button-padding-x-sm: var(--size-2-px);
+  --component-button-padding-x-md: var(--size-3-px);
+  --component-button-padding-x-lg: var(--size-4-px);
+  --component-button-gap-sm: var(--size-1-px);
+  --component-button-gap-md: var(--size-2-px);
+  --component-button-gap-lg: var(--size-3-px);
+  --component-button-radius-sm: var(--radius-md);
+  --component-button-radius-md: var(--radius-md);
+  --component-button-radius-lg: var(--size-2-5-px);
+  --component-button-label-sm: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-xs)
+    var(--font-family-sans);
+  --component-button-label-md: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
+    var(--font-family-sans);
+  --component-button-label-lg: var(--font-weight-medium) var(--font-size-md)/var(--line-height-md)
+    var(--font-family-sans);
 
   --component-label-sm: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm)
     var(--font-family-sans); /* label typography for small controls */
@@ -173,8 +91,6 @@
     var(--font-family-sans); /* label typography for medium (default) controls */
   --component-label-lg: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-lg)
     var(--font-family-sans); /* label typography for large controls */
-
-  /* ── motion ──────────────────────────────────────────────────────────────── */
 
   --motion-interactive: var(--duration-fast); /* transition duration for interactive state changes */
   /* surface */
@@ -362,34 +278,6 @@
    ============================================================================ */
 
 .dark {
-  /* ── text ────────────────────────────────────────────────────────────────── */
-
-  --text-primary: var(--color-grey-50);
-
-  /* ── surface ─────────────────────────────────────────────────────────────── */
-
-  --surface-raised: var(--color-grey-900);
-
-  /* ── border ──────────────────────────────────────────────────────────────── */
-
-  --border-default: var(--color-grey-700);
-  --border-focus: var(--color-blue-400);
-
-  /* ── interactive/solid ────────────────────────────────────────────────────
-   * Resting fill is unchanged; hover/pressed step LIGHTER (not darker) —
-   * darkening an already-dark fill reads as *less* interactive rather than
-   * more. */
-
-  --interactive-solid-hover: var(--color-blue-400);
-  --interactive-solid-pressed: var(--color-blue-300);
-  --interactive-solid-disabled: var(--color-grey-700);
-
-  /* ── interactive/surface — same color-mix() overlay, recomputed with a
-   * lighter mix color + stronger percentages so it still reads against dark
-   * surfaces (6/12% light -> 12/20% dark for the same reason). */
-
-  --interactive-surface-hover: color-mix(in srgb, var(--color-grey-50) 12%, transparent);
-  --interactive-surface-pressed: color-mix(in srgb, var(--color-grey-50) 20%, transparent);
   /* surface */
   --system-surface-default: var(--color-slate-11-5);
   --system-surface-raised: var(--color-slate-11);
