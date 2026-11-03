@@ -1,0 +1,4 @@
+/* tooltip component-owned tokens. */
+@theme static {
+  --component-tooltip-surface: var(--system-surface-deep);
+}

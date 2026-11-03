@@ -1,0 +1,5 @@
+/* field component-owned tokens. */
+@theme static {
+  /* Compact 6px gap intentionally sits between xs and sm. */
+  --component-field-gap: var(--size-rem-6);
+}

@@ -12,59 +12,59 @@
 .svx-field {
   display: flex;
   flex-direction: column;
-  gap: var(--system-field-gap);
+  gap: var(--component-field-gap);
   min-width: 0;
 }
 
 .svx-label--sm {
-  font: var(--system-label-sm);
+  font: var(--component-label-sm);
 }
 .svx-label--md {
-  font: var(--system-label-md);
+  font: var(--component-label-md);
 }
 .svx-label--lg {
-  font: var(--system-label-lg);
+  font: var(--component-label-lg);
 }
 .svx-label {
   display: inline-flex;
   align-items: center;
-  gap: var(--system-text-inline-gap);
+  gap: var(--component-label-gap);
   color: var(--system-text-secondary);
 }
 .svx-label[data-case='uppercase'] .svx-label__text {
   text-transform: uppercase;
 }
 .svx-label--md[data-case='uppercase'] {
-  font: var(--system-label-sm);
+  font: var(--component-label-sm);
 }
 .svx-label--lg[data-case='uppercase'] {
-  font: var(--system-label-md);
+  font: var(--component-label-md);
 }
 .svx-label__required {
   color: var(--system-status-error-fg);
 }
 .svx-label__optional {
-  font: var(--system-supporting-text-md);
+  font: var(--component-supporting-text-md);
 }
 .svx-label--lg .svx-label__optional {
-  font: var(--system-supporting-text-lg);
+  font: var(--component-supporting-text-lg);
 }
 .svx-supporting-text--sm {
-  font: var(--system-supporting-text-sm);
-  --svx-material-symbol-size: var(--system-supporting-icon-sm);
+  font: var(--component-supporting-text-sm);
+  --svx-material-symbol-size: var(--component-supporting-icon-sm);
 }
 .svx-supporting-text--md {
-  font: var(--system-supporting-text-md);
-  --svx-material-symbol-size: var(--system-supporting-icon-md);
+  font: var(--component-supporting-text-md);
+  --svx-material-symbol-size: var(--component-supporting-icon-md);
 }
 .svx-supporting-text--lg {
-  font: var(--system-supporting-text-lg);
-  --svx-material-symbol-size: var(--system-supporting-icon-lg);
+  font: var(--component-supporting-text-lg);
+  --svx-material-symbol-size: var(--component-supporting-icon-lg);
 }
 .svx-supporting-text {
   display: flex;
   align-items: flex-start;
-  gap: var(--system-text-inline-gap);
+  gap: var(--component-supporting-text-gap);
   margin: 0;
   color: var(--system-text-secondary);
 }
@@ -102,22 +102,22 @@
   color: var(--system-text-primary);
 }
 .svx-text-control[data-size='sm'] {
-  min-height: var(--system-input-height-sm);
-  padding: var(--system-input-padding-y-sm) var(--system-input-padding-x-sm);
-  border-radius: var(--system-input-radius-sm);
-  font: var(--system-input-text-sm);
+  min-height: var(--component-input-height-sm);
+  padding: var(--component-input-padding-y-sm) var(--component-input-padding-x-sm);
+  border-radius: var(--component-input-radius-sm);
+  font: var(--component-input-text-sm);
 }
 .svx-text-control[data-size='md'] {
-  min-height: var(--system-input-height-md);
-  padding: var(--system-input-padding-y-md) var(--system-input-padding-x-md);
-  border-radius: var(--system-input-radius-md);
-  font: var(--system-input-text-md);
+  min-height: var(--component-input-height-md);
+  padding: var(--component-input-padding-y-md) var(--component-input-padding-x-md);
+  border-radius: var(--component-input-radius-md);
+  font: var(--component-input-text-md);
 }
 .svx-text-control[data-size='lg'] {
-  min-height: var(--system-input-height-lg);
-  padding: var(--system-input-padding-y-lg) var(--system-input-padding-x-lg);
-  border-radius: var(--system-input-radius-lg);
-  font: var(--system-input-text-lg);
+  min-height: var(--component-input-height-lg);
+  padding: var(--component-input-padding-y-lg) var(--component-input-padding-x-lg);
+  border-radius: var(--component-input-radius-lg);
+  font: var(--component-input-text-lg);
 }
 .svx-text-control::placeholder {
   color: var(--system-text-placeholder);
@@ -452,19 +452,19 @@
   height: var(--svx-switch-height);
 }
 .svx-switch-container[data-size='sm'] {
-  --svx-switch-width: var(--system-switch-width-sm);
-  --svx-switch-height: var(--system-switch-height-sm);
-  --svx-switch-thumb: var(--system-switch-thumb-sm);
+  --svx-switch-width: var(--component-switch-width-sm);
+  --svx-switch-height: var(--component-switch-height-sm);
+  --svx-switch-thumb: var(--component-switch-thumb-sm);
 }
 .svx-switch-container[data-size='md'] {
-  --svx-switch-width: var(--system-switch-width-md);
-  --svx-switch-height: var(--system-switch-height-md);
-  --svx-switch-thumb: var(--system-switch-thumb-md);
+  --svx-switch-width: var(--component-switch-width-md);
+  --svx-switch-height: var(--component-switch-height-md);
+  --svx-switch-thumb: var(--component-switch-thumb-md);
 }
 .svx-switch-container[data-size='lg'] {
-  --svx-switch-width: var(--system-switch-width-lg);
-  --svx-switch-height: var(--system-switch-height-lg);
-  --svx-switch-thumb: var(--system-switch-thumb-lg);
+  --svx-switch-width: var(--component-switch-width-lg);
+  --svx-switch-height: var(--component-switch-height-lg);
+  --svx-switch-thumb: var(--component-switch-thumb-lg);
 }
 .svx-switch {
   appearance: none;
@@ -473,7 +473,7 @@
   height: 100%;
   margin: 0;
   border: 1px solid var(--system-border-control);
-  border-radius: var(--system-switch-radius);
+  border-radius: var(--component-switch-radius);
   background-color: var(--system-surface-sunken);
   cursor: pointer;
   transition: background-color calc(var(--motion-interactive) * 1ms) ease;
@@ -514,21 +514,21 @@
   position: absolute;
   z-index: 2;
   pointer-events: none;
-  inset-block-start: var(--system-switch-inset);
-  inset-inline-start: var(--system-switch-inset);
+  inset-block-start: var(--component-switch-inset);
+  inset-inline-start: var(--component-switch-inset);
   width: var(--svx-switch-thumb);
   height: var(--svx-switch-thumb);
-  border-radius: var(--system-switch-radius);
-  border: 1px solid var(--system-control-thumb-border);
-  background-color: var(--system-control-thumb-surface);
+  border-radius: var(--component-switch-radius);
+  border: 1px solid var(--component-switch-thumb-border);
+  background-color: var(--component-switch-thumb-surface);
   transition: inset-inline-start calc(var(--motion-interactive) * 1ms) ease;
 }
 .svx-switch:checked + .svx-switch__thumb {
-  inset-inline-start: calc(100% - var(--system-switch-inset) - var(--svx-switch-thumb));
+  inset-inline-start: calc(100% - var(--component-switch-inset) - var(--svx-switch-thumb));
 }
 .svx-switch:disabled + .svx-switch__thumb {
-  border-color: var(--system-control-thumb-border-disabled);
-  background-color: var(--system-control-thumb-surface-disabled);
+  border-color: var(--component-switch-thumb-border-disabled);
+  background-color: var(--component-switch-thumb-surface-disabled);
 }
 @media (prefers-reduced-motion: reduce) {
   .svx-switch,
@@ -577,7 +577,7 @@
   background-color: var(--system-surface-raised);
   border: 1px solid var(--system-border-default);
   border-radius: var(--component-control-radius);
-  padding: var(--space-xs-rem);
+  padding: var(--component-menu-padding);
   min-width: 10rem;
 }
 
@@ -585,8 +585,8 @@
   display: flex;
   align-items: center;
   border-radius: var(--radius-md);
-  padding: var(--component-control-padding-y-sm) var(--component-control-padding-x-sm);
-  font: var(--component-label-sm);
+  padding: var(--component-menu-item-padding-y) var(--component-menu-item-padding-x);
+  font: var(--component-menu-label-sm);
   color: var(--system-text-primary);
   cursor: pointer;
   outline: none;

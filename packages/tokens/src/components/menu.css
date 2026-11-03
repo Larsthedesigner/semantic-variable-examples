@@ -1,0 +1,7 @@
+/* Menu item typography. */
+@theme static {
+  --component-menu-padding: var(--system-spacer-rem-xs);
+  --component-menu-item-padding-x: var(--system-spacer-rem-md);
+  --component-menu-item-padding-y: var(--system-spacer-rem-xs);
+  --component-menu-label-sm: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm) var(--font-family-sans);
+}

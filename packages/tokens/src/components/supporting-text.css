@@ -1,0 +1,10 @@
+/* supporting-text component-owned tokens. */
+@theme static {
+  --component-supporting-text-gap: var(--system-spacer-rem-xs);
+  --component-supporting-text-sm: 400 var(--font-size-xs)/var(--line-height-xs) var(--font-family-sans);
+  --component-supporting-text-md: 400 var(--font-size-xs)/var(--line-height-xs) var(--font-family-sans);
+  --component-supporting-text-lg: 400 var(--font-size-sm)/var(--line-height-sm) var(--font-family-sans);
+  --component-supporting-icon-sm: var(--size-rem-12);
+  --component-supporting-icon-md: var(--size-rem-12);
+  --component-supporting-icon-lg: var(--size-rem-14);
+}

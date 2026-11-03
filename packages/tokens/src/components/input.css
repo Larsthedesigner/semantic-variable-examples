@@ -1,0 +1,19 @@
+/* input component-owned tokens. */
+@theme static {
+  --component-input-height-sm: var(--size-px-24);
+  --component-input-height-md: var(--size-px-32);
+  --component-input-height-lg: var(--size-px-40);
+  --component-input-padding-x-sm: var(--system-spacer-rem-sm);
+  --component-input-padding-x-md: var(--system-spacer-rem-sm);
+  --component-input-padding-x-lg: var(--system-spacer-rem-md);
+  --component-input-padding-y-sm: var(--system-spacer-rem-2xs);
+  --component-input-padding-y-md: var(--system-spacer-rem-xs);
+  /* Compact 6px inset intentionally sits between xs and sm. */
+  --component-input-padding-y-lg: var(--size-rem-6);
+  --component-input-text-sm: 400 var(--font-size-xs)/var(--line-height-xs) var(--font-family-sans);
+  --component-input-text-md: 400 var(--font-size-sm)/var(--line-height-sm) var(--font-family-sans);
+  --component-input-text-lg: 400 var(--font-size-md)/var(--line-height-md) var(--font-family-sans);
+  --component-input-radius-sm: var(--size-px-8);
+  --component-input-radius-md: var(--size-px-8);
+  --component-input-radius-lg: var(--size-px-10);
+}
