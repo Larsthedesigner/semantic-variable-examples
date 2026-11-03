@@ -95,6 +95,21 @@
   --motion-interactive: var(--duration-fast); /* transition duration for interactive state changes */
 
   --system-field-gap: var(--size-6-rem);
+  --system-switch-width-sm: var(--size-28-px);
+  --system-switch-width-md: var(--size-32-px);
+  --system-switch-width-lg: var(--size-40-px);
+  --system-switch-height-sm: var(--size-16-px);
+  --system-switch-height-md: var(--size-20-px);
+  --system-switch-height-lg: var(--size-24-px);
+  --system-switch-thumb-sm: var(--size-12-px);
+  --system-switch-thumb-md: var(--size-16-px);
+  --system-switch-thumb-lg: var(--size-20-px);
+  --system-switch-inset: var(--size-2-px);
+  --system-switch-radius: var(--size-24-px);
+  --system-control-thumb-surface: var(--color-white);
+  --system-control-thumb-border: var(--color-neutral-1000);
+  --system-control-thumb-surface-disabled: var(--color-neutral-200);
+  --system-control-thumb-border-disabled: var(--color-neutral-700);
   --system-text-inline-gap: var(--size-4-rem);
   --system-label-sm: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-xs) var(--font-family-sans);
   --system-label-md: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm) var(--font-family-sans);
@@ -305,6 +320,10 @@
    ============================================================================ */
 
 .dark {
+  --system-control-thumb-surface: var(--color-neutral-100);
+  --system-control-thumb-border: var(--color-neutral-800);
+  --system-control-thumb-surface-disabled: var(--color-neutral-800);
+  --system-control-thumb-border-disabled: var(--color-neutral-1000);
   /* surface */
   --system-surface-default: var(--color-neutral-1300);
   --system-surface-raised: var(--color-neutral-1200);
@@ -446,6 +465,10 @@
 /* System semantics adapted from the reference design system. */
 
 .high-contrast {
+  --system-control-thumb-surface: var(--color-white);
+  --system-control-thumb-border: var(--color-neutral-1400);
+  --system-control-thumb-surface-disabled: var(--color-neutral-200);
+  --system-control-thumb-border-disabled: var(--color-neutral-1000);
   /* surface */
   --system-surface-sunken: var(--color-neutral-400);
   --system-surface-sunken-soft: var(--color-neutral-300);

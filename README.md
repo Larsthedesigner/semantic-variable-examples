@@ -215,6 +215,61 @@ size scale, while existing surface, text, border, and status roles supply colors
 <Textarea aria-label="Notes" rows={5} maxLength={500} />
 ```
 
+### Toggle and Switch
+
+These are different interaction contracts, not interchangeable appearances:
+
+- `Toggle` is a native button with `aria-pressed` for modes/actions such as bold.
+  Its accessible name should stay the same when pressed. It defaults to
+  `type="button"`, supports Enter and Space, and does not submit a checked form
+  value. Use `pressed` / `onPressedChange` for controlled state or `defaultPressed`
+  for uncontrolled state. It reuses Button's sizes, shared focus ring, and
+  Material Symbols `iconStartIcon` / `iconEndIcon` props. Icon-only toggles need
+  an accessible name such as `aria-label`. Preventing the native `onClick`
+  default cancels the state change.
+- `Switch` is a native checkbox with `role="switch"` for on/off settings.
+  Use `checked` / `onCheckedChange` (or native `onChange`) for controlled state,
+  or `defaultChecked` for uncontrolled state. Native label activation, Space,
+  `name`/`value` form submission, `required`, and uncontrolled form reset work
+  without a hidden form proxy. Only checked, enabled switches submit a value
+  (`"on"` unless `value` is provided). It has no indeterminate or read-only mode.
+  Reset controlled state in your own form `onReset` handler when needed.
+
+Both support `disabled`, `size="sm" | "md" | "lg"` (default `md`), and forwarded
+refs. Toggle's sizes match Button's 24/32/40px heights. Switch tracks are
+28x16 / 32x20 / 40x24px with 12/16/20px thumbs. Switch uses logical positioning
+for RTL layouts, respects reduced motion, and supports system forced colors.
+Its compact track is not an enlarged touch target; use a clickable label row
+with appropriate spacing when a larger target is needed.
+
+Toggle's persistent pressed appearance uses the selected interactive surface and
+its surface foreground, independently of hover and pointer-down overlays.
+Switch uses neutral interaction overlays on its off track and solid interactive
+colors on its on track. The bordered thumb stays light in either state, using
+shared `--system-control-thumb-surface` / `--system-control-thumb-border` roles
+and their `-disabled` counterparts. These roles are defined per theme rather
+than borrowing text colors or choosing palette stops in component styles.
+
+Switch accepts `invalid`, with explicit `aria-invalid` taking precedence.
+Compose it with Field for automatic labels, descriptions, size, and
+required/disabled/invalid state. FieldControl and the forwarded ref target the
+native input; Switch adds a small presentation wrapper for its decorative thumb.
+`className` and native props/style apply to the input. Toggle is an action button,
+not a Field control. Neither component performs application validation or saves
+a setting for you.
+
+```tsx
+<Toggle defaultPressed iconStartIcon="format_bold">Bold</Toggle>
+
+<Field>
+  <FieldLabel>Notifications</FieldLabel>
+  <FieldControl>
+    <Switch name="notifications" checked={notifications} onCheckedChange={setNotifications} />
+  </FieldControl>
+  <FieldDescription>Receive email notifications.</FieldDescription>
+</Field>
+```
+
 ### Development
 
 ```bash
