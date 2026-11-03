@@ -101,6 +101,122 @@ WCAG 3.0's APCA-based conformance model stabilizes.
 
 ## Getting started
 
+### Form text foundations
+
+`Label` renders a native label and `SupportingText` renders a paragraph. Both
+support `size="sm" | "md" | "lg"` (default `md`), `invalid`, and `disabled`
+styling, using semantic typography and color tokens. Disabled styling takes
+precedence over invalid styling. Labels use secondary text color and medium
+weight; supporting text uses regular weight with a smaller scale:
+
+| Size | Label | Uppercase label | Supporting text / icon |
+| --- | --- | --- | --- |
+| `sm` | 12px / 16px | 12px / 16px | 12px / 16px / 12px |
+| `md` | 14px / 20px | 12px / 16px | 12px / 16px / 12px |
+| `lg` | 16px / 24px | 14px / 20px | 14px / 20px / 14px |
+
+These are baseline dimensions at a 16px root; typography scales in rem.
+Use `textCase="uppercase"` on Label for uppercase text and `optional` for a
+smaller, regular-weight `(optional)` hint. Required takes precedence over
+optional. Invalid labels retain their normal color; validation is communicated
+by the control and error message.
+
+```tsx
+<Label htmlFor="email" required>Email</Label>
+<input id="email" type="email" required aria-describedby="email-hint" />
+<SupportingText id="email-hint">Use your work email.</SupportingText>
+```
+
+`Label`'s `required` prop adds a red asterisk, hidden from
+assistive technology to avoid duplicating the control's native required state.
+Set `required` on the control as well. Likewise, set `disabled` and
+`aria-invalid` on the control itself; text-component state props only affect
+appearance. Connect supporting text using `aria-describedby`. Error messages
+should explain the problem in words, not just change color.
+
+SupportingText supports `variant="default" | "error" | "success" | "disabled"`
+and optional `startIcon` / `endIcon` flags. These render decorative Material
+Symbols appropriate to the variant, aligned to the first line when text wraps.
+Load the Material Symbols stylesheet (or supply the font locally) when using
+icons. `invalid` selects the error variant; `disabled` overrides all variants.
+
+`SupportingText` does not automatically announce content as a live region.
+For validation updates that need announcements, explicitly pass `role="alert"`
+or an appropriate `aria-live` value. Avoid duplicate announcements when a
+form-level error summary already provides feedback.
+
+### Field composition
+
+`Field` connects one control to its label, descriptions, and error messages.
+It owns `size`, `required`, `disabled`, and `invalid` for its parts:
+
+```tsx
+<Field required invalid={hasError}>
+  <FieldLabel>Email</FieldLabel>
+  <FieldControl>
+    <Input type="email" />
+  </FieldControl>
+  <FieldDescription>Use your work email.</FieldDescription>
+  <FieldError>Enter a valid email address.</FieldError>
+</Field>
+```
+
+`FieldControl` renders no extra wrapper. Pass exactly one native input,
+textarea, or select, or a component that forwards native control props and
+its ref. The field supplies the control ID and required/disabled/invalid
+state; configure these on `Field`, not the child. Use `controlId` on Field
+for an explicit control ID; `id` on Field identifies the wrapper.
+Field also supplies `data-size` to the control, overriding Input/Textarea's
+standalone visual size. A valid Field sets `aria-invalid="false"` explicitly
+so it also overrides a child's standalone `invalid` prop.
+
+Descriptions register after mounting and are removed from `aria-describedby`
+when unmounted. Existing external description IDs on the child are preserved.
+Generated IDs are stable across server rendering and hydration, but automatic
+description associations become available after hydration. `FieldError`
+renders only when `invalid` is true. Validation is owned by the application.
+Field uses a 6px vertical gap. FieldError includes a decorative status icon
+by default; pass `startIcon={false}` to omit it.
+Field does not validate values or create announcements automatically. Use
+`role="alert"` on FieldError when appropriate. Keep descriptions/errors
+inside their Field and use unique IDs if supplying them explicitly.
+
+### Input and Textarea
+
+`Input` and `Textarea` render native elements with forwarded refs, native
+controlled/uncontrolled values and events, semantic theme colors, and the same
+`svx-focus-ring` utility as Button. They do not generate labels or validation
+messages: use Field as above, or supply an accessible name and descriptions
+yourself.
+
+Both support `size="sm" | "md" | "lg"` (default `md`), `disabled`, `readOnly`,
+and `invalid`. Explicit `aria-invalid` takes precedence over `invalid`.
+Disabled styling takes precedence over error styling; read-only text remains
+selectable and focusable. The focus ring remains the shared focus color when
+invalid, with an error-colored border.
+
+| Size | Input minimum height | Text typography |
+| --- | --- | --- |
+| `sm` | 24px | 12px / 16px |
+| `md` | 32px | 14px / 20px |
+| `lg` | 40px | 16px / 24px |
+
+These controls fill their container. Input's visual `size` replaces the native
+numeric attribute; use `htmlSize` for that attribute instead. Textarea defaults
+to `rows={3}`, supports native `rows`/`cols`/`maxLength`, and can be resized
+vertically. Override `style.resize` if needed. No auto-grow or custom scrollbar
+behavior is added. Native input types are forwarded without custom pickers or
+file-upload UI; the visual sizing is intended primarily for text-like inputs.
+System input height, padding, typography, and radius tokens define the shared
+size scale, while existing surface, text, border, and status roles supply colors.
+
+```tsx
+<Input aria-label="Search" type="search" placeholder="Search..." />
+<Textarea aria-label="Notes" rows={5} maxLength={500} />
+```
+
+### Development
+
 ```bash
 corepack enable
 pnpm install
