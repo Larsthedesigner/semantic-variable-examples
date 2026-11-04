@@ -1,3 +1,4 @@
+import { TokenReference } from '../tokens/token-reference';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Textarea } from './textarea';
 import { Field, FieldControl, FieldDescription, FieldLabel } from '../field/field';
@@ -35,3 +36,5 @@ export const Sizes: Story = {
     </div>
   ),
 };
+
+export const Tokens: Story = { render: () => <TokenReference owner="input" /> };

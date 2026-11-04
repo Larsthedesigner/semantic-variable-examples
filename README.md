@@ -29,8 +29,8 @@ feeding an intention-based semantic layer (`semantic.css`):
 Primitive color families use ordinal stops in increments of 100, ordered
 light to dark (for example, `--color-neutral-100`). These numbers do not imply
 equal perceptual intervals or equivalent lightness across different families.
-Size primitives use pixel-equivalent suffixes: `--size-2-px` is 2px,
-`--size-8-px` is 8px, and `--size-14-rem` is 0.875rem (14px at a 16px
+Size primitives use pixel-equivalent suffixes: `--size-px-2` is 2px,
+`--size-px-8` is 8px, and `--size-rem-14` is 0.875rem (14px at a 16px
 root). The rem values scale with the user's root font size. Existing px/rem
 variants share the same naming scale; only needed stops are declared.
 
@@ -100,6 +100,235 @@ size, and focus visibility are enforced today and what's tracked for when
 WCAG 3.0's APCA-based conformance model stabilizes.
 
 ## Getting started
+
+### Theme foundations and token reference
+
+All six primitive color families use 12 light-to-dark stops (`100`–`1200`).
+Blue `800` is Apple system blue `#007AFF`; solid actions with small white text
+use a darker semantic mapping to meet 4.5:1 contrast. Error, success, warning,
+and info palettes use coordinated red, green, amber, and informational blue.
+Magenta is removed; escalated workflow status now uses the error foreground.
+Semantic names stay stable, but palette colors and removed primitive stops are
+intentional theme changes. Update direct primitive consumers; application
+components should consume semantic roles instead.
+
+The px/rem size ramps have identical steps and unit-first names:
+`--size-px-2` and `--size-rem-2`. Steps describe pixel equivalents at a
+16px root. Previous unit-suffix names are removed; migrate direct references
+and overrides. Typography and motion have their own meaningful scales; they are
+not padded to match the number of color stops.
+
+App-wide spacer semantics use `--system-spacer-rem-{size}` and
+`--system-spacer-px-{size}` for margins, padding, and layout gaps:
+
+| Size | Baseline px | rem |
+| --- | --- | --- |
+| `2xs` | 2 | 0.125 |
+| `xs` | 4 | 0.25 |
+| `sm` | 8 | 0.5 |
+| `md` | 12 | 0.75 |
+| `lg` | 16 | 1 |
+| `xl` | 24 | 1.5 |
+| `2xl` | 32 | 2 |
+| `3xl` | 40 | 2.5 |
+
+Prefer rem for text-led forms, menus, content padding, and application layout
+that should follow the computed root (`html`) font size. It does not follow a
+component's local font-size override. For example,
+`gap: var(--system-spacer-rem-md)` is 12 CSS px at a 16px root and 15 CSS px at a
+20px root; `--system-spacer-px-md` remains 12 CSS px in both cases.
+Use px for deliberately fixed CSS-pixel spacing, such as the current
+pixel-sized Button's padding and icon-label gaps, not as the default for
+text-led content. CSS pixels are not physical device pixels, and normal browser
+page zoom enlarges both px and rem. Neither unit responds to viewport width
+automatically or prevents text overflow in fixed-height controls; use responsive
+layout rules and allow content to grow or wrap. Root-relative spacing follows
+browser font preferences only when the root font-size configuration respects
+those preferences. These roles are consistent across theme modes.
+
+Storybook's **Foundations / Color** and **Foundations / Size** each have
+Primitives and Semantics stories. Color Semantics lists app-wide color roles;
+Size Semantics lists the spacer scale with rendered previews.
+**Foundations / Typography** has Primitives and Semantics stories, while
+**Foundations / Motion** retains the timing primitive reference.
+Color Semantics shows the CSS variable, square light-mode and dark-mode color
+previews, usage guidance, the authored light-mode mapping, and the resolved
+light-mode value. Both previews remain fixed when the mode selector changes.
+Color roles share one table with purpose filters, an All option, and token counts.
+Each mode preview is a single colored square; transparent colors composite over
+the table surface.
+System usage descriptions identify the CSS role, example elements, intended
+surface or state, and companion tokens where relevant. They describe purpose
+rather than assuming a particular palette value or guaranteeing contrast.
+These descriptions live in inline comments beside the base declarations in
+`packages/tokens/src/semantic.css`; Storybook reads them directly so source
+documentation and the reference table stay aligned across modes.
+All foundation references share a page header, and color primitives use connected
+palette strips with an Apple blue anchor marker.
+Size and component references show selected-mode values and transitive primitive
+dependencies. Data comes from the CSS sources, not a
+duplicated palette snapshot. Color-mix values remain CSS expressions; their
+displayed previews are rendered by the browser. Usage describes intent rather
+than guaranteeing contrast on every possible surface.
+
+Reference layouts share the Storybook-only `.storybook/storybook.css` stylesheet,
+imported once by the preview. Its `sbx-*` classes provide themed tables, sticky
+headers, keyboard-focusable scroll regions, palette grids, and transparency
+checkerboards. Only token-driven preview values remain inline. These styles are
+not included in the published React component stylesheet.
+
+The semantic layer and Semantics story contain only `--system-*` roles.
+Component-owned tokens live in `packages/tokens/src/components/`, grouped by
+owner and imported through `components.css`. This includes Switch geometry and
+thumb treatment, Field gaps, Label/SupportingText typography, Input/Textarea
+sizes, Tooltip surfaces, and workflow status mappings. These roles use
+`--component-*` names rather than `--system-*`; update overrides using their
+previous names. Shared compatibility aliases remain in `shared-controls.css`.
+The canonical bundle loads primitives, app-wide semantics, then component
+tokens. Color mappings consume system roles; geometry consumes primitive scales.
+Component stories include a Tokens table; Toggle shares Button tokens and
+Textarea shares Input tokens.
+
+Component padding and gaps map to spacer semantics through their component
+tokens: Button (also Toggle/SplitButton), Label, SupportingText, Input/Textarea,
+and Menu. Button spacing stays pixel-exact; form-text and Menu spacing retain
+rem scaling. Compatibility spacing aliases also map to the system scale.
+Two intentional 6px exceptions remain: Field's vertical gap and large
+Input/Textarea vertical padding. Their component tokens reference `--size-rem-6`
+because the T-shirt spacer scale has no 6px step. Switch thumb inset, focus-ring
+offset/width, radii, and control/icon dimensions are geometry, not layout
+spacers, and remain independent. Zero spacing remains a literal reset.
+
+### Typography foundations
+
+Typography follows primitives into prescribed system bundles. Primitive sizes
+run from xs (12px equivalent) through 5xl (40px equivalent), with sans/monospace
+families, 400/500/600/700 weights, unitless line-height ratios, and tracking.
+Font sizes use rem. Existing dimension-based `--line-height-*` primitives
+remain available; system bundles use `--line-height-ratio-*` so their line
+boxes follow the element's font size.
+
+The default sans family is self-hosted **Inter Variable**, provided by the
+`@fontsource-variable/inter` dependency and imported by the component stylesheet.
+Its normal style supports weights 100-900 and loads with `font-display: swap`;
+the system-font fallback remains available during loading. Font files are
+served by the application's CSS bundler, not requested from Google Fonts.
+The package includes the SIL Open Font License, also copied to
+`@svx/react/dist/inter-OFL.txt` by the build. Retain the font license when
+redistributing font assets. Use the same family token to rebrand centrally.
+
+Each `--system-type-{role}` bundle has `-font`, `-tracking`, and `-color` members:
+
+```css
+.page-title {
+  font: var(--system-type-h1-font);
+  letter-spacing: var(--system-type-h1-tracking);
+  color: var(--system-type-h1-color);
+}
+```
+
+Apply the complete bundle rather than independently choosing size, weight,
+tracking, or foreground. `font` is a CSS shorthand; it does not include
+letter spacing or color. Type styles do not supply margins or layout gaps.
+
+| Role | Intended markup | Baseline size / line height | Weight | Foreground |
+| --- | --- | --- | --- | --- |
+| h1 | h1, main page title | 32 / 40 | 700 | Primary |
+| h2 | h2, major section | 24 / 32 | 600 | Primary |
+| h3 | h3, subsection | 20 / 28 | 600 | Primary |
+| h4 | h4, nested subsection | 18 / 28 | 600 | Primary |
+| h5 | h5, deeper heading | 16 / 24 | 600 | Primary |
+| h6 | h6, deepest heading | 14 / 20 | 600 | Primary |
+| body | p, ordinary content | 16 / 24 | 400 | Primary |
+| body-secondary | p, supporting content | 16 / 24 | 400 | Secondary |
+| body-sm | p, compact content | 14 / 20 | 400 | Primary |
+| label-sm | span, compact interface text | 12 / 16 | 500 | Primary |
+| label-md | span, standard interface text | 14 / 20 | 500 | Primary |
+| label-lg | span, larger interface text | 16 / 24 | 500 | Primary |
+| caption | span, metadata and annotations | 12 / 16 | 400 | Secondary |
+| code | code, inline technical content | 14 / 20 | 400 | Primary |
+
+Heading levels follow document hierarchy, not the desired visual size.
+The label bundles do not replace the accessible Label component. Label sizes
+sm/md/lg map to the corresponding system label fonts and tracking. SupportingText
+sm/md use caption, while lg uses body-sm. Their existing sizes, line heights,
+native markup, required/optional indicators, icons, and accessible associations
+are preserved. Both components retain secondary, error, success, or disabled
+foreground handling rather than inheriting the generic type-bundle color.
+Other controls retain their existing typography mappings.
+These bundles target standard content surfaces; no speculative accent,
+inverse, or on-deep variants are introduced. Foreground aliases follow the
+theme's existing text roles in root-level and scoped dark/high-contrast modes.
+
+Secondary text uses neutral 900 (`#595964`) in light mode and neutral 600
+(`#afafb8`) in dark mode for clearer separation from primary text. It retains
+at least 4.5:1 contrast on the standard content surfaces tested in each mode.
+High-contrast mode intentionally retains the primary-strength foreground.
+
+Typography Semantics displays all 14 bundles as real text specimens, with
+intended markup, usage, authored mappings, resolved values, and primitive
+dependencies. These are token foundations, not a new public React typography
+component or global heading reset.
+
+### Loading placeholders
+
+`Skeleton` reserves space while content is loading. It supports text (default),
+circle, and rectangle variants, with sm/md/lg sizes:
+
+```tsx
+<section aria-label="Account details" aria-busy={loading}>
+  {loading ? <Skeleton lines={3} /> : <AccountDetails />}
+</section>
+```
+
+Text sizes reserve 16/20/24px-equivalent line boxes; multiple lines have a
+deterministic 80% final line. Circle sizes are 24/32/40px equivalents. Rectangles
+fill the available width with the same default heights; a parent-specific
+`style` or class may reserve the final image/card dimensions. Match the eventual
+content layout to avoid layout shifts. `lines` must be a positive integer and
+is supported only for text. Placeholders accept no content, are aria-hidden and
+inert, and never announce their own status. The containing feature owns
+`aria-busy`, an optional single loading announcement, errors, and replacement
+with real content. Do not cover still-focusable controls with a placeholder.
+
+The generic system roles are:
+
+- `--system-loading-surface`: resting placeholder fill.
+- `--system-loading-shimmer`: translucent highlight over that fill.
+- `--system-animation-loading-shimmer`: shared animation shorthand and keyframes,
+  built from duration/easing primitives.
+
+Skeleton consumes these through its component-owned tokens. Other decorative
+placeholders can reuse the `.svx-loading-shimmer` class, or use the semantic
+animation on a full-width, absolutely positioned overlay clipped by its parent:
+
+```css
+.custom-placeholder {
+  position: relative;
+  overflow: hidden;
+  background: var(--system-loading-surface);
+}
+.custom-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg, transparent, var(--system-loading-shimmer), transparent
+  );
+  transform: translateX(-100%);
+  animation: var(--system-animation-loading-shimmer);
+}
+```
+
+The animation translates the decorative layer, not layout or actual content.
+Reduced-motion preferences set the system animation to `none`; the shared class
+also removes its overlay. Forced-colors mode renders static outlined shapes.
+Dark/high-contrast themes adjust loading fills without changing geometry.
+Color Semantics includes loading colors, Motion Semantics documents the reusable
+animation, and Skeleton stories show shapes, themes, and a loading-to-content
+card. JSON/native exports describe base theme values, not runtime media-query
+preferences. Existing Button spinners and progress patterns are unchanged.
 
 ### Form text foundations
 
@@ -246,7 +475,7 @@ Toggle's persistent pressed appearance uses the selected interactive surface and
 its surface foreground, independently of hover and pointer-down overlays.
 Switch uses neutral interaction overlays on its off track and solid interactive
 colors on its on track. The bordered thumb stays light in either state, using
-shared `--system-control-thumb-surface` / `--system-control-thumb-border` roles
+shared `--component-switch-thumb-surface` / `--component-switch-thumb-border` roles
 and their `-disabled` counterparts. These roles are defined per theme rather
 than borrowing text colors or choosing palette stops in component styles.
 

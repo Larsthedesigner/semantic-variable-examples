@@ -1,0 +1,18 @@
+/* switch component-owned tokens. */
+@theme static {
+  --component-switch-width-sm: var(--size-px-28);
+  --component-switch-width-md: var(--size-px-32);
+  --component-switch-width-lg: var(--size-px-40);
+  --component-switch-height-sm: var(--size-px-16);
+  --component-switch-height-md: var(--size-px-20);
+  --component-switch-height-lg: var(--size-px-24);
+  --component-switch-thumb-sm: var(--size-px-12);
+  --component-switch-thumb-md: var(--size-px-16);
+  --component-switch-thumb-lg: var(--size-px-20);
+  --component-switch-inset: var(--size-px-2);
+  --component-switch-radius: var(--size-px-24);
+  --component-switch-thumb-surface: var(--system-surface-white);
+  --component-switch-thumb-border: var(--system-border-control);
+  --component-switch-thumb-surface-disabled: var(--system-surface-disabled);
+  --component-switch-thumb-border-disabled: var(--system-border-disabled);
+}

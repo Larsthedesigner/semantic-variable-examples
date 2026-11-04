@@ -1,0 +1,20 @@
+/* shared-controls component-owned tokens. */
+@theme static {
+  --interactive-focus-ring-width: var(--size-px-2);
+  --interactive-focus-ring-offset: var(--size-px-2);
+  --space-xs-rem: var(--system-spacer-rem-xs);
+  --space-sm-rem: var(--system-spacer-rem-sm);
+  --space-md-rem: var(--system-spacer-rem-md);
+  --space-lg-rem: var(--system-spacer-rem-lg);
+  --space-xl-rem: var(--system-spacer-rem-xl);
+  --radius-md: var(--size-rem-8);
+  --component-control-radius: var(--radius-md);
+  --component-control-padding-x-sm: var(--system-spacer-rem-md);
+  --component-control-padding-x-md: var(--system-spacer-rem-lg);
+  --component-control-padding-x-lg: var(--system-spacer-rem-xl);
+  --component-control-padding-y-sm: var(--system-spacer-rem-xs);
+  --component-control-padding-y-md: var(--system-spacer-rem-sm);
+  --component-control-padding-y-lg: var(--system-spacer-rem-md);
+  --component-control-gap: var(--system-spacer-rem-sm);
+  --motion-interactive: var(--duration-fast);
+}

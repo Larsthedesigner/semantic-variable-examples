@@ -1,3 +1,4 @@
+import { TokenReference } from '../tokens/token-reference';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SupportingText } from './supporting-text';
 
@@ -44,3 +45,5 @@ export const Sizes: Story = {
     </div>
   ),
 };
+
+export const Tokens: Story = { render: () => <TokenReference owner="supporting-text" /> };

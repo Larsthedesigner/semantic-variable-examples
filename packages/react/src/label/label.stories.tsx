@@ -1,3 +1,4 @@
+import { TokenReference } from '../tokens/token-reference';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Label } from './label';
 import { SupportingText } from '../supporting-text/supporting-text';
@@ -60,3 +61,5 @@ export const WithControl: Story = {
     </div>
   ),
 };
+
+export const Tokens: Story = { render: () => <TokenReference owner="label" /> };

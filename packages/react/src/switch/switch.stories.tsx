@@ -1,3 +1,4 @@
+import { TokenReference } from '../tokens/token-reference';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Switch } from './switch';
@@ -91,3 +92,5 @@ export const Themes: Story = {
     </div>
   ),
 };
+
+export const Tokens: Story = { render: () => <TokenReference owner="switch" /> };

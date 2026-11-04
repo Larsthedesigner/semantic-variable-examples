@@ -4,6 +4,8 @@ export { IconButton } from './icon-button/icon-button';
 export type { IconButtonProps } from './icon-button/icon-button';
 export { Label } from './label/label';
 export type { LabelProps } from './label/label';
+export { Skeleton } from './skeleton/skeleton';
+export type { SkeletonProps } from './skeleton/skeleton';
 export { Input } from './input/input';
 export type { InputProps } from './input/input';
 export { Textarea } from './textarea/textarea';

@@ -1,0 +1,10 @@
+/* label component-owned tokens. */
+@theme static {
+  --component-label-gap: var(--system-spacer-rem-xs);
+  --component-label-sm: var(--system-type-label-sm-font);
+  --component-label-md: var(--system-type-label-md-font);
+  --component-label-lg: var(--system-type-label-lg-font);
+  --component-label-tracking-sm: var(--system-type-label-sm-tracking);
+  --component-label-tracking-md: var(--system-type-label-md-tracking);
+  --component-label-tracking-lg: var(--system-type-label-lg-tracking);
+}

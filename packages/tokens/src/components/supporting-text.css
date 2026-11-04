@@ -1,0 +1,13 @@
+/* supporting-text component-owned tokens. */
+@theme static {
+  --component-supporting-text-gap: var(--system-spacer-rem-xs);
+  --component-supporting-text-sm: var(--system-type-caption-font);
+  --component-supporting-text-md: var(--system-type-caption-font);
+  --component-supporting-text-lg: var(--system-type-body-sm-font);
+  --component-supporting-text-tracking-sm: var(--system-type-caption-tracking);
+  --component-supporting-text-tracking-md: var(--system-type-caption-tracking);
+  --component-supporting-text-tracking-lg: var(--system-type-body-sm-tracking);
+  --component-supporting-icon-sm: var(--size-rem-12);
+  --component-supporting-icon-md: var(--size-rem-12);
+  --component-supporting-icon-lg: var(--size-rem-14);
+}

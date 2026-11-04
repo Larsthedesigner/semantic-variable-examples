@@ -1,0 +1,7 @@
+/* status component-owned tokens. */
+@theme static {
+  --component-status-breakdown-escalated: var(--system-status-error-fg);
+  --component-status-breakdown-in-progress: var(--system-status-warning-fg);
+  --component-status-breakdown-open: var(--system-status-neutral-fg);
+  --component-status-breakdown-resolved: var(--system-status-success-fg);
+}

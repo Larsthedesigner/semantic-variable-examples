@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
 import '../src/styles.css';
 import '../src/material-symbols.css';
+import './storybook.css';
 
 const preview: Preview = {
   parameters: {
