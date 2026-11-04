@@ -132,9 +132,19 @@ App-wide spacer semantics use `--system-spacer-rem-{size}` and
 | `2xl` | 32 | 2 |
 | `3xl` | 40 | 2.5 |
 
-Prefer rem for scalable application layout; px is for intentionally fixed
-spacing. For example, `gap: var(--system-spacer-rem-md)` provides a 12px gap
-at a 16px root. These roles are consistent across theme modes.
+Prefer rem for text-led forms, menus, content padding, and application layout
+that should follow the computed root (`html`) font size. It does not follow a
+component's local font-size override. For example,
+`gap: var(--system-spacer-rem-md)` is 12 CSS px at a 16px root and 15 CSS px at a
+20px root; `--system-spacer-px-md` remains 12 CSS px in both cases.
+Use px for deliberately fixed CSS-pixel spacing, such as the current
+pixel-sized Button's padding and icon-label gaps, not as the default for
+text-led content. CSS pixels are not physical device pixels, and normal browser
+page zoom enlarges both px and rem. Neither unit responds to viewport width
+automatically or prevents text overflow in fixed-height controls; use responsive
+layout rules and allow content to grow or wrap. Root-relative spacing follows
+browser font preferences only when the root font-size configuration respects
+those preferences. These roles are consistent across theme modes.
 
 Storybook's **Foundations / Color** and **Foundations / Size** each have
 Primitives and Semantics stories. Color Semantics lists app-wide color roles;
@@ -143,6 +153,17 @@ Size Semantics lists the spacer scale with rendered previews.
 Color Semantics shows the CSS variable, square light-mode and dark-mode color
 previews, usage guidance, the authored light-mode mapping, and the resolved
 light-mode value. Both previews remain fixed when the mode selector changes.
+Color roles share one table with purpose filters, an All option, and token counts.
+Each mode preview is a single colored square; transparent colors composite over
+the table surface.
+System usage descriptions identify the CSS role, example elements, intended
+surface or state, and companion tokens where relevant. They describe purpose
+rather than assuming a particular palette value or guaranteeing contrast.
+These descriptions live in inline comments beside the base declarations in
+`packages/tokens/src/semantic.css`; Storybook reads them directly so source
+documentation and the reference table stay aligned across modes.
+All foundation references share a page header, and color primitives use connected
+palette strips with an Apple blue anchor marker.
 Size and component references show selected-mode values and transitive primitive
 dependencies. Data comes from the CSS sources, not a
 duplicated palette snapshot. Color-mix values remain CSS expressions; their

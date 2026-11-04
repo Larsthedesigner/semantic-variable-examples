@@ -27,6 +27,9 @@
  * The old generic text/surface/border/interactive color aliases were replaced
  * by the system semantic API below. Component tokens and compatibility aliases
  * live separately in components.css.
+ *
+ * Inline comments beside the base declarations define each system token's
+ * usage across modes. Storybook reads these comments as its usage source.
  */
 
 /* ============================================================================
@@ -35,191 +38,198 @@
 
 
 @theme static {
-  /* App-wide spacing scale; rem is the default for scalable layouts. */
-  --system-spacer-rem-2xs: var(--size-rem-2);
-  --system-spacer-rem-xs: var(--size-rem-4);
-  --system-spacer-rem-sm: var(--size-rem-8);
-  --system-spacer-rem-md: var(--size-rem-12);
-  --system-spacer-rem-lg: var(--size-rem-16);
-  --system-spacer-rem-xl: var(--size-rem-24);
-  --system-spacer-rem-2xl: var(--size-rem-32);
-  --system-spacer-rem-3xl: var(--size-rem-40);
-  --system-spacer-px-2xs: var(--size-px-2);
-  --system-spacer-px-xs: var(--size-px-4);
-  --system-spacer-px-sm: var(--size-px-8);
-  --system-spacer-px-md: var(--size-px-12);
-  --system-spacer-px-lg: var(--size-px-16);
-  --system-spacer-px-xl: var(--size-px-24);
-  --system-spacer-px-2xl: var(--size-px-32);
-  --system-spacer-px-3xl: var(--size-px-40);
+  /*
+   * rem spacing follows the computed root (html) font size, not the local
+   * component font size or viewport width. px spacing stays constant in CSS
+   * pixels when the root font size changes; CSS pixels are not device pixels.
+   * Normal browser page zoom enlarges both. Neither unit makes fixed-height
+   * controls safe from text overflow; allow content to grow or wrap.
+   * Examples below guide spacing choices, not control dimensions or borders.
+   */
+  --system-spacer-rem-2xs: var(--size-rem-2); /* Minimal root-relative inset for compact text controls, such as small input vertical padding. Scales with the root font size, not the control's local font size; use px-2xs only when this space must stay fixed in CSS pixels. */
+  --system-spacer-rem-xs: var(--size-rem-4); /* Tight root-relative spacing between a label and indicator or supporting text and icon; also suitable for menu-item vertical padding. Scales with the root font size so these small separations follow the overall text scale. */
+  --system-spacer-rem-sm: var(--size-rem-8); /* Compact root-relative padding for inputs and text-led controls, or gaps between closely related content. Scales with the root font size; prefer over fixed CSS-pixel spacing when the surrounding content uses the root-relative type scale. */
+  --system-spacer-rem-md: var(--size-rem-12); /* Standard root-relative inset for menu items and larger text controls, or gaps within a related content group. Scales with the root font size rather than a local font-size override. */
+  --system-spacer-rem-lg: var(--size-rem-16); /* Root-relative spacing between form content groups or padding inside compact cards and panels. Scales with the root font size to retain breathing room as the overall text scale grows. */
+  --system-spacer-rem-xl: var(--size-rem-24); /* Root-relative padding for content cards and layout containers, or gaps between related sections. Scales with the root font size; does not change just because the viewport narrows. */
+  --system-spacer-rem-2xl: var(--size-rem-32); /* Generous root-relative spacing between major content groups or within roomy page sections. Scales with the root font size; choose responsive layout rules separately for narrow screens. */
+  --system-spacer-rem-3xl: var(--size-rem-40); /* Large root-relative separation between page sections or spacious container edges. Scales with the root font size, not viewport width; reduce via responsive layout rules when space is constrained. */
+  --system-spacer-px-2xs: var(--size-px-2); /* Minimal fixed CSS-pixel gap or padding for tightly packed, fixed-geometry layouts. Unchanged by root font-size changes, but enlarged by page zoom; not a substitute for dedicated border, focus-ring, or control-inset tokens. */
+  --system-spacer-px-xs: var(--size-px-4); /* Fixed CSS-pixel gap between an icon and label in a compact pixel-sized button. Unchanged by root font-size changes, but enlarged by page zoom; allow the label to grow rather than relying on this gap to prevent overflow. */
+  --system-spacer-px-sm: var(--size-px-8); /* Fixed CSS-pixel padding for a small button or icon-label gap in a medium button whose geometry is intentionally pixel-sized. Unchanged by root font-size changes, but enlarged by page zoom; use rem-sm when the spacing should follow the root text scale. */
+  --system-spacer-px-md: var(--size-px-12); /* Fixed CSS-pixel horizontal padding for a medium button or gap in a larger pixel-sized action. Unchanged by root font-size changes, but enlarged by page zoom; not the default for text-led form or page layout. */
+  --system-spacer-px-lg: var(--size-px-16); /* Fixed CSS-pixel horizontal padding for a large pixel-sized button, or an intentional fixed inset in compact application chrome. Unchanged by root font-size changes, but enlarged by page zoom; use rem-lg for scalable content spacing. */
+  --system-spacer-px-xl: var(--size-px-24); /* Roomy fixed CSS-pixel inset or gap in a deliberately fixed-geometry tool area. Unchanged by root font-size changes, but enlarged by page zoom; prefer rem-xl for text-led cards and application sections. */
+  --system-spacer-px-2xl: var(--size-px-32); /* Large fixed CSS-pixel gutter between regions whose geometry must not follow the root text scale. Unchanged by root font-size changes, but enlarged by page zoom; prefer rem-2xl for ordinary content-group spacing. */
+  --system-spacer-px-3xl: var(--size-px-40); /* Extra-large fixed CSS-pixel inset or separation in a deliberately fixed-geometry layout. Unchanged by root font-size changes, but enlarged by page zoom; prefer rem-3xl for scalable page-section spacing and handle responsiveness separately. */
   /* surface */
-  --system-surface-sunken: var(--color-neutral-300);
-  --system-surface-sunken-soft: var(--color-neutral-200);
-  --system-surface-default: var(--color-white);
-  --system-surface-raised: var(--color-white);
-  --system-surface-overlay: var(--system-surface-default);
-  --system-surface-panel: var(--color-white);
-  --system-surface-white: var(--color-white);
-  --system-surface-disabled: var(--color-neutral-300);
-  --system-surface-inverse: var(--color-neutral-1200);
-  --system-surface-deep: var(--color-neutral-1200);
+  --system-surface-sunken: var(--color-neutral-300); /* Background fill for recessed input areas, segmented-control tracks, wells, and code blocks below the surrounding content surface. Use standard text and control-border roles for content and boundaries. */
+  --system-surface-sunken-soft: var(--color-neutral-200); /* Background fill for subtly inset sections within a content surface. Use instead of --system-surface-sunken when a track or well would create too much visual separation. */
+  --system-surface-default: var(--color-white); /* Background fill for main content areas, list containers, and flat panels with no elevation. Pair with --system-text-primary and --system-text-secondary for ordinary content. */
+  --system-surface-raised: var(--color-white); /* Background fill for cards and panels elevated above the default content surface. Reinforce elevation with a shadow rather than assuming the fill alone communicates depth. */
+  --system-surface-overlay: var(--system-surface-default); /* Background fill for floating dialogs, popovers, dropdown menus, and command panels above page content. This fills the floating container, not the scrim behind it. */
+  --system-surface-panel: var(--color-white); /* Background fill for persistent side panels, detail panes, and application chrome. Use for layout structure rather than temporary floating content. */
+  --system-surface-white: var(--color-white); /* Invariant white background for content that must remain white in every mode, such as avatar backplates or icon containers on colored fills. Choose a foreground that remains visible on white. */
+  --system-surface-disabled: var(--color-neutral-300); /* Background fill for disabled inputs, buttons, and selectable controls. Pair with --system-text-disabled, --system-icon-disabled, and --system-border-disabled as appropriate. */
+  --system-surface-inverse: var(--color-neutral-1200); /* Background fill for inverted badges, tags, and callouts that stand apart from the surrounding theme. Pair with --system-text-inverse and verify contrast; use --system-surface-deep for an always-dark region instead. */
+  --system-surface-deep: var(--color-neutral-1200); /* Always-dark background for immersive viewers and full-screen media regions. Pair visible content with --system-text-on-deep and --system-icon-on-deep; use --system-deep-hover and related deep roles for control states. */
 
   /* deep */
-  --system-deep-interactive: rgb(255 255 255 / 0.12);
-  --system-deep-hover: rgb(255 255 255 / 0.2);
-  --system-deep-pressed: rgb(255 255 255 / 0.3);
-  --system-deep-selected: rgb(255 255 255 / 0.25);
+  --system-deep-interactive: rgb(255 255 255 / 0.12); /* Resting translucent background tint for controls on --system-surface-deep, such as immersive-viewer actions. Pair visible content with --system-text-on-deep or --system-icon-on-deep. */
+  --system-deep-hover: rgb(255 255 255 / 0.2); /* Translucent hover overlay for controls on --system-surface-deep. Composite over the always-dark surface and retain on-deep text or icons. */
+  --system-deep-pressed: rgb(255 255 255 / 0.3); /* Translucent overlay for controls on --system-surface-deep during temporary pointer-down activation. Use deep-selected for a state that remains after activation. */
+  --system-deep-selected: rgb(255 255 255 / 0.25); /* Persistent selected background tint for toggles and options on --system-surface-deep. Retain on-deep text or icons; do not use as a standard light-surface selection fill. */
 
   /* surface */
-  --system-surface-white-hover: #f0f0f0;
-  --system-surface-white-pressed: #e4e4e5;
+  --system-surface-white-hover: #f0f0f0; /* Concrete background fill for hovered items on --system-surface-white when translucent overlays cannot be composed. Replace the white fill for the hover state; do not apply as a foreground. */
+  --system-surface-white-pressed: #e4e4e5; /* Concrete background fill for items on --system-surface-white during temporary pointer-down activation. Replace the white fill while pressed; this is not persistent selection. */
 
   /* text */
-  --system-text-primary: var(--color-neutral-1200);
-  --system-text-secondary: var(--color-neutral-1000);
-  --system-text-muted: var(--color-neutral-900);
-  --system-text-disabled: var(--color-neutral-700);
-  --system-text-placeholder: var(--color-neutral-900);
-  --system-text-inverse: var(--color-white);
-  --system-text-on-accent: var(--color-white);
-  --system-text-on-deep: var(--color-white);
+  --system-text-primary: var(--color-neutral-1200); /* Text color for body copy, headings, and main labels requiring the highest content emphasis on standard content surfaces. Use a matching on-solid or on-deep role on those special fills. */
+  --system-text-secondary: var(--color-neutral-1000); /* Text color for subtitles, metadata, supporting text, and secondary labels on standard content surfaces. Use --system-text-primary for the main content or label requiring stronger emphasis. */
+  --system-text-muted: var(--color-neutral-900); /* Low-emphasis text color for captions, timestamps, and auxiliary annotations on standard content surfaces. Check contrast before using for essential instructions; this is not a disabled-state treatment. */
+  --system-text-disabled: var(--color-neutral-700); /* Text color for labels and values inside disabled controls. Pair with --system-surface-disabled and --system-border-disabled; do not use to de-emphasize ordinary readable content. */
+  --system-text-placeholder: var(--color-neutral-900); /* Text color for placeholder hints inside empty inputs and textareas on their control surface. Never use as a persistent field label or for static content. */
+  --system-text-inverse: var(--color-white); /* Text color for labels and messages on --system-surface-inverse, such as inverted badges and callouts. Check that pairing in each mode; use --system-text-on-deep for always-dark regions. */
+  --system-text-on-accent: var(--color-white); /* Text color for labels on accent-filled badges and callouts, not neutral surfaces. Prefer --system-interactive-on-solid or the matching status on-solid role when using those specific solid fills. */
+  --system-text-on-deep: var(--color-white); /* Text color for captions, labels, and controls on --system-surface-deep in immersive viewers. Use instead of ordinary page text roles in these always-dark regions. */
 
   /* icon */
-  --system-icon-deep: var(--color-neutral-1200);
-  --system-icon-default: var(--color-neutral-900);
-  --system-icon-muted: var(--color-neutral-800);
-  --system-icon-disabled: var(--color-neutral-700);
-  --system-icon-on-accent: var(--color-white);
-  --system-icon-on-deep: var(--color-white);
+  --system-icon-deep: var(--color-neutral-1200); /* Dark icon or graphic fill for intentionally receding decorative marks, such as background glyphs. Do not use for icons that must remain visible on --system-surface-deep; use --system-icon-on-deep there. */
+  --system-icon-default: var(--color-neutral-900); /* Icon color for navigation, neutral action icons, and inline indicators on standard content surfaces. Use an interactive foreground when the icon itself needs action emphasis. */
+  --system-icon-muted: var(--color-neutral-800); /* Low-emphasis icon color for supplementary indicators and decorative graphics on standard content surfaces. Do not use for essential controls without checking visibility. */
+  --system-icon-disabled: var(--color-neutral-700); /* Icon color inside disabled controls on --system-surface-disabled. Pair with disabled text and borders; do not use for enabled secondary actions. */
+  --system-icon-on-accent: var(--color-white); /* Icon color on accent-filled badges and icon containers. Prefer the matching interactive or status on-solid role on those solid fills; do not use on ordinary neutral surfaces. */
+  --system-icon-on-deep: var(--color-white); /* Visible icon color for navigation and actions on --system-surface-deep. Use instead of --system-icon-deep, which is intended for receding graphics. */
 
   /* border */
-  --system-border-default: var(--color-neutral-600);
-  --system-border-subtle: var(--color-neutral-400);
-  --system-border-strong: var(--color-neutral-700);
-  --system-border-control: var(--color-neutral-900);
-  --system-border-control-hover: var(--color-neutral-1000);
-  --system-border-disabled: var(--color-neutral-600);
-  --system-border-focus: var(--color-blue-800);
+  --system-border-default: var(--color-neutral-600); /* Border color for cards, panels, and content containers on standard surfaces that need a clear edge without selection emphasis. Use control-border roles for form controls. */
+  --system-border-subtle: var(--color-neutral-400); /* Low-emphasis divider color for table rows, section separators, and structural boundaries on content surfaces. Do not substitute for the visible boundary of an interactive control. */
+  --system-border-strong: var(--color-neutral-700); /* Emphasized border color for selected list items and substantial section boundaries on content surfaces. Use --system-border-focus for keyboard focus rather than treating emphasis as focus. */
+  --system-border-control: var(--color-neutral-900); /* Resting border color for enabled inputs, selects, checkboxes, radio buttons, and switch tracks on their control surface. Change to control-hover on hover and border-disabled when disabled. */
+  --system-border-control-hover: var(--color-neutral-1000); /* Border color for an enabled form control during pointer hover. Replace --system-border-control at the same boundary; retain a separate visible keyboard-focus indicator. */
+  --system-border-disabled: var(--color-neutral-600); /* Border color for disabled form controls. Pair with --system-surface-disabled and disabled text or icons to communicate the complete non-interactive state. */
+  --system-border-focus: var(--color-blue-800); /* Focus-indicator color around keyboard-focused buttons, inputs, and other interactive elements. Keep it distinguishable from the adjacent control and page surfaces; not a resting border. */
 
   /* interactive */
-  --system-interactive-solid: var(--color-blue-900);
-  --system-interactive-solid-hover: var(--color-blue-1000);
-  --system-interactive-solid-pressed: var(--color-blue-1100);
-  --system-interactive-solid-selected: var(--color-blue-1000);
-  --system-interactive-on-solid: var(--color-white);
-  --system-interactive-surface: var(--color-blue-100);
-  --system-interactive-surface-hover: color-mix(in srgb, var(--color-neutral-1200) 6%, transparent);
-  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-neutral-1200) 12%, transparent);
-  --system-interactive-surface-selected: var(--color-blue-200);
-  --system-interactive-surface-foreground: var(--color-blue-1100);
-  --system-interactive-fg: var(--system-interactive-solid);
-  --system-interactive-fg-variant: var(--color-blue-1100);
-  --system-interactive-hover: var(--system-interactive-surface-hover);
-  --system-interactive-pressed: var(--color-blue-900);
-  --system-interactive-disabled: var(--color-neutral-500);
-  --system-interactive-border-default: var(--color-blue-400);
-  --system-interactive-border-strong: var(--color-blue-900);
-  --system-interactive-focus-ring: var(--system-border-focus);
+  --system-interactive-solid: var(--color-blue-900); /* Background fill for primary buttons, filled action chips, and solid toggles at rest. Pair labels and icons with --system-interactive-on-solid. */
+  --system-interactive-solid-hover: var(--color-blue-1000); /* Background fill for an enabled solid button or action chip during pointer hover. Replace --system-interactive-solid and retain --system-interactive-on-solid for content. */
+  --system-interactive-solid-pressed: var(--color-blue-1100); /* Background fill for a solid action during temporary pointer-down activation. Pair with --system-interactive-on-solid; use solid-selected for a toggled state that persists. */
+  --system-interactive-solid-selected: var(--color-blue-1000); /* Background fill for a persistently selected solid toggle or action chip. Pair with --system-interactive-on-solid; this state remains after activation ends. */
+  --system-interactive-on-solid: var(--color-white); /* Text and icon color on --system-interactive-solid and its hover, pressed, and selected fills. Use for solid action labels, not links on a neutral surface. */
+  --system-interactive-surface: var(--color-blue-100); /* Soft background fill for tinted action chips, selected navigation items, and active options at rest. Pair with --system-interactive-surface-foreground rather than the solid-action foreground. */
+  --system-interactive-surface-hover: color-mix(in srgb, var(--color-neutral-1200) 6%, transparent); /* Translucent background overlay for hovered rows, ghost actions, and soft controls. Composite over the existing surface; this is not an opaque solid-action fill. */
+  --system-interactive-surface-pressed: color-mix(in srgb, var(--color-neutral-1200) 12%, transparent); /* Translucent background overlay for soft controls and rows during temporary pointer-down activation. Composite over the existing surface; use surface-selected for persistent selection. */
+  --system-interactive-surface-selected: var(--color-blue-200); /* Replacement background fill for persistently selected rows, filter chips, and soft toggles. Pair with --system-interactive-surface-foreground; do not stack as a temporary press overlay. */
+  --system-interactive-surface-foreground: var(--color-blue-1100); /* Text and icon color on --system-interactive-surface and --system-interactive-surface-selected. Use for tinted navigation labels, option chips, and soft toggles. */
+  --system-interactive-fg: var(--system-interactive-solid); /* Text and icon color for links, ghost-button labels, and actionable icons on standard neutral content surfaces. Use --system-interactive-on-solid on solid action fills. */
+  --system-interactive-fg-variant: var(--color-blue-1100); /* Stronger interactive text and icon color for links or actions on tinted surfaces where the ordinary interactive foreground lacks separation. Check contrast against the actual tint. */
+  --system-interactive-hover: var(--system-interactive-surface-hover); /* Background alias of --system-interactive-surface-hover for hovered ghost actions and rows. It is translucent and depends on the underlying surface; use solid-hover for solid buttons. */
+  --system-interactive-pressed: var(--color-blue-900); /* Solid background fill for an action during temporary pointer-down activation. Pair with --system-interactive-on-solid; use surface-pressed for translucent overlays on soft controls. */
+  --system-interactive-disabled: var(--color-neutral-500); /* Fill or border color for disabled interactive elements on standard content surfaces. Coordinate with disabled text and icons; use --system-surface-disabled when a neutral disabled background is needed. */
+  --system-interactive-border-default: var(--color-blue-400); /* Resting border color for outlined buttons, selectable cards, and option tiles on standard or soft interactive surfaces. Use a separate focus indicator for keyboard focus. */
+  --system-interactive-border-strong: var(--color-blue-900); /* Emphasized border color for hovered or active outlined buttons and selectable containers. Replace interactive-border-default at that boundary; do not substitute for a focus ring. */
+  --system-interactive-focus-ring: var(--system-border-focus); /* Shared keyboard-focus ring color around interactive controls. References --system-border-focus; keep the ring visible against both the control fill and surrounding surface. */
 
   /* status/error */
-  --system-status-error-solid: var(--color-error-900);
-  --system-status-error-solid-hover: var(--color-error-1000);
-  --system-status-error-solid-pressed: var(--color-error-1100);
-  --system-status-error-solid-selected: var(--color-error-1000);
-  --system-status-error-on-solid: var(--color-white);
-  --system-status-error-surface: var(--color-error-200);
-  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-1000) 6%, transparent);
-  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-1000) 12%, transparent);
-  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-1000) 9%, transparent);
-  --system-status-error-interactive-surface: var(--color-error-100);
-  --system-status-error-fg: var(--color-error-1000);
-  --system-status-error-subtle-text: var(--color-error-1100);
-  --system-status-error-border: var(--color-error-700);
-  --system-status-error-border-strong: var(--color-error-1000);
+  --system-status-error-solid: var(--color-error-900); /* Background fill for solid error badges, banners, and status actions. Pair text and icons with --system-status-error-on-solid; use the soft surface role for low-emphasis messages. */
+  --system-status-error-solid-hover: var(--color-error-1000); /* Background fill for an enabled solid error action during pointer hover. Replace --system-status-error-solid and retain the matching on-solid foreground. */
+  --system-status-error-solid-pressed: var(--color-error-1100); /* Background fill for a solid error action during temporary pointer-down activation. Retain the matching on-solid foreground; use solid-selected for persistent selection. */
+  --system-status-error-solid-selected: var(--color-error-1000); /* Background fill for a persistently selected solid error toggle or filter chip. Pair with --system-status-error-on-solid; distinct from temporary pointer-down activation. */
+  --system-status-error-on-solid: var(--color-white); /* Text and icon color on --system-status-error-solid and its hover, pressed, and selected fills. Use for filled status labels, not inline indicators on a neutral surface. */
+  --system-status-error-surface: var(--color-error-200); /* Soft background fill for error messages, badges, and themed content regions. Pair with the matching status foreground and border, checking contrast against this tint. */
+  --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-1000) 6%, transparent); /* Translucent hover overlay for error-themed rows and soft actions. Composite over their existing surface; do not replace a solid status fill with this overlay. */
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-1000) 12%, transparent); /* Translucent overlay for error-themed rows and soft controls during temporary pointer-down activation. Composite over the existing surface; use surface-selected for persistent selection. */
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-1000) 9%, transparent); /* Background treatment for persistently selected error filter chips or themed rows. Composite over the existing surface when the mapped value is translucent; check the matching foreground against the result. */
+  --system-status-error-interactive-surface: var(--color-error-100); /* Resting tinted background for clickable error rows, status filter chips, and soft status actions. Pair with --system-status-error-fg and apply the matching overlays for hover or press. */
+  --system-status-error-fg: var(--color-error-1000); /* Text and icon color for inline error messages, labels, and indicators on neutral content surfaces. Check contrast on matching soft status fills; use --system-status-error-on-solid on solid fills. */
+  --system-status-error-subtle-text: var(--color-error-1100); /* Text color for error messages on --system-status-error-surface, such as a softly tinted validation summary. Check contrast in each mode; use on-solid for a solid status fill. */
+  --system-status-error-border: var(--color-error-700); /* Border color for softly tinted error messages, badges, and content containers. Pair with --system-status-error-surface; use border-strong when the boundary needs stronger emphasis. */
+  --system-status-error-border-strong: var(--color-error-1000); /* Emphasized border color for error-themed controls or selected containers. Pair with the matching soft or interactive surface; retain a separate keyboard-focus indicator. Use for invalid input, select, and textarea boundaries alongside an error message. */
 
   /* status/success */
-  --system-status-success-solid: var(--color-success-900);
-  --system-status-success-solid-hover: var(--color-success-1000);
-  --system-status-success-solid-pressed: var(--color-success-1100);
-  --system-status-success-solid-selected: var(--color-success-1000);
-  --system-status-success-on-solid: var(--color-white);
-  --system-status-success-surface: var(--color-success-100);
-  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-900) 6%, transparent);
-  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-900) 12%, transparent);
-  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-900) 10%, transparent);
-  --system-status-success-interactive-surface: var(--color-success-200);
-  --system-status-success-fg: var(--color-success-900);
-  --system-status-success-border: var(--color-success-600);
-  --system-status-success-border-strong: var(--color-success-800);
+  --system-status-success-solid: var(--color-success-900); /* Background fill for solid success badges, banners, and status actions. Pair text and icons with --system-status-success-on-solid; use the soft surface role for low-emphasis messages. */
+  --system-status-success-solid-hover: var(--color-success-1000); /* Background fill for an enabled solid success action during pointer hover. Replace --system-status-success-solid and retain the matching on-solid foreground. */
+  --system-status-success-solid-pressed: var(--color-success-1100); /* Background fill for a solid success action during temporary pointer-down activation. Retain the matching on-solid foreground; use solid-selected for persistent selection. */
+  --system-status-success-solid-selected: var(--color-success-1000); /* Background fill for a persistently selected solid success toggle or filter chip. Pair with --system-status-success-on-solid; distinct from temporary pointer-down activation. */
+  --system-status-success-on-solid: var(--color-white); /* Text and icon color on --system-status-success-solid and its hover, pressed, and selected fills. Use for filled status labels, not inline indicators on a neutral surface. */
+  --system-status-success-surface: var(--color-success-100); /* Soft background fill for success messages, badges, and themed content regions. Pair with the matching status foreground and border, checking contrast against this tint. */
+  --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-900) 6%, transparent); /* Translucent hover overlay for success-themed rows and soft actions. Composite over their existing surface; do not replace a solid status fill with this overlay. */
+  --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-900) 12%, transparent); /* Translucent overlay for success-themed rows and soft controls during temporary pointer-down activation. Composite over the existing surface; use surface-selected for persistent selection. */
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-900) 10%, transparent); /* Background treatment for persistently selected success filter chips or themed rows. Composite over the existing surface when the mapped value is translucent; check the matching foreground against the result. */
+  --system-status-success-interactive-surface: var(--color-success-200); /* Resting tinted background for clickable success rows, status filter chips, and soft status actions. Pair with --system-status-success-fg and apply the matching overlays for hover or press. */
+  --system-status-success-fg: var(--color-success-900); /* Text and icon color for inline success messages, labels, and indicators on neutral content surfaces. Check contrast on matching soft status fills; use --system-status-success-on-solid on solid fills. */
+  --system-status-success-border: var(--color-success-600); /* Border color for softly tinted success messages, badges, and content containers. Pair with --system-status-success-surface; use border-strong when the boundary needs stronger emphasis. */
+  --system-status-success-border-strong: var(--color-success-800); /* Emphasized border color for success-themed controls or selected containers. Pair with the matching soft or interactive surface; retain a separate keyboard-focus indicator. */
 
   /* status/warning */
-  --system-status-warning-solid: var(--color-warning-900);
-  --system-status-warning-solid-hover: var(--color-warning-1000);
-  --system-status-warning-solid-pressed: var(--color-warning-1100);
-  --system-status-warning-solid-selected: var(--color-warning-1000);
-  --system-status-warning-on-solid: var(--color-white);
-  --system-status-warning-surface: var(--color-warning-100);
-  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-1100) 6%, transparent);
-  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-1100) 12%, transparent);
-  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-1100) 10%, transparent);
-  --system-status-warning-interactive-surface: var(--color-warning-200);
-  --system-status-warning-fg: var(--color-warning-1100);
-  --system-status-warning-border: var(--color-warning-800);
-  --system-status-warning-border-strong: var(--color-warning-900);
+  --system-status-warning-solid: var(--color-warning-900); /* Background fill for solid warning badges, banners, and status actions. Pair text and icons with --system-status-warning-on-solid; use the soft surface role for low-emphasis messages. */
+  --system-status-warning-solid-hover: var(--color-warning-1000); /* Background fill for an enabled solid warning action during pointer hover. Replace --system-status-warning-solid and retain the matching on-solid foreground. */
+  --system-status-warning-solid-pressed: var(--color-warning-1100); /* Background fill for a solid warning action during temporary pointer-down activation. Retain the matching on-solid foreground; use solid-selected for persistent selection. */
+  --system-status-warning-solid-selected: var(--color-warning-1000); /* Background fill for a persistently selected solid warning toggle or filter chip. Pair with --system-status-warning-on-solid; distinct from temporary pointer-down activation. */
+  --system-status-warning-on-solid: var(--color-white); /* Text and icon color on --system-status-warning-solid and its hover, pressed, and selected fills. Use for filled status labels, not inline indicators on a neutral surface. */
+  --system-status-warning-surface: var(--color-warning-100); /* Soft background fill for warning messages, badges, and themed content regions. Pair with the matching status foreground and border, checking contrast against this tint. */
+  --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-1100) 6%, transparent); /* Translucent hover overlay for warning-themed rows and soft actions. Composite over their existing surface; do not replace a solid status fill with this overlay. */
+  --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-1100) 12%, transparent); /* Translucent overlay for warning-themed rows and soft controls during temporary pointer-down activation. Composite over the existing surface; use surface-selected for persistent selection. */
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-1100) 10%, transparent); /* Background treatment for persistently selected warning filter chips or themed rows. Composite over the existing surface when the mapped value is translucent; check the matching foreground against the result. */
+  --system-status-warning-interactive-surface: var(--color-warning-200); /* Resting tinted background for clickable warning rows, status filter chips, and soft status actions. Pair with --system-status-warning-fg and apply the matching overlays for hover or press. */
+  --system-status-warning-fg: var(--color-warning-1100); /* Text and icon color for inline warning messages, labels, and indicators on neutral content surfaces. Check contrast on matching soft status fills; use --system-status-warning-on-solid on solid fills. */
+  --system-status-warning-border: var(--color-warning-800); /* Border color for softly tinted warning messages, badges, and content containers. Pair with --system-status-warning-surface; use border-strong when the boundary needs stronger emphasis. */
+  --system-status-warning-border-strong: var(--color-warning-900); /* Emphasized border color for warning-themed controls or selected containers. Pair with the matching soft or interactive surface; retain a separate keyboard-focus indicator. */
 
   /* status/info */
-  --system-status-info-solid: var(--color-info-900);
-  --system-status-info-solid-hover: var(--color-info-1000);
-  --system-status-info-solid-pressed: var(--color-info-1100);
-  --system-status-info-solid-selected: var(--color-info-1000);
-  --system-status-info-on-solid: var(--color-white);
-  --system-status-info-surface: var(--color-info-100);
-  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-1100) 6%, transparent);
-  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-1100) 12%, transparent);
-  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-800) 10%, transparent);
-  --system-status-info-interactive-surface: var(--color-info-200);
-  --system-status-info-fg: var(--color-info-1100);
-  --system-status-info-border: var(--color-info-600);
-  --system-status-info-border-strong: var(--color-info-900);
+  --system-status-info-solid: var(--color-info-900); /* Background fill for solid info badges, banners, and status actions. Pair text and icons with --system-status-info-on-solid; use the soft surface role for low-emphasis messages. */
+  --system-status-info-solid-hover: var(--color-info-1000); /* Background fill for an enabled solid info action during pointer hover. Replace --system-status-info-solid and retain the matching on-solid foreground. */
+  --system-status-info-solid-pressed: var(--color-info-1100); /* Background fill for a solid info action during temporary pointer-down activation. Retain the matching on-solid foreground; use solid-selected for persistent selection. */
+  --system-status-info-solid-selected: var(--color-info-1000); /* Background fill for a persistently selected solid info toggle or filter chip. Pair with --system-status-info-on-solid; distinct from temporary pointer-down activation. */
+  --system-status-info-on-solid: var(--color-white); /* Text and icon color on --system-status-info-solid and its hover, pressed, and selected fills. Use for filled status labels, not inline indicators on a neutral surface. */
+  --system-status-info-surface: var(--color-info-100); /* Soft background fill for info messages, badges, and themed content regions. Pair with the matching status foreground and border, checking contrast against this tint. */
+  --system-status-info-surface-hover: color-mix(in srgb, var(--color-info-1100) 6%, transparent); /* Translucent hover overlay for info-themed rows and soft actions. Composite over their existing surface; do not replace a solid status fill with this overlay. */
+  --system-status-info-surface-pressed: color-mix(in srgb, var(--color-info-1100) 12%, transparent); /* Translucent overlay for info-themed rows and soft controls during temporary pointer-down activation. Composite over the existing surface; use surface-selected for persistent selection. */
+  --system-status-info-surface-selected: color-mix(in srgb, var(--color-info-800) 10%, transparent); /* Background treatment for persistently selected info filter chips or themed rows. Composite over the existing surface when the mapped value is translucent; check the matching foreground against the result. */
+  --system-status-info-interactive-surface: var(--color-info-200); /* Resting tinted background for clickable info rows, status filter chips, and soft status actions. Pair with --system-status-info-fg and apply the matching overlays for hover or press. */
+  --system-status-info-fg: var(--color-info-1100); /* Text and icon color for inline info messages, labels, and indicators on neutral content surfaces. Check contrast on matching soft status fills; use --system-status-info-on-solid on solid fills. */
+  --system-status-info-border: var(--color-info-600); /* Border color for softly tinted info messages, badges, and content containers. Pair with --system-status-info-surface; use border-strong when the boundary needs stronger emphasis. */
+  --system-status-info-border-strong: var(--color-info-900); /* Emphasized border color for info-themed controls or selected containers. Pair with the matching soft or interactive surface; retain a separate keyboard-focus indicator. */
 
   /* status/neutral */
-  --system-status-neutral-solid: var(--color-neutral-1000);
-  --system-status-neutral-solid-hover: var(--color-neutral-1100);
-  --system-status-neutral-solid-pressed: var(--color-neutral-1200);
-  --system-status-neutral-solid-selected: var(--color-neutral-1100);
-  --system-status-neutral-on-solid: var(--color-neutral-100);
-  --system-status-neutral-surface: var(--color-neutral-200);
-  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-neutral-1200) 6%, transparent);
-  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-neutral-1200) 12%, transparent);
-  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-neutral-1200) 10%, transparent);
-  --system-status-neutral-interactive-surface: var(--color-neutral-300);
-  --system-status-neutral-fg: var(--color-neutral-1000);
-  --system-status-neutral-border: var(--color-neutral-700);
-  --system-status-neutral-border-strong: var(--color-neutral-900);
+  --system-status-neutral-solid: var(--color-neutral-1000); /* Background fill for solid neutral badges, banners, and status actions. Pair text and icons with --system-status-neutral-on-solid; use the soft surface role for low-emphasis messages. */
+  --system-status-neutral-solid-hover: var(--color-neutral-1100); /* Background fill for an enabled solid neutral action during pointer hover. Replace --system-status-neutral-solid and retain the matching on-solid foreground. */
+  --system-status-neutral-solid-pressed: var(--color-neutral-1200); /* Background fill for a solid neutral action during temporary pointer-down activation. Retain the matching on-solid foreground; use solid-selected for persistent selection. */
+  --system-status-neutral-solid-selected: var(--color-neutral-1100); /* Background fill for a persistently selected solid neutral toggle or filter chip. Pair with --system-status-neutral-on-solid; distinct from temporary pointer-down activation. */
+  --system-status-neutral-on-solid: var(--color-neutral-100); /* Text and icon color on --system-status-neutral-solid and its hover, pressed, and selected fills. Use for filled status labels, not inline indicators on a neutral surface. */
+  --system-status-neutral-surface: var(--color-neutral-200); /* Soft background fill for neutral messages, badges, and themed content regions. Pair with the matching status foreground and border, checking contrast against this tint. */
+  --system-status-neutral-surface-hover: color-mix(in srgb, var(--color-neutral-1200) 6%, transparent); /* Translucent hover overlay for neutral-themed rows and soft actions. Composite over their existing surface; do not replace a solid status fill with this overlay. */
+  --system-status-neutral-surface-pressed: color-mix(in srgb, var(--color-neutral-1200) 12%, transparent); /* Translucent overlay for neutral-themed rows and soft controls during temporary pointer-down activation. Composite over the existing surface; use surface-selected for persistent selection. */
+  --system-status-neutral-surface-selected: color-mix(in srgb, var(--color-neutral-1200) 10%, transparent); /* Background treatment for persistently selected neutral filter chips or themed rows. Composite over the existing surface when the mapped value is translucent; check the matching foreground against the result. */
+  --system-status-neutral-interactive-surface: var(--color-neutral-300); /* Resting tinted background for clickable neutral rows, status filter chips, and soft status actions. Pair with --system-status-neutral-fg and apply the matching overlays for hover or press. */
+  --system-status-neutral-fg: var(--color-neutral-1000); /* Text and icon color for inline neutral messages, labels, and indicators on neutral content surfaces. Check contrast on matching soft status fills; use --system-status-neutral-on-solid on solid fills. */
+  --system-status-neutral-border: var(--color-neutral-700); /* Border color for softly tinted neutral messages, badges, and content containers. Pair with --system-status-neutral-surface; use border-strong when the boundary needs stronger emphasis. */
+  --system-status-neutral-border-strong: var(--color-neutral-900); /* Emphasized border color for neutral-themed controls or selected containers. Pair with the matching soft or interactive surface; retain a separate keyboard-focus indicator. */
 
   /* status/disabled */
-  --system-status-disabled: var(--color-neutral-700);
+  --system-status-disabled: var(--color-neutral-700); /* Foreground color for disabled status labels and indicators on standard content surfaces. Use alongside the disabled treatment of the containing control, not for enabled low-emphasis statuses. */
 
   /* status/muted */
-  --system-status-muted: var(--color-neutral-900);
+  --system-status-muted: var(--color-neutral-900); /* Low-emphasis foreground color for supplementary status labels and indicators on standard content surfaces. Check readability and retain a text label when color conveys meaning. */
 
   /* status/primary */
-  --system-status-primary: var(--color-neutral-1200);
+  --system-status-primary: var(--color-neutral-1200); /* Primary foreground color for status labels and indicators on standard content surfaces. Use for the main status information when no error, success, warning, or info treatment is required. */
 
   /* status/secondary */
-  --system-status-secondary: var(--color-neutral-1000);
+  --system-status-secondary: var(--color-neutral-1000); /* Secondary foreground color for supporting status labels and metadata on standard content surfaces. Use status-primary for the main status information. */
 
   /* status/inverse */
-  --system-status-inverse: var(--color-white);
+  --system-status-inverse: var(--color-white); /* Foreground color for status labels and indicators on --system-surface-inverse. Check the pairing in each mode; use status-text-on-deep for an always-dark region. */
 
   /* status/on */
-  --system-status-on-accent: var(--color-white);
+  --system-status-on-accent: var(--color-white); /* Foreground color for status labels and icons on accent-filled regions. Prefer the matching status on-solid role on a status solid fill; do not use on neutral content surfaces. */
 
   /* status/placeholder */
-  --system-status-placeholder: var(--color-neutral-800);
+  --system-status-placeholder: var(--color-neutral-800); /* Foreground color for placeholder status hints in an empty status-selection control. Do not use for an actual status value or a persistent accessible label. */
 
   /* status/text */
-  --system-status-text-on-deep: var(--color-white);
+  --system-status-text-on-deep: var(--color-white); /* Text color for status labels on --system-surface-deep, such as status information in an immersive viewer. Use instead of ordinary status foregrounds on that always-dark surface. */
 
   /* status/status */
 }

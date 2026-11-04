@@ -1,10 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { primitiveTokens } from './token-catalog';
+import { ReferenceHeader } from './reference-header';
 
 function TypographyAndMotion() {
   return (
     <div className="sbx-reference">
-      <h1>Typography and motion primitives</h1>
+      <ReferenceHeader
+        eyebrow="Foundations / Typography & Motion / Primitives"
+        title="Typography and motion primitives"
+        description="The type and timing vocabulary behind your interface. Compare text scales and line heights before composing component styles."
+      />
       {Object.entries(primitiveTokens).filter(([name]) => /^--(font|line-height|duration)-/.test(name)).map(([name, value]) => (
         <div key={name} className="sbx-section">
           <code>{name}: {value}</code>

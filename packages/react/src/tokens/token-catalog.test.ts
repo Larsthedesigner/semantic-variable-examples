@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { primitiveTokens, tokenCatalog } from './token-catalog';
+import { primitiveTokens, tokenCatalog, tokenUsage } from './token-catalog';
+import semanticSource from '../../../tokens/src/semantic.css?raw';
 
 function luminance(hex: string) {
   const channels = hex.slice(1).match(/../g);
@@ -12,6 +13,13 @@ function luminance(hex: string) {
 }
 
 describe('Token foundations', () => {
+  it('uses the inline base-declaration comment for every system usage', () => {
+    const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
+    const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];
+    expect(documented).toHaveLength(145);
+    for (const [, name, usage] of documented) expect(tokenUsage(name)).toBe(usage);
+    expect(() => tokenUsage('--system-undocumented')).toThrow('Missing usage description');
+  });
   it.each(['neutral', 'blue', 'error', 'success', 'warning', 'info'])('has exactly 12 progressively darker %s stops', (family) => {
     const ramp = Object.entries(primitiveTokens).filter(([name]) => name.startsWith(`--color-${family}-`));
     expect(ramp.map(([name]) => name)).toEqual(Array.from({ length: 12 }, (_, index) => `--color-${family}-${(index + 1) * 100}`));
@@ -88,8 +96,30 @@ describe('Token foundations', () => {
       expect(token.value).not.toContain('var(');
       expect(token.expression).not.toContain('magenta');
       expect(token.usage.length).toBeGreaterThan(20);
+      expect(token.usage).not.toContain('{status}');
+      for (const [reference] of token.usage.matchAll(/--system-[\w-]+(?<!-)/g)) {
+        expect(catalog.some(entry => entry.name === reference), `${token.name} usage references ${reference}`).toBe(true);
+      }
       for (const primitive of token.primitives) expect(primitiveTokens[primitive]).toBeDefined();
     }
+  });
+
+  it('distinguishes foreground surface pairings and structural versus control boundaries', () => {
+    expect(tokenUsage('--system-icon-deep')).toContain('intentionally receding');
+    expect(tokenUsage('--system-icon-deep')).toContain('--system-icon-on-deep');
+    expect(tokenUsage('--system-icon-on-deep')).toContain('--system-surface-deep');
+    expect(tokenUsage('--system-text-inverse')).toContain('--system-surface-inverse');
+    expect(tokenUsage('--system-interactive-surface-foreground')).toContain('--system-interactive-surface-selected');
+    expect(tokenUsage('--system-border-subtle')).toContain('Do not substitute');
+    expect(tokenUsage('--system-status-secondary')).toContain('status labels');
+  });
+
+  it.each(['error', 'success', 'warning', 'info', 'neutral'])('documents concrete %s status elements and companion roles', family => {
+    expect(tokenUsage(`--system-status-${family}-fg`)).toContain('neutral content surfaces');
+    expect(tokenUsage(`--system-status-${family}-fg`)).toContain(`--system-status-${family}-on-solid`);
+    expect(tokenUsage(`--system-status-${family}-interactive-surface`)).toContain('filter chips');
+    expect(tokenUsage(`--system-status-${family}-surface-selected`)).toContain('translucent');
+    expect(tokenUsage(`--system-status-${family}-border-strong`).includes('invalid input')).toBe(family === 'error');
   });
 
   it.each(['light', 'dark', 'high-contrast'] as const)('has exact T-shirt spacer mappings in %s', (mode) => {
@@ -102,6 +132,19 @@ describe('Token foundations', () => {
         expect(token?.value).toBe(`${unit === 'rem' ? step / 16 : step}${unit}`);
       }
     }
+  });
+
+  it('documents root-relative versus fixed CSS-pixel spacer behavior and intended consumers', () => {
+    for (const size of ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl']) {
+      expect(tokenUsage(`--system-spacer-rem-${size}`)).toContain('root font size');
+      const fixedUsage = tokenUsage(`--system-spacer-px-${size}`);
+      expect(fixedUsage).toContain('CSS-pixel');
+      expect(fixedUsage).toContain('Unchanged by root font-size changes, but enlarged by page zoom');
+    }
+    expect(tokenUsage('--system-spacer-rem-xs')).toContain('supporting text and icon');
+    expect(tokenUsage('--system-spacer-rem-md')).toContain('menu items');
+    expect(tokenUsage('--system-spacer-px-md')).toContain('medium button');
+    expect(tokenUsage('--system-spacer-rem-3xl')).toContain('responsive layout rules');
   });
 
   it('keeps component-owned roles out of app semantics and resolves owner catalogs', () => {
