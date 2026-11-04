@@ -29,7 +29,7 @@
  * -------------------------
  * 1. Size scale                    – --size-px-{step}, --size-rem-{step}
  * 2. Type ramp                     – --font-family-sans, --font-size-*,
- *                              --line-height-*, --font-weight-medium
+ *                              --line-height-*, --font-weight-*, --letter-spacing-*
  * 3. Motion                        – --duration-fast
  * 4. Color palettes                – white, blue, status, neutral
  */
@@ -71,19 +71,43 @@
 
   /* ── Type ramp ───────────────────────────────────────────────────────────── */
 
-  --font-family-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-family-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --font-size-sm: var(--size-rem-14);
   --font-size-md: var(--size-rem-16);
   --font-size-lg: var(--size-rem-18);
   --font-size-xs: var(--size-rem-12);
+  --font-size-xl: var(--size-rem-20);
+  --font-size-2xl: var(--size-rem-24);
+  --font-size-3xl: var(--size-rem-28);
+  --font-size-4xl: var(--size-rem-32);
+  --font-size-5xl: var(--size-rem-40);
 
   --line-height-sm: var(--size-rem-20);
   --line-height-md: var(--size-rem-24);
   --line-height-lg: var(--size-rem-28);
   --line-height-xs: var(--size-rem-16);
 
+  /* Unitless ratios for system type; legacy dimension aliases above stay stable. */
+  --line-height-ratio-xs: calc(16 / 12);
+  --line-height-ratio-sm: calc(20 / 14);
+  --line-height-ratio-md: 1.5;
+  --line-height-ratio-lg: calc(28 / 18);
+  --line-height-ratio-xl: 1.4;
+  --line-height-ratio-2xl: calc(32 / 24);
+  --line-height-ratio-3xl: calc(36 / 28);
+  --line-height-ratio-4xl: 1.25;
+  --line-height-ratio-5xl: 1.2;
+
+  --font-weight-regular: 400;
   --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --letter-spacing-normal: 0;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-heading: -0.015em;
 
   /* ── Motion ──────────────────────────────────────────────────────────────── */
 

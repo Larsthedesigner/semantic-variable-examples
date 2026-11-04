@@ -149,7 +149,8 @@ those preferences. These roles are consistent across theme modes.
 Storybook's **Foundations / Color** and **Foundations / Size** each have
 Primitives and Semantics stories. Color Semantics lists app-wide color roles;
 Size Semantics lists the spacer scale with rendered previews.
-**Foundations / Typography And Motion** retains its primitive reference.
+**Foundations / Typography** has Primitives and Semantics stories, while
+**Foundations / Motion** retains the timing primitive reference.
 Color Semantics shows the CSS variable, square light-mode and dark-mode color
 previews, usage guidance, the authored light-mode mapping, and the resolved
 light-mode value. Both previews remain fixed when the mode selector changes.
@@ -197,6 +198,77 @@ Input/Textarea vertical padding. Their component tokens reference `--size-rem-6`
 because the T-shirt spacer scale has no 6px step. Switch thumb inset, focus-ring
 offset/width, radii, and control/icon dimensions are geometry, not layout
 spacers, and remain independent. Zero spacing remains a literal reset.
+
+### Typography foundations
+
+Typography follows primitives into prescribed system bundles. Primitive sizes
+run from xs (12px equivalent) through 5xl (40px equivalent), with sans/monospace
+families, 400/500/600/700 weights, unitless line-height ratios, and tracking.
+Font sizes use rem. Existing dimension-based `--line-height-*` primitives
+remain available; system bundles use `--line-height-ratio-*` so their line
+boxes follow the element's font size.
+
+The default sans family is self-hosted **Inter Variable**, provided by the
+`@fontsource-variable/inter` dependency and imported by the component stylesheet.
+Its normal style supports weights 100-900 and loads with `font-display: swap`;
+the system-font fallback remains available during loading. Font files are
+served by the application's CSS bundler, not requested from Google Fonts.
+The package includes the SIL Open Font License, also copied to
+`@svx/react/dist/inter-OFL.txt` by the build. Retain the font license when
+redistributing font assets. Use the same family token to rebrand centrally.
+
+Each `--system-type-{role}` bundle has `-font`, `-tracking`, and `-color` members:
+
+```css
+.page-title {
+  font: var(--system-type-h1-font);
+  letter-spacing: var(--system-type-h1-tracking);
+  color: var(--system-type-h1-color);
+}
+```
+
+Apply the complete bundle rather than independently choosing size, weight,
+tracking, or foreground. `font` is a CSS shorthand; it does not include
+letter spacing or color. Type styles do not supply margins or layout gaps.
+
+| Role | Intended markup | Baseline size / line height | Weight | Foreground |
+| --- | --- | --- | --- | --- |
+| h1 | h1, main page title | 32 / 40 | 700 | Primary |
+| h2 | h2, major section | 24 / 32 | 600 | Primary |
+| h3 | h3, subsection | 20 / 28 | 600 | Primary |
+| h4 | h4, nested subsection | 18 / 28 | 600 | Primary |
+| h5 | h5, deeper heading | 16 / 24 | 600 | Primary |
+| h6 | h6, deepest heading | 14 / 20 | 600 | Primary |
+| body | p, ordinary content | 16 / 24 | 400 | Primary |
+| body-secondary | p, supporting content | 16 / 24 | 400 | Secondary |
+| body-sm | p, compact content | 14 / 20 | 400 | Primary |
+| label-sm | span, compact interface text | 12 / 16 | 500 | Primary |
+| label-md | span, standard interface text | 14 / 20 | 500 | Primary |
+| label-lg | span, larger interface text | 16 / 24 | 500 | Primary |
+| caption | span, metadata and annotations | 12 / 16 | 400 | Secondary |
+| code | code, inline technical content | 14 / 20 | 400 | Primary |
+
+Heading levels follow document hierarchy, not the desired visual size.
+The label bundles do not replace the accessible Label component. Label sizes
+sm/md/lg map to the corresponding system label fonts and tracking. SupportingText
+sm/md use caption, while lg uses body-sm. Their existing sizes, line heights,
+native markup, required/optional indicators, icons, and accessible associations
+are preserved. Both components retain secondary, error, success, or disabled
+foreground handling rather than inheriting the generic type-bundle color.
+Other controls retain their existing typography mappings.
+These bundles target standard content surfaces; no speculative accent,
+inverse, or on-deep variants are introduced. Foreground aliases follow the
+theme's existing text roles in root-level and scoped dark/high-contrast modes.
+
+Secondary text uses neutral 900 (`#595964`) in light mode and neutral 600
+(`#afafb8`) in dark mode for clearer separation from primary text. It retains
+at least 4.5:1 contrast on the standard content surfaces tested in each mode.
+High-contrast mode intentionally retains the primary-strength foreground.
+
+Typography Semantics displays all 14 bundles as real text specimens, with
+intended markup, usage, authored mappings, resolved values, and primitive
+dependencies. These are token foundations, not a new public React typography
+component or global heading reset.
 
 ### Form text foundations
 

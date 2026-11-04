@@ -35,6 +35,7 @@ describe('Foundation reference categories', () => {
     for (const row of rows) {
       expect(within(row).getAllByRole('cell')[0].textContent).toMatch(/^--system-/);
       expect(row.textContent).not.toContain('--system-spacer-');
+      expect(row.textContent).not.toContain('--system-type-');
     }
   });
 

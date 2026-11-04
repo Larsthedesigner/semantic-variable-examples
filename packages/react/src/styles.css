@@ -1,5 +1,6 @@
 /* Imports the built semantic/primitive tokens from @svx/tokens. */
 @import '@svx/tokens/dist/css/index.css';
+@import '@fontsource-variable/inter';
 
 :root {
   --svx-material-symbol-size-xs: 12px;
@@ -18,12 +19,15 @@
 
 .svx-label--sm {
   font: var(--component-label-sm);
+  letter-spacing: var(--component-label-tracking-sm);
 }
 .svx-label--md {
   font: var(--component-label-md);
+  letter-spacing: var(--component-label-tracking-md);
 }
 .svx-label--lg {
   font: var(--component-label-lg);
+  letter-spacing: var(--component-label-tracking-lg);
 }
 .svx-label {
   display: inline-flex;
@@ -36,29 +40,36 @@
 }
 .svx-label--md[data-case='uppercase'] {
   font: var(--component-label-sm);
+  letter-spacing: var(--component-label-tracking-sm);
 }
 .svx-label--lg[data-case='uppercase'] {
   font: var(--component-label-md);
+  letter-spacing: var(--component-label-tracking-md);
 }
 .svx-label__required {
   color: var(--system-status-error-fg);
 }
 .svx-label__optional {
   font: var(--component-supporting-text-md);
+  letter-spacing: var(--component-supporting-text-tracking-md);
 }
 .svx-label--lg .svx-label__optional {
   font: var(--component-supporting-text-lg);
+  letter-spacing: var(--component-supporting-text-tracking-lg);
 }
 .svx-supporting-text--sm {
   font: var(--component-supporting-text-sm);
+  letter-spacing: var(--component-supporting-text-tracking-sm);
   --svx-material-symbol-size: var(--component-supporting-icon-sm);
 }
 .svx-supporting-text--md {
   font: var(--component-supporting-text-md);
+  letter-spacing: var(--component-supporting-text-tracking-md);
   --svx-material-symbol-size: var(--component-supporting-icon-md);
 }
 .svx-supporting-text--lg {
   font: var(--component-supporting-text-lg);
+  letter-spacing: var(--component-supporting-text-tracking-lg);
   --svx-material-symbol-size: var(--component-supporting-icon-lg);
 }
 .svx-supporting-text {

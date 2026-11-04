@@ -237,6 +237,33 @@
 .sbx-section {
   margin-block: var(--system-spacer-rem-xl);
 }
+.sbx-type-style {
+  margin-block: var(--system-spacer-rem-3xl);
+}
+.sbx-type-style__heading {
+  display: flex;
+  align-items: baseline;
+  gap: var(--system-spacer-rem-md);
+}
+.sbx-type-style__heading > code,
+.sbx-type-usage {
+  color: var(--system-text-secondary);
+}
+.sbx-type-specimen {
+  padding: var(--system-spacer-rem-xl);
+  border: 1px solid var(--system-border-subtle);
+  border-radius: var(--system-spacer-rem-sm);
+  overflow-wrap: anywhere;
+}
+.sbx-type-usage {
+  max-width: 90ch;
+  line-height: 1.65;
+}
+.sbx-type-primitive {
+  display: block;
+  overflow-wrap: anywhere;
+  line-height: var(--line-height-ratio-md);
+}
 .sbx-palette-scroll {
   overflow-x: auto;
   padding-block-end: var(--system-spacer-rem-sm);

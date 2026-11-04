@@ -16,7 +16,7 @@ describe('Token foundations', () => {
   it('uses the inline base-declaration comment for every system usage', () => {
     const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
     const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];
-    expect(documented).toHaveLength(145);
+    expect(documented).toHaveLength(187);
     for (const [, name, usage] of documented) expect(tokenUsage(name)).toBe(usage);
     expect(() => tokenUsage('--system-undocumented')).toThrow('Missing usage description');
   });
@@ -90,7 +90,7 @@ describe('Token foundations', () => {
 
   it.each(['light', 'dark', 'high-contrast'] as const)('documents and resolves every semantic token in %s', (mode) => {
     const catalog = tokenCatalog(mode);
-    expect(catalog.length).toBe(145);
+    expect(catalog.length).toBe(187);
     for (const token of catalog) {
       expect(token.name).toMatch(/^--system-/);
       expect(token.value).not.toContain('var(');
@@ -145,6 +145,63 @@ describe('Token foundations', () => {
     expect(tokenUsage('--system-spacer-rem-md')).toContain('menu items');
     expect(tokenUsage('--system-spacer-px-md')).toContain('medium button');
     expect(tokenUsage('--system-spacer-rem-3xl')).toContain('responsive layout rules');
+  });
+
+  it.each(['light', 'dark', 'high-contrast'] as const)('provides 14 complete typography bundles in %s', mode => {
+    const catalog = tokenCatalog(mode);
+    const types = catalog.filter(token => token.name.startsWith('--system-type-'));
+    expect(types).toHaveLength(42);
+    const expected = {
+      h1: ['700', '2rem', '1.25'],
+      h2: ['600', '1.5rem', 'calc(32 / 24)'],
+      h3: ['600', '1.25rem', '1.4'],
+      h4: ['600', '1.125rem', 'calc(28 / 18)'],
+      h5: ['600', '1rem', '1.5'],
+      h6: ['600', '0.875rem', 'calc(20 / 14)'],
+      body: ['400', '1rem', '1.5'],
+      'body-secondary': ['400', '1rem', '1.5'],
+      'body-sm': ['400', '0.875rem', 'calc(20 / 14)'],
+      'label-sm': ['500', '0.75rem', 'calc(16 / 12)'],
+      'label-md': ['500', '0.875rem', 'calc(20 / 14)'],
+      'label-lg': ['500', '1rem', '1.5'],
+      caption: ['400', '0.75rem', 'calc(16 / 12)'],
+      code: ['400', '0.875rem', 'calc(20 / 14)'],
+    };
+    for (const [type, [weight, size, ratio]] of Object.entries(expected)) {
+      const font = types.find(token => token.name === `--system-type-${type}-font`);
+      expect(font?.value).toBe(`${weight} ${size}/${ratio} ${primitiveTokens[type === 'code' ? '--font-family-mono' : '--font-family-sans']}`);
+      expect(types.find(token => token.name === `--system-type-${type}-tracking`)).toBeDefined();
+      const foreground = type.includes('secondary') || type === 'caption' ? '--system-text-secondary' : '--system-text-primary';
+      expect(types.find(token => token.name === `--system-type-${type}-color`)?.value).toBe(catalog.find(token => token.name === foreground)?.value);
+    }
+  });
+
+  it('uses Inter and removes unused body variants without breaking form typography mappings', () => {
+    expect(primitiveTokens['--font-family-sans']).toMatch(/^'Inter Variable',/);
+    const system = tokenCatalog('light');
+    expect(system.some(token => token.name.startsWith('--system-type-body-sm-secondary-'))).toBe(false);
+    for (const [size, role] of [['sm', 'label-sm'], ['md', 'label-md'], ['lg', 'label-lg']]) {
+      const label = tokenCatalog('light', 'label');
+      expect(label.find(token => token.name === `--component-label-${size}`)?.expression).toBe(`var(--system-type-${role}-font)`);
+      expect(label.find(token => token.name === `--component-label-tracking-${size}`)?.expression).toBe(`var(--system-type-${role}-tracking)`);
+    }
+    for (const [size, role] of [['sm', 'caption'], ['md', 'caption'], ['lg', 'body-sm']]) {
+      const supporting = tokenCatalog('light', 'supporting-text');
+      expect(supporting.find(token => token.name === `--component-supporting-text-${size}`)?.expression).toBe(`var(--system-type-${role}-font)`);
+      expect(supporting.find(token => token.name === `--component-supporting-text-tracking-${size}`)?.expression).toBe(`var(--system-type-${role}-tracking)`);
+    }
+  });
+
+  it.each(['light', 'dark', 'high-contrast'] as const)('keeps secondary text readable and deliberately emphasized in %s', mode => {
+    const tokens = Object.fromEntries(tokenCatalog(mode).map(token => [token.name, token.value]));
+    const secondary = luminance(tokens['--system-text-secondary']);
+    for (const surface of ['default', 'sunken', 'sunken-soft', 'raised', 'overlay', 'panel']) {
+      const background = luminance(tokens[`--system-surface-${surface}`]);
+      expect((Math.max(secondary, background) + 0.05) / (Math.min(secondary, background) + 0.05), `${mode} ${surface}`).toBeGreaterThanOrEqual(4.5);
+    }
+    if (mode === 'light') expect(tokens['--system-text-secondary']).toBe(primitiveTokens['--color-neutral-900']);
+    if (mode === 'dark') expect(tokens['--system-text-secondary']).toBe(primitiveTokens['--color-neutral-600']);
+    if (mode === 'high-contrast') expect(tokens['--system-text-secondary']).toBe(tokens['--system-text-primary']);
   });
 
   it('keeps component-owned roles out of app semantics and resolves owner catalogs', () => {

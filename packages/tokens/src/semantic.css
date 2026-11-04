@@ -38,6 +38,50 @@
 
 
 @theme static {
+  /* Prescribed typography bundles: font shorthand, tracking, and foreground. */
+  --system-type-h1-font: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-ratio-4xl) var(--font-family-sans); /* Main page heading; normally one per page. Render as h1 and apply the matching tracking and color members. */
+  --system-type-h1-tracking: var(--letter-spacing-tight); /* Letter spacing for the h1 bundle; apply with its font and color, not as an independent visual variant. */
+  --system-type-h1-color: var(--system-text-primary); /* Foreground for the h1 page title on standard content surfaces. Not for solid accent or always-dark fills. */
+  --system-type-h2-font: var(--font-weight-semibold) var(--font-size-2xl)/var(--line-height-ratio-2xl) var(--font-family-sans); /* Major section heading beneath h1. Render as h2; choose by document hierarchy rather than desired visual size. */
+  --system-type-h2-tracking: var(--letter-spacing-heading); /* Letter spacing for the h2 bundle; apply with its font and color. */
+  --system-type-h2-color: var(--system-text-primary); /* Foreground for h2 section headings on standard content surfaces. */
+  --system-type-h3-font: var(--font-weight-semibold) var(--font-size-xl)/var(--line-height-ratio-xl) var(--font-family-sans); /* Subsection heading within an h2 section. Render as h3 with the matching tracking and color. */
+  --system-type-h3-tracking: var(--letter-spacing-normal); /* Letter spacing for the h3 bundle; apply with its font and color. */
+  --system-type-h3-color: var(--system-text-primary); /* Foreground for h3 subsection headings on standard content surfaces. */
+  --system-type-h4-font: var(--font-weight-semibold) var(--font-size-lg)/var(--line-height-ratio-lg) var(--font-family-sans); /* Nested subsection heading within an h3 section. Render as h4; not a shortcut for smaller body text. */
+  --system-type-h4-tracking: var(--letter-spacing-normal); /* Letter spacing for the h4 bundle; apply with its font and color. */
+  --system-type-h4-color: var(--system-text-primary); /* Foreground for h4 nested headings on standard content surfaces. */
+  --system-type-h5-font: var(--font-weight-semibold) var(--font-size-md)/var(--line-height-ratio-md) var(--font-family-sans); /* Deeper subsection heading within an h4 section. Render as h5 while retaining the document hierarchy. */
+  --system-type-h5-tracking: var(--letter-spacing-normal); /* Letter spacing for the h5 bundle; apply with its font and color. */
+  --system-type-h5-color: var(--system-text-primary); /* Foreground for h5 headings on standard content surfaces. */
+  --system-type-h6-font: var(--font-weight-semibold) var(--font-size-sm)/var(--line-height-ratio-sm) var(--font-family-sans); /* Deepest subsection heading within an h5 section. Render as h6, not as a substitute for a compact interface label. */
+  --system-type-h6-tracking: var(--letter-spacing-normal); /* Letter spacing for the h6 bundle; apply with its font and color. */
+  --system-type-h6-color: var(--system-text-primary); /* Foreground for h6 headings on standard content surfaces. */
+  --system-type-body-font: var(--font-weight-regular) var(--font-size-md)/var(--line-height-ratio-md) var(--font-family-sans); /* Standard paragraph content on ordinary content surfaces. Render as p; containers own margins and layout gaps. */
+  --system-type-body-tracking: var(--letter-spacing-normal); /* Letter spacing for ordinary body paragraphs; apply with the body font and color. */
+  --system-type-body-color: var(--system-text-primary); /* Foreground for main body content on standard surfaces. Use body-secondary for supporting paragraphs. */
+  --system-type-body-secondary-font: var(--system-type-body-font); /* Supporting paragraphs such as page introductions and explanatory content. Render as p; inherits the body font rather than introducing another size. */
+  --system-type-body-secondary-tracking: var(--system-type-body-tracking); /* Letter spacing inherited from body for supporting paragraphs. */
+  --system-type-body-secondary-color: var(--system-text-secondary); /* Secondary foreground for supporting paragraphs on standard surfaces; not disabled text. */
+  --system-type-body-sm-font: var(--font-weight-regular) var(--font-size-sm)/var(--line-height-ratio-sm) var(--font-family-sans); /* Compact paragraphs and descriptions in dense content regions on standard surfaces. Render as p; do not use to simulate a heading. */
+  --system-type-body-sm-tracking: var(--letter-spacing-normal); /* Letter spacing for compact body content; apply with the body-sm font and color. */
+  --system-type-body-sm-color: var(--system-text-primary); /* Foreground for main compact content on standard surfaces. */
+  --system-type-label-sm-font: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-ratio-xs) var(--font-family-sans); /* Compact interface labels on standard surfaces. Render as span; small form Label components reuse this font while owning accessible markup and state colors. */
+  --system-type-label-sm-tracking: var(--letter-spacing-normal); /* Letter spacing for compact interface labels; apply with the label-sm font and color. */
+  --system-type-label-sm-color: var(--system-text-primary); /* Foreground for compact enabled interface labels on standard surfaces. Form controls retain their own state-aware colors. */
+  --system-type-label-md-font: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-ratio-sm) var(--font-family-sans); /* Standard interface labels on ordinary content surfaces. Render as span; medium form Label components reuse this font without replacing their native label element. */
+  --system-type-label-md-tracking: var(--letter-spacing-normal); /* Letter spacing for standard interface labels; apply with the label-md font and color. */
+  --system-type-label-md-color: var(--system-text-primary); /* Foreground for standard enabled interface labels on content surfaces. Form controls retain their own state-aware colors. */
+  --system-type-label-lg-font: var(--font-weight-medium) var(--font-size-md)/var(--line-height-ratio-md) var(--font-family-sans); /* Larger interface labels on standard surfaces. Render as span; large form Label components reuse this font while retaining their associations and state colors. */
+  --system-type-label-lg-tracking: var(--letter-spacing-normal); /* Letter spacing for larger interface labels; apply with the label-lg font and color. */
+  --system-type-label-lg-color: var(--system-text-primary); /* Foreground for larger enabled interface labels on standard surfaces. Form controls retain their own state-aware colors. */
+  --system-type-caption-font: var(--font-weight-regular) var(--font-size-xs)/var(--line-height-ratio-xs) var(--font-family-sans); /* Supplementary timestamps, metadata, and annotations on standard content surfaces. Render as span; not for essential instructions without checking readability. */
+  --system-type-caption-tracking: var(--letter-spacing-normal); /* Letter spacing for metadata and annotations; apply with the caption font and color. */
+  --system-type-caption-color: var(--system-text-secondary); /* Secondary foreground for captions on standard surfaces, not on solid or deep fills. */
+  --system-type-code-font: var(--font-weight-regular) var(--font-size-sm)/var(--line-height-ratio-sm) var(--font-family-mono); /* Inline code, token names, and technical identifiers on standard content surfaces. Render as code; this bundle does not supply a code-block container or background. */
+  --system-type-code-tracking: var(--letter-spacing-normal); /* Letter spacing for inline monospace code; apply with the code font and color. */
+  --system-type-code-color: var(--system-text-primary); /* Foreground for inline code on standard surfaces. Background and syntax highlighting are separate concerns. */
+
   /*
    * rem spacing follows the computed root (html) font size, not the local
    * component font size or viewport width. px spacing stays constant in CSS
@@ -86,7 +130,7 @@
 
   /* text */
   --system-text-primary: var(--color-neutral-1200); /* Text color for body copy, headings, and main labels requiring the highest content emphasis on standard content surfaces. Use a matching on-solid or on-deep role on those special fills. */
-  --system-text-secondary: var(--color-neutral-1000); /* Text color for subtitles, metadata, supporting text, and secondary labels on standard content surfaces. Use --system-text-primary for the main content or label requiring stronger emphasis. */
+  --system-text-secondary: var(--color-neutral-900); /* Text color for subtitles, metadata, supporting text, and secondary labels on standard content surfaces. Use --system-text-primary for the main content or label requiring stronger emphasis. */
   --system-text-muted: var(--color-neutral-900); /* Low-emphasis text color for captions, timestamps, and auxiliary annotations on standard content surfaces. Check contrast before using for essential instructions; this is not a disabled-state treatment. */
   --system-text-disabled: var(--color-neutral-700); /* Text color for labels and values inside disabled controls. Pair with --system-surface-disabled and --system-border-disabled; do not use to de-emphasize ordinary readable content. */
   --system-text-placeholder: var(--color-neutral-900); /* Text color for placeholder hints inside empty inputs and textareas on their control surface. Never use as a persistent field label or for static content. */
@@ -242,6 +286,21 @@
    ============================================================================ */
 
 .dark {
+  /* Rebind foreground aliases for scoped themes as well as root-level themes. */
+  --system-type-h1-color: var(--system-text-primary);
+  --system-type-h2-color: var(--system-text-primary);
+  --system-type-h3-color: var(--system-text-primary);
+  --system-type-h4-color: var(--system-text-primary);
+  --system-type-h5-color: var(--system-text-primary);
+  --system-type-h6-color: var(--system-text-primary);
+  --system-type-body-color: var(--system-text-primary);
+  --system-type-body-secondary-color: var(--system-text-secondary);
+  --system-type-body-sm-color: var(--system-text-primary);
+  --system-type-label-sm-color: var(--system-text-primary);
+  --system-type-label-md-color: var(--system-text-primary);
+  --system-type-label-lg-color: var(--system-text-primary);
+  --system-type-caption-color: var(--system-text-secondary);
+  --system-type-code-color: var(--system-text-primary);
   /* surface */
   --system-surface-default: var(--color-neutral-1100);
   --system-surface-raised: var(--color-neutral-1000);
@@ -254,7 +313,7 @@
 
   /* text */
   --system-text-primary: var(--color-neutral-100);
-  --system-text-secondary: var(--color-neutral-200);
+  --system-text-secondary: var(--color-neutral-600);
   --system-text-muted: var(--color-neutral-300);
   --system-text-disabled: var(--color-neutral-1000);
   --system-text-placeholder: var(--color-neutral-400);
@@ -383,6 +442,20 @@
 /* System semantics adapted from the reference design system. */
 
 .high-contrast {
+  --system-type-h1-color: var(--system-text-primary);
+  --system-type-h2-color: var(--system-text-primary);
+  --system-type-h3-color: var(--system-text-primary);
+  --system-type-h4-color: var(--system-text-primary);
+  --system-type-h5-color: var(--system-text-primary);
+  --system-type-h6-color: var(--system-text-primary);
+  --system-type-body-color: var(--system-text-primary);
+  --system-type-body-secondary-color: var(--system-text-secondary);
+  --system-type-body-sm-color: var(--system-text-primary);
+  --system-type-label-sm-color: var(--system-text-primary);
+  --system-type-label-md-color: var(--system-text-primary);
+  --system-type-label-lg-color: var(--system-text-primary);
+  --system-type-caption-color: var(--system-text-secondary);
+  --system-type-code-color: var(--system-text-primary);
   /* surface */
   --system-surface-sunken: var(--color-neutral-400);
   --system-surface-sunken-soft: var(--color-neutral-300);

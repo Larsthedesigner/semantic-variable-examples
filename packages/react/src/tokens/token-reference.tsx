@@ -25,7 +25,7 @@ export function TokenReference({ mode = 'light', owner, category }: {
   const [activeGroup, setActiveGroup] = useState('all');
   const showColorComparison = !owner && category !== 'spacer';
   const tokens = tokenCatalog(showColorComparison ? 'light' : mode, owner).filter(token =>
-    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : !token.name.startsWith('--system-spacer-')));
+    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : !/^--system-(spacer|type)-/.test(token.name)));
   const darkTokens = new Map(showColorComparison ? tokenCatalog('dark').map(token => [token.name, token]) : []);
   const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : 'Semantic color reference';
   const groups = showColorComparison ? colorGroups.map(group => ({
