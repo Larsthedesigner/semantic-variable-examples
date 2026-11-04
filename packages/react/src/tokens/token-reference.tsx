@@ -6,6 +6,7 @@ import { ReferenceHeader } from './reference-header';
 const colorGroups = [
   { id: 'surfaces', title: 'Surfaces', description: 'Build depth and structure with fills for content, panels, and elevated regions.', pattern: /^--system-(surface|deep)-/ },
   { id: 'foregrounds', title: 'Text & icons', description: 'Choose content emphasis and foreground roles for the surface underneath.', pattern: /^--system-(text|icon)-/ },
+  { id: 'loading', title: 'Loading', description: 'Reserve pending content with neutral placeholder fills and shimmer overlays.', pattern: /^--system-loading-/ },
   { id: 'borders', title: 'Borders & focus', description: 'Define boundaries and visible focus indicators.', pattern: /^--system-border-|^--system-interactive-focus-ring$/ },
   { id: 'interactive', title: 'Interactive', description: 'Pair action fills and foregrounds across hover, pressed, selected, and disabled states.', pattern: /^--system-interactive-(?!focus-ring$)/ },
   ...['error', 'success', 'warning', 'info', 'neutral'].map(status => ({
@@ -20,14 +21,14 @@ const colorGroups = [
 export function TokenReference({ mode = 'light', owner, category }: {
   mode?: TokenMode;
   owner?: string;
-  category?: 'color' | 'spacer';
+  category?: 'color' | 'spacer' | 'animation';
 }) {
   const [activeGroup, setActiveGroup] = useState('all');
-  const showColorComparison = !owner && category !== 'spacer';
+  const showColorComparison = !owner && category !== 'spacer' && category !== 'animation';
   const tokens = tokenCatalog(showColorComparison ? 'light' : mode, owner).filter(token =>
-    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : !/^--system-(spacer|type)-/.test(token.name)));
+    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : category === 'animation' ? token.name.startsWith('--system-animation-') : !/^--system-(spacer|type|animation)-/.test(token.name)));
   const darkTokens = new Map(showColorComparison ? tokenCatalog('dark').map(token => [token.name, token]) : []);
-  const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : 'Semantic color reference';
+  const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : category === 'animation' ? 'Animation semantics' : 'Semantic color reference';
   const groups = showColorComparison ? colorGroups.map(group => ({
     ...group, tokens: tokens.filter(token => group.pattern.test(token.name)),
   })).filter(group => group.tokens.length) : [{ id: 'tokens', title, description: '', tokens }];
@@ -40,11 +41,12 @@ export function TokenReference({ mode = 'light', owner, category }: {
   return (
     <div className={['sbx-reference', mode === 'light' ? undefined : mode].filter(Boolean).join(' ')}>
       <ReferenceHeader
-        eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : 'Color'} / Semantics`}
+        eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : category === 'animation' ? 'Motion' : 'Color'} / Semantics`}
         title={title}
         description={showColorComparison
           ? 'Choose colors by purpose, not palette. Compare each role in light and dark mode before using it in your application.'
           : category === 'spacer' ? 'A shared spacing rhythm for gaps, padding, and margins. Use rem for scalable layouts and px for fixed geometry.'
+          : category === 'animation' ? 'Apply animation shorthands to decorative layers, not content. Reduced-motion preferences disable the loading shimmer at runtime.'
           : 'Component-owned mappings connect theme roles and primitive dimensions to the control.'}
         summary={`${tokens.length} tokens${showColorComparison ? ` / ${groups.length} groups / Light + dark` : ` / ${mode} mode`}`}
       />

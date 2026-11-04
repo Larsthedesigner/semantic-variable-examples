@@ -38,6 +38,9 @@
 
 
 @theme static {
+  --system-loading-surface: var(--color-neutral-300); /* Resting background for loading placeholders that reserve space for pending content on standard surfaces. Not a disabled-control fill or progress indicator. */
+  --system-loading-shimmer: color-mix(in srgb, var(--color-white) 65%, transparent); /* Moving light overlay composited over --system-loading-surface. Use in a transparent-to-shimmer gradient, not as text or a standalone background. */
+  --system-animation-loading-shimmer: svx-loading-shimmer var(--duration-loading) var(--easing-linear) infinite; /* Reusable animation shorthand for a clipped, full-width shimmer overlay. Shared keyframes translate the overlay from -100% to 100%; apply to an absolutely positioned decorative layer, never the loading content itself. Reduced motion disables this animation. */
   /* Prescribed typography bundles: font shorthand, tracking, and foreground. */
   --system-type-h1-font: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-ratio-4xl) var(--font-family-sans); /* Main page heading; normally one per page. Render as h1 and apply the matching tracking and color members. */
   --system-type-h1-tracking: var(--letter-spacing-tight); /* Letter spacing for the h1 bundle; apply with its font and color, not as an independent visual variant. */
@@ -278,6 +281,17 @@
   /* status/status */
 }
 
+@keyframes svx-loading-shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --system-animation-loading-shimmer: none;
+  }
+}
+
 /* ============================================================================
    DARK MODE
    Only semantic token overrides below. Primitives (--color-*) are never
@@ -286,6 +300,8 @@
    ============================================================================ */
 
 .dark {
+  --system-loading-surface: var(--color-neutral-1000);
+  --system-loading-shimmer: color-mix(in srgb, var(--color-white) 12%, transparent);
   /* Rebind foreground aliases for scoped themes as well as root-level themes. */
   --system-type-h1-color: var(--system-text-primary);
   --system-type-h2-color: var(--system-text-primary);
@@ -442,6 +458,8 @@
 /* System semantics adapted from the reference design system. */
 
 .high-contrast {
+  --system-loading-surface: var(--color-neutral-500);
+  --system-loading-shimmer: color-mix(in srgb, var(--color-white) 65%, transparent);
   --system-type-h1-color: var(--system-text-primary);
   --system-type-h2-color: var(--system-text-primary);
   --system-type-h3-color: var(--system-text-primary);

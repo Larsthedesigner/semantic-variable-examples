@@ -1,0 +1,24 @@
+/* Skeleton geometry and animation consume shared loading semantics. */
+@theme static {
+  --component-skeleton-surface: var(--system-loading-surface);
+  --component-skeleton-shimmer: var(--system-loading-shimmer);
+  --component-skeleton-animation: var(--system-animation-loading-shimmer);
+  --component-skeleton-radius: var(--size-rem-4);
+  --component-skeleton-line-gap: var(--system-spacer-rem-xs);
+  --component-skeleton-size-sm: var(--size-rem-24);
+  --component-skeleton-size-md: var(--size-rem-32);
+  --component-skeleton-size-lg: var(--size-rem-40);
+  --component-skeleton-text-sm: var(--system-type-label-sm-font);
+  --component-skeleton-text-md: var(--system-type-label-md-font);
+  --component-skeleton-text-lg: var(--system-type-label-lg-font);
+}
+
+.dark {
+  --component-skeleton-surface: var(--system-loading-surface);
+  --component-skeleton-shimmer: var(--system-loading-shimmer);
+}
+
+.high-contrast {
+  --component-skeleton-surface: var(--system-loading-surface);
+  --component-skeleton-shimmer: var(--system-loading-shimmer);
+}

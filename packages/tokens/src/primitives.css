@@ -112,6 +112,8 @@
   /* ── Motion ──────────────────────────────────────────────────────────────── */
 
   --duration-fast: 120;
+  --duration-loading: 1400ms;
+  --easing-linear: linear;
   /* Shared color scale: 100–300 surfaces, 400–600 borders/tints,
    * 700–900 accents, 1000–1200 strong foregrounds/deep surfaces.
    * Always measure contrast for the actual semantic foreground/background pair. */

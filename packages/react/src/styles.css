@@ -2,6 +2,77 @@
 @import '@svx/tokens/dist/css/index.css';
 @import '@fontsource-variable/inter';
 
+.svx-loading-shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--svx-loading-surface, var(--system-loading-surface));
+}
+.svx-loading-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--svx-loading-shimmer, var(--system-loading-shimmer)), transparent);
+  transform: translateX(-100%);
+  animation: var(--svx-loading-animation, var(--system-animation-loading-shimmer));
+}
+.svx-skeleton {
+  --svx-loading-surface: var(--component-skeleton-surface);
+  --svx-loading-shimmer: var(--component-skeleton-shimmer);
+  --svx-loading-animation: var(--component-skeleton-animation);
+  border-radius: var(--component-skeleton-radius);
+}
+.svx-skeleton--sm {
+  --svx-skeleton-size: var(--component-skeleton-size-sm);
+  font: var(--component-skeleton-text-sm);
+}
+.svx-skeleton--md {
+  --svx-skeleton-size: var(--component-skeleton-size-md);
+  font: var(--component-skeleton-text-md);
+}
+.svx-skeleton--lg {
+  --svx-skeleton-size: var(--component-skeleton-size-lg);
+  font: var(--component-skeleton-text-lg);
+}
+.svx-skeleton--text {
+  display: grid;
+  gap: var(--component-skeleton-line-gap);
+  width: 100%;
+}
+.svx-skeleton__line {
+  height: 1lh;
+  border-radius: inherit;
+}
+.svx-skeleton__line:last-child:not(:first-child) {
+  width: 80%;
+}
+.svx-skeleton--rectangle {
+  width: 100%;
+  height: var(--svx-skeleton-size);
+}
+.svx-skeleton--circle {
+  width: var(--svx-skeleton-size);
+  height: var(--svx-skeleton-size);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .svx-loading-shimmer::after {
+    animation: none;
+    content: none;
+  }
+}
+@media (forced-colors: active) {
+  .svx-loading-shimmer {
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+  }
+  .svx-loading-shimmer::after {
+    content: none;
+  }
+}
+
 :root {
   --svx-material-symbol-size-xs: 12px;
   --svx-material-symbol-size-sm: 16px;

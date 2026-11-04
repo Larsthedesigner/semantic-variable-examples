@@ -270,6 +270,66 @@ intended markup, usage, authored mappings, resolved values, and primitive
 dependencies. These are token foundations, not a new public React typography
 component or global heading reset.
 
+### Loading placeholders
+
+`Skeleton` reserves space while content is loading. It supports text (default),
+circle, and rectangle variants, with sm/md/lg sizes:
+
+```tsx
+<section aria-label="Account details" aria-busy={loading}>
+  {loading ? <Skeleton lines={3} /> : <AccountDetails />}
+</section>
+```
+
+Text sizes reserve 16/20/24px-equivalent line boxes; multiple lines have a
+deterministic 80% final line. Circle sizes are 24/32/40px equivalents. Rectangles
+fill the available width with the same default heights; a parent-specific
+`style` or class may reserve the final image/card dimensions. Match the eventual
+content layout to avoid layout shifts. `lines` must be a positive integer and
+is supported only for text. Placeholders accept no content, are aria-hidden and
+inert, and never announce their own status. The containing feature owns
+`aria-busy`, an optional single loading announcement, errors, and replacement
+with real content. Do not cover still-focusable controls with a placeholder.
+
+The generic system roles are:
+
+- `--system-loading-surface`: resting placeholder fill.
+- `--system-loading-shimmer`: translucent highlight over that fill.
+- `--system-animation-loading-shimmer`: shared animation shorthand and keyframes,
+  built from duration/easing primitives.
+
+Skeleton consumes these through its component-owned tokens. Other decorative
+placeholders can reuse the `.svx-loading-shimmer` class, or use the semantic
+animation on a full-width, absolutely positioned overlay clipped by its parent:
+
+```css
+.custom-placeholder {
+  position: relative;
+  overflow: hidden;
+  background: var(--system-loading-surface);
+}
+.custom-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg, transparent, var(--system-loading-shimmer), transparent
+  );
+  transform: translateX(-100%);
+  animation: var(--system-animation-loading-shimmer);
+}
+```
+
+The animation translates the decorative layer, not layout or actual content.
+Reduced-motion preferences set the system animation to `none`; the shared class
+also removes its overlay. Forced-colors mode renders static outlined shapes.
+Dark/high-contrast themes adjust loading fills without changing geometry.
+Color Semantics includes loading colors, Motion Semantics documents the reusable
+animation, and Skeleton stories show shapes, themes, and a loading-to-content
+card. JSON/native exports describe base theme values, not runtime media-query
+preferences. Existing Button spinners and progress patterns are unchanged.
+
 ### Form text foundations
 
 `Label` renders a native label and `SupportingText` renders a paragraph. Both

@@ -16,7 +16,7 @@ describe('Token foundations', () => {
   it('uses the inline base-declaration comment for every system usage', () => {
     const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
     const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];
-    expect(documented).toHaveLength(187);
+    expect(documented).toHaveLength(190);
     for (const [, name, usage] of documented) expect(tokenUsage(name)).toBe(usage);
     expect(() => tokenUsage('--system-undocumented')).toThrow('Missing usage description');
   });
@@ -90,7 +90,7 @@ describe('Token foundations', () => {
 
   it.each(['light', 'dark', 'high-contrast'] as const)('documents and resolves every semantic token in %s', (mode) => {
     const catalog = tokenCatalog(mode);
-    expect(catalog.length).toBe(187);
+    expect(catalog.length).toBe(190);
     for (const token of catalog) {
       expect(token.name).toMatch(/^--system-/);
       expect(token.value).not.toContain('var(');
@@ -208,12 +208,24 @@ describe('Token foundations', () => {
     const system = tokenCatalog('light');
     expect(system.some(token => /^--system-(switch|field|input|label|supporting|control-thumb|status-status-breakdown|surface-tooltip)/.test(token.name))).toBe(false);
     for (const mode of ['light', 'dark', 'high-contrast'] as const) {
-      for (const owner of ['button', 'field', 'input', 'label', 'switch', 'supporting-text', 'status', 'tooltip', 'shared-controls']) {
+      for (const owner of ['button', 'field', 'input', 'label', 'switch', 'skeleton', 'supporting-text', 'status', 'tooltip', 'shared-controls']) {
         const tokens = tokenCatalog(mode, owner);
         expect(tokens.length).toBeGreaterThan(0);
         for (const token of tokens) expect(token.value).not.toContain('var(');
       }
     }
+  });
+
+  it.each(['light', 'dark', 'high-contrast'] as const)('resolves reusable loading colors and animation in %s', mode => {
+    const tokens = Object.fromEntries(tokenCatalog(mode).map(token => [token.name, token.value]));
+    expect(tokens['--system-animation-loading-shimmer']).toBe('svx-loading-shimmer 1400ms linear infinite');
+    expect(tokens['--system-loading-surface']).toBe(primitiveTokens[`--color-neutral-${mode === 'dark' ? 1000 : mode === 'high-contrast' ? 500 : 300}`]);
+    expect(tokens['--system-loading-shimmer']).toContain(mode === 'dark' ? '12%' : '65%');
+    const component = tokenCatalog(mode, 'skeleton');
+    expect(component.find(token => token.name === '--component-skeleton-animation')?.value).toBe(tokens['--system-animation-loading-shimmer']);
+    expect(component.find(token => token.name === '--component-skeleton-surface')?.value).toBe(tokens['--system-loading-surface']);
+    expect(semanticSource).toContain('@keyframes svx-loading-shimmer');
+    expect(semanticSource).toContain('--system-animation-loading-shimmer: none;');
   });
 
   it.each(['light', 'dark', 'high-contrast'] as const)('keeps solid action text at least 4.5:1 in %s', (mode) => {
