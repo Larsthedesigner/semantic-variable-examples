@@ -10,6 +10,7 @@ import statusSource from '../../../tokens/src/components/status.css?raw';
 import supportingSource from '../../../tokens/src/components/supporting-text.css?raw';
 import switchSource from '../../../tokens/src/components/switch.css?raw';
 import skeletonSource from '../../../tokens/src/components/skeleton.css?raw';
+import selectionSource from '../../../tokens/src/components/selection-controls.css?raw';
 import tooltipSource from '../../../tokens/src/components/tooltip.css?raw';
 
 export type TokenMode = 'light' | 'dark' | 'high-contrast';
@@ -32,7 +33,7 @@ export const primitiveTokens = block(primitivesSource, '@theme static');
 const semanticBase = block(semanticSource, '@theme static');
 const componentSources: Record<string, string> = {
   button: buttonSource, field: fieldSource, input: inputSource, label: labelSource,
-  menu: menuSource, skeleton: skeletonSource,
+  menu: menuSource, skeleton: skeletonSource, 'selection-controls': selectionSource,
   'shared-controls': sharedSource, status: statusSource,
   'supporting-text': supportingSource, switch: switchSource, tooltip: tooltipSource,
 };

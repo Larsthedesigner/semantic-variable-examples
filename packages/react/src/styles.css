@@ -81,6 +81,132 @@
   --svx-material-symbol-size-xl: 32px;
 }
 
+.svx-choice-container {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  vertical-align: middle;
+  width: var(--svx-choice-size);
+  height: var(--svx-choice-size);
+}
+.svx-choice-container[data-size='sm'] { --svx-choice-size: var(--component-choice-size-sm); }
+.svx-choice-container[data-size='md'] { --svx-choice-size: var(--component-choice-size-md); }
+.svx-choice-container[data-size='lg'] { --svx-choice-size: var(--component-choice-size-lg); }
+.svx-choice {
+  appearance: none;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--component-choice-border);
+  border-radius: var(--component-choice-radius);
+  background: var(--component-choice-surface);
+  color: var(--component-choice-on-selected);
+  cursor: pointer;
+}
+.svx-radio { border-radius: 50%; }
+.svx-choice:where(:hover:not(:disabled)) {
+  border-color: var(--system-border-control-hover);
+  background: var(--system-interactive-surface-hover);
+}
+.svx-choice:where(:active:not(:disabled)) {
+  background: var(--system-interactive-surface-pressed);
+}
+.svx-choice:where(:checked, :indeterminate) {
+  background: var(--component-choice-selected);
+  border-color: var(--component-choice-selected);
+}
+.svx-choice:where(:checked, :indeterminate):where(:hover:not(:disabled)) {
+  background: var(--system-interactive-solid-hover);
+  border-color: var(--system-interactive-solid-hover);
+}
+.svx-choice:where(:checked, :indeterminate):where(:active:not(:disabled)) {
+  background: var(--system-interactive-solid-pressed);
+}
+.svx-choice[aria-invalid='true'] { border-color: var(--system-status-error-border-strong); }
+.svx-choice:disabled {
+  background: var(--system-surface-disabled);
+  border-color: var(--system-border-disabled);
+  color: var(--system-text-disabled);
+  cursor: not-allowed;
+}
+.svx-choice__indicator {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  color: var(--component-choice-on-selected);
+}
+.svx-choice:disabled + .svx-choice__indicator { color: var(--system-text-disabled); }
+.svx-choice__indicator .svx-material-symbol {
+  display: none;
+  --svx-material-symbol-size: var(--svx-choice-size);
+}
+.svx-checkbox:checked:not(:indeterminate) + .svx-choice__indicator .svx-checkbox__check,
+.svx-checkbox:indeterminate + .svx-choice__indicator .svx-checkbox__mixed {
+  display: inline-flex;
+}
+.svx-choice__indicator::after { content: ''; display: none; box-sizing: border-box; }
+.svx-radio:checked + .svx-choice__indicator::after {
+  display: block;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: currentColor;
+}
+.svx-radio-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.svx-radio-group__legend {
+  padding: 0;
+  margin-block-end: var(--component-radio-group-gap);
+  font: var(--svx-radio-group-font);
+  letter-spacing: var(--svx-radio-group-tracking);
+  color: var(--system-text-secondary);
+}
+.svx-radio-group[data-size='sm'] {
+  --svx-radio-group-font: var(--system-type-label-sm-font);
+  --svx-radio-group-tracking: var(--system-type-label-sm-tracking);
+}
+.svx-radio-group[data-size='md'] {
+  --svx-radio-group-font: var(--system-type-label-md-font);
+  --svx-radio-group-tracking: var(--system-type-label-md-tracking);
+}
+.svx-radio-group[data-size='lg'] {
+  --svx-radio-group-font: var(--system-type-label-lg-font);
+  --svx-radio-group-tracking: var(--system-type-label-lg-tracking);
+}
+.svx-label__text:has(> .svx-choice-container) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--component-choice-gap);
+}
+.svx-radio-group__options {
+  display: grid;
+  gap: var(--component-radio-group-gap);
+}
+@media (forced-colors: active) {
+  .svx-choice,
+  .svx-choice[aria-invalid='true'] {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+  .svx-choice:is(:checked, :indeterminate) {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  .svx-choice__indicator { forced-color-adjust: none; color: HighlightText; }
+  .svx-choice:disabled { background: Canvas; border-color: GrayText; }
+  .svx-choice:disabled + .svx-choice__indicator { color: GrayText; }
+  .svx-choice.svx-focus-ring:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+}
+
 .svx-field {
   display: flex;
   flex-direction: column;

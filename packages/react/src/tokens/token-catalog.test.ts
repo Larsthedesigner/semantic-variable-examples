@@ -13,6 +13,15 @@ function luminance(hex: string) {
 }
 
 describe('Token foundations', () => {
+  it.each(['light', 'dark', 'high-contrast'] as const)('resolves shared selection-control tokens in %s', mode => {
+    const catalog = tokenCatalog(mode, 'selection-controls');
+    expect(catalog).toHaveLength(10);
+    for (const token of catalog) expect(token.value).not.toContain('var(');
+    expect(catalog.find(token => token.name === '--component-choice-size-md')?.value).toBe('1rem');
+    expect(catalog.find(token => token.name === '--component-choice-gap')?.value).toBe('0.5rem');
+    expect(catalog.find(token => token.name === '--component-choice-selected')?.value)
+      .toBe(tokenCatalog(mode).find(token => token.name === '--system-interactive-solid')?.value);
+  });
   it('uses the inline base-declaration comment for every system usage', () => {
     const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
     const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];

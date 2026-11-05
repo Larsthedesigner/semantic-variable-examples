@@ -270,6 +270,62 @@ intended markup, usage, authored mappings, resolved values, and primitive
 dependencies. These are token foundations, not a new public React typography
 component or global heading reset.
 
+### Checkbox and radio selection
+
+`Checkbox` is a native checkbox, distinct from a Switch's immediate on/off setting.
+Use it for independent options, multi-selection, and consent. It supports
+`checked`/`defaultChecked`, native `onChange`, optional `onCheckedChange(boolean)`,
+sm/md/lg sizes, disabled, required, invalid, names/values, and input refs.
+
+```tsx
+<Field required invalid={hasError}>
+  <FieldLabel>Accept the terms</FieldLabel>
+  <FieldControl><Checkbox name="terms" value="accepted" /></FieldControl>
+  <FieldDescription>Read the agreement before continuing.</FieldDescription>
+  <FieldError>Accept the terms to continue.</FieldError>
+</Field>
+```
+
+`indeterminate` is a controlled boolean presentation/accessible mixed state,
+independent of `checked`. For select-all, derive it from a partially selected
+collection and clear it by updating that collection in `onCheckedChange`.
+Native checked state still determines form submission and required validation;
+an indeterminate mark alone does not submit a value. Uncontrolled checked state
+resets with the form; controlled state remains the parent's responsibility.
+
+`Radio` is a native radio input for mutually exclusive choices. Use
+`RadioGroup` to supply a common name, size, state, and native legend:
+
+```tsx
+<RadioGroup legend="Billing period" name="billing" defaultValue="monthly">
+  <Label><Radio value="monthly" />Monthly</Label>
+  <Label><Radio value="annual" />Annual</Label>
+</RadioGroup>
+```
+
+RadioGroup renders a fieldset with a legend; it is not itself a FieldControl.
+Label every option using a wrapping Label or `htmlFor`/`id`. The group generates
+an isolated name if omitted; use an explicit name for useful form submission.
+Set group `value`/`onValueChange` for controlled selection or `defaultValue` for
+native uncontrolled state and reset. Let the group own names and checked state;
+do not mix group state with individual `checked`/`defaultChecked` props.
+Native keyboard navigation moves among enabled options, selecting with arrow
+keys; Space selects the focused option. Required applies to the whole choice set.
+
+Set `aria-describedby` on RadioGroup to associate separately rendered
+SupportingText/error messages with the group and its options. `invalid` marks
+the fieldset and options without replacing native validation. Disabled groups
+disable every option and omit their values from submission. Individual options
+can also be disabled. Standalone Radio inputs accept native checked state and
+can use Field when a single option needs those associations.
+
+Checkbox/Radio share selection-control component tokens for geometry and theme
+roles. They reuse the focus utility, preserve semantic invalid/disabled colors,
+and provide system-color checked/mixed indicators in forced-colors mode.
+Checkbox check/mixed glyphs use Material Symbols; load the icon font as described
+above. Wrapping Label compositions align the control and text with a shared gap.
+Group layout uses spacer semantics; no new app-wide selection colors are added.
+
 ### Loading placeholders
 
 `Skeleton` reserves space while content is loading. It supports text (default),
