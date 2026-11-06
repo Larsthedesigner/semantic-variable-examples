@@ -1,0 +1,22 @@
+/* Build-time query names resolve from --breakpoint-* primitives. Not browser CSS. */
+@media svx-from-sm {
+  .svx-container { --svx-container-gutter: var(--component-container-gutter-default); }
+}
+@container svx-below-xs {
+  .svx-inline-container > .svx-inline[data-stack-below='xs'] { grid-auto-flow: row; grid-auto-columns: auto; justify-content: stretch; }
+}
+@container svx-below-sm {
+  .svx-inline-container > .svx-inline[data-stack-below='sm'] { grid-auto-flow: row; grid-auto-columns: auto; justify-content: stretch; }
+}
+@container svx-below-md {
+  .svx-inline-container > .svx-inline[data-stack-below='md'] { grid-auto-flow: row; grid-auto-columns: auto; justify-content: stretch; }
+}
+@container svx-below-lg {
+  .svx-inline-container > .svx-inline[data-stack-below='lg'] { grid-auto-flow: row; grid-auto-columns: auto; justify-content: stretch; }
+}
+@container svx-below-xl {
+  .svx-inline-container > .svx-inline[data-stack-below='xl'] { grid-auto-flow: row; grid-auto-columns: auto; justify-content: stretch; }
+}
+@container svx-below-2xl {
+  .svx-inline-container > .svx-inline[data-stack-below='2xl'] { grid-auto-flow: row; grid-auto-columns: auto; justify-content: stretch; }
+}

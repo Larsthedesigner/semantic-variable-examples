@@ -109,6 +109,20 @@
   --letter-spacing-tight: -0.02em;
   --letter-spacing-heading: -0.015em;
 
+  /* Layout dimensions and minimum-width query thresholds. */
+  --layout-size-full: 100%;
+  --layout-size-viewport: 100dvh;
+  --layout-width-640: 40rem;
+  --layout-width-1120: 70rem;
+  --layout-width-1440: 90rem;
+  --layout-item-width-280: 17.5rem;
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 992px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1440px;
+  --breakpoint-2xl: 1920px;
+
   /* ── Motion ──────────────────────────────────────────────────────────────── */
 
   --duration-fast: 120;

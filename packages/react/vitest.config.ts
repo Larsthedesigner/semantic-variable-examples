@@ -6,6 +6,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    css: { include: [/tokens\/src\/.*\.css/] },
+    css: { include: [/tokens\/(?:src|dist)\/.*\.css/] },
   },
 });

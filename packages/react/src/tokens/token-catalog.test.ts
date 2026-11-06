@@ -25,7 +25,7 @@ describe('Token foundations', () => {
   it('uses the inline base-declaration comment for every system usage', () => {
     const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
     const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];
-    expect(documented).toHaveLength(190);
+    expect(documented).toHaveLength(198);
     for (const [, name, usage] of documented) expect(tokenUsage(name)).toBe(usage);
     expect(() => tokenUsage('--system-undocumented')).toThrow('Missing usage description');
   });
@@ -99,7 +99,7 @@ describe('Token foundations', () => {
 
   it.each(['light', 'dark', 'high-contrast'] as const)('documents and resolves every semantic token in %s', (mode) => {
     const catalog = tokenCatalog(mode);
-    expect(catalog.length).toBe(190);
+    expect(catalog.length).toBe(198);
     for (const token of catalog) {
       expect(token.name).toMatch(/^--system-/);
       expect(token.value).not.toContain('var(');

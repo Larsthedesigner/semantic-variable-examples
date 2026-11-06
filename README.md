@@ -270,6 +270,83 @@ intended markup, usage, authored mappings, resolved values, and primitive
 dependencies. These are token foundations, not a new public React typography
 component or global heading reset.
 
+### Layout foundations
+
+`Stack`, `Inline`, `Grid`, and `Container` arrange content without choosing its
+surface, typography, padding inside a Card, or interaction behavior.
+
+```tsx
+<Container size="content">
+  <Stack gap="xl">
+    <Inline justify="end" stackBelow="sm">
+      <Button>Cancel</Button>
+      <Button>Save changes</Button>
+    </Inline>
+    <Grid preset="cards">{items}</Grid>
+  </Stack>
+</Container>
+```
+
+- Stack uses a single vertical Grid track and defaults to `gap="lg"`.
+- Inline defaults to `gap="sm"`, center alignment, start justification, and
+  `stackBelow="sm"`. An outer div establishes an inline-size query container;
+  an inner Grid arranges children. Its ref, native attributes, and className
+  target the outer wrapper. Below the threshold it stacks and stretches tracks.
+  It does not implement variable-width flex wrapping; choose a suitable threshold
+  for the content. It needs available width from its parent, not shrink-to-fit
+  sizing. Reading and focus order always follow the DOM.
+- Grid defaults to adaptive `preset="cards"` with a 17.5rem minimum item width
+  and an xl gap. It falls to one track when space is narrower than the minimum.
+  `equal-2` and `equal-3` deliberately retain two/three equal tracks at all widths.
+  These fixed presets are not responsive card layouts.
+- Container defaults to `size="content"` and `gutter="responsive"`. Reading,
+  content, and wide outer-width caps are initially 40rem, 70rem, and 90rem,
+  including gutters. Responsive gutters change from lg to xl at the sm viewport
+  threshold. `gutter="fluid"` uses bounded 3vw spacing (lg to 2xl);
+  `gutter="none"` removes the inset. Nested Containers add their own gutters;
+  use none when the parent already supplies the intended inset.
+
+Gap choices are `none`, `2xs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, and `3xl`,
+mapped to existing rem spacer semantics. Layout offers no general margin/padding
+props. Parent gaps separate siblings; surface components own their internal
+insets. Stack, Grid, and Container support `asChild` for a single semantic child
+such as main, section, or ul. The child retains its native browser styles:
+reset list/heading/paragraph margins where the composition requires it.
+Inline intentionally retains its two-div query boundary and has no asChild.
+
+Minimum-width thresholds are xs 480px, sm 768px, md 992px, lg 1280px,
+xl 1440px, and 2xl 1920px. Base styles apply below xs. These correspond to
+Webflow's familiar boundaries but cascade mobile-first. Compact (base/xs),
+regular (sm/md), and wide (lg and above) are descriptive groupings, not automatic
+device detection. Gap sizes and breakpoint sizes are separate scales.
+
+The CSS source `--breakpoint-*` primitives are build inputs. Named rules in
+`packages/tokens/src/layout-queries.css` compile to actual media/container
+conditions in `dist/css/layout-queries.css`, imported by the React stylesheet.
+CSS custom properties cannot be substituted directly into query conditions.
+Rebuild tokens after changing thresholds. Queries use CSS pixels, while rem
+content widths/spacing scale with the root font size.
+
+`--system-layout-size-fill` means 100% of the containing block on the applied
+axis, not the viewport or remaining space beside siblings. Percentage block
+sizes need a definite parent block size. Use border-box when borders and padding
+must fit. `--system-layout-viewport-block-size` supplies 100dvh for full-height
+regions; use min-block-size for growing pages and test keyboard/safe-area behavior.
+Content-width and gutter roles are shared system semantics; layout-owned
+component tokens map those roles to Container and Grid.
+
+Storybook's Foundations / Layout includes gap/width references, breakpoint
+definitions, a continuously resizable parent preview, fixed/adaptive grids,
+RTL/long-content stress cases, and parent/viewport/remaining-track comparisons.
+Dedicated Stack, Inline, Grid, and Container stories expose their own Controls.
+Specimens pair minimal code with boundary/spacing diagrams; live readouts report
+rendered widths, gaps, gutters, and track counts. The parent playground offers
+a number input, range slider, T-shirt presets, and optional layout guides.
+Large previews retain their actual CSS-pixel width and scroll within the canvas;
+they are never visually scaled to fit. Breakpoint tables show exact ranges.
+Parent resizing changes Inline queries and intrinsic Grid columns; changing the
+Storybook iframe viewport changes Container media queries, vw, and dvh.
+
 ### Checkbox and radio selection
 
 `Checkbox` is a native checkbox, distinct from a Switch's immediate on/off setting.

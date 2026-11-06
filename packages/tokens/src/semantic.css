@@ -38,6 +38,14 @@
 
 
 @theme static {
+  --system-layout-size-fill: var(--layout-size-full); /* Fill the containing block on the applied axis, not the viewport or remaining sibling space. Percentage block size needs a definite containing block size; use border-box when padding and borders must fit inside. */
+  --system-layout-viewport-block-size: var(--layout-size-viewport); /* Dynamic viewport block size for full-height app regions. Prefer min-block-size for growing page content; mobile keyboard and safe-area behavior still require explicit handling. */
+  --system-layout-width-reading: var(--layout-width-640); /* Maximum outer width for reading-focused content, including container gutters. This is a content constraint, not a responsive breakpoint. */
+  --system-layout-width-content: var(--layout-width-1120); /* Standard maximum outer width for application content, including container gutters. Fill the parent below this limit; do not force this width inside smaller regions. */
+  --system-layout-width-wide: var(--layout-width-1440); /* Maximum outer width for dashboards and data-rich application pages, including container gutters. Wide screens retain this cap instead of stretching content indefinitely. */
+  --system-layout-gutter-compact: var(--system-spacer-rem-lg); /* Root-relative inline inset for page containers below the sm viewport threshold. Internal cards and panels own their padding separately. */
+  --system-layout-gutter-default: var(--system-spacer-rem-xl); /* Root-relative inline inset for page containers at or above the sm viewport threshold. Layout queries choose the mode; the spacer does not change automatically with viewport size. */
+  --system-layout-gutter-fluid: clamp(var(--system-spacer-rem-lg), 3vw, var(--system-spacer-rem-2xl)); /* Optional viewport-responsive page gutter bounded by the rem spacing scale. Use for page-level containers, not narrow cards within a wide viewport; iframe resizing, not parent resizing, changes vw. */
   --system-loading-surface: var(--color-neutral-300); /* Resting background for loading placeholders that reserve space for pending content on standard surfaces. Not a disabled-control fill or progress indicator. */
   --system-loading-shimmer: color-mix(in srgb, var(--color-white) 65%, transparent); /* Moving light overlay composited over --system-loading-surface. Use in a transparent-to-shimmer gradient, not as text or a standalone background. */
   --system-animation-loading-shimmer: svx-loading-shimmer var(--duration-loading) var(--easing-linear) infinite; /* Reusable animation shorthand for a clipped, full-width shimmer overlay. Shared keyframes translate the overlay from -100% to 100%; apply to an absolutely positioned decorative layer, never the loading content itself. Reduced motion disables this animation. */
