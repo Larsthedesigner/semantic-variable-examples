@@ -415,6 +415,12 @@
     0 0 0 calc(var(--interactive-focus-ring-offset) + var(--interactive-focus-ring-width))
       var(--system-interactive-focus-ring);
 }
+@media (forced-colors: active) {
+  .svx-focus-ring:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
 
 .svx-button--sm {
   --svx-button-icon-size: var(--svx-material-symbol-size-xs);
