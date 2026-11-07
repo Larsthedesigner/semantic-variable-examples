@@ -10,6 +10,8 @@ export { Checkbox } from './checkbox/checkbox';
 export type { CheckboxProps } from './checkbox/checkbox';
 export { Radio, RadioGroup } from './radio/radio';
 export type { RadioProps, RadioGroupProps } from './radio/radio';
+export { Card, CardHeader, CardTitle, CardDescription, CardBody, CardFooter } from './card/card';
+export type { CardProps, CardHeaderProps, CardTitleProps } from './card/card';
 export { Stack, Inline, Grid, Container, layoutGaps, layoutBreakpoints } from './layout/layout';
 export type { StackProps, InlineProps, GridProps, ContainerProps, LayoutGap, LayoutBreakpoint } from './layout/layout';
 export { Input } from './input/input';

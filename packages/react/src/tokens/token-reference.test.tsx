@@ -4,6 +4,17 @@ import { describe, expect, it } from 'vitest';
 import { TokenReference } from './token-reference';
 
 describe('Foundation reference categories', () => {
+  it('shows only radius semantics with shape previews', () => {
+    render(<TokenReference category="radius" />);
+    expect(screen.getByRole('heading', { name: 'Radius semantics' })).toBeInTheDocument();
+    const rows = within(screen.getByRole('table')).getAllByRole('row').slice(1);
+    expect(rows).toHaveLength(9);
+    for (const row of rows) {
+      expect(row.querySelector('code')?.textContent).toMatch(/^--system-radius-/);
+      expect(row.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
+    }
+    expect(screen.queryByText('--system-text-primary')).not.toBeInTheDocument();
+  });
   it.each(['light', 'dark', 'high-contrast'] as const)('shows fixed light and dark previews in %s mode', mode => {
     render(<TokenReference category="color" mode={mode} />);
     for (const table of screen.getAllByRole('table')) {

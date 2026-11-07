@@ -7,8 +7,8 @@
   --space-md-rem: var(--system-spacer-rem-md);
   --space-lg-rem: var(--system-spacer-rem-lg);
   --space-xl-rem: var(--system-spacer-rem-xl);
-  --radius-md: var(--size-rem-8);
-  --component-control-radius: var(--radius-md);
+  --radius-md: var(--system-radius-md);
+  --component-control-radius: var(--system-radius-md);
   --component-control-padding-x-sm: var(--system-spacer-rem-md);
   --component-control-padding-x-md: var(--system-spacer-rem-lg);
   --component-control-padding-x-lg: var(--system-spacer-rem-xl);

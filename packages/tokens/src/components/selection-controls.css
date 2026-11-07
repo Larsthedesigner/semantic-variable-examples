@@ -3,7 +3,8 @@
   --component-choice-size-sm: var(--size-rem-14);
   --component-choice-size-md: var(--size-rem-16);
   --component-choice-size-lg: var(--size-rem-20);
-  --component-choice-radius: var(--size-rem-4);
+  --component-choice-radius: var(--system-radius-sm);
+  --component-radio-radius: var(--system-radius-full);
   --component-choice-surface: var(--system-surface-default);
   --component-choice-border: var(--system-border-control);
   --component-choice-selected: var(--system-interactive-solid);

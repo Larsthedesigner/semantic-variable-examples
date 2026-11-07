@@ -9,9 +9,9 @@
   --component-button-gap-sm: var(--system-spacer-px-xs);
   --component-button-gap-md: var(--system-spacer-px-sm);
   --component-button-gap-lg: var(--system-spacer-px-md);
-  --component-button-radius-sm: var(--radius-md);
-  --component-button-radius-md: var(--radius-md);
-  --component-button-radius-lg: var(--size-px-10);
+  --component-button-radius-sm: var(--system-radius-md);
+  --component-button-radius-md: var(--system-radius-md);
+  --component-button-radius-lg: var(--system-radius-lg);
   --component-button-label-sm: var(--font-weight-medium) var(--font-size-xs)/var(--line-height-xs) var(--font-family-sans);
   --component-button-label-md: var(--font-weight-medium) var(--font-size-sm)/var(--line-height-sm) var(--font-family-sans);
   --component-button-label-lg: var(--font-weight-medium) var(--font-size-md)/var(--line-height-md) var(--font-family-sans);

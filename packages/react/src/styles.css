@@ -3,6 +3,53 @@
 @import '@svx/tokens/dist/css/layout-queries.css';
 @import '@fontsource-variable/inter';
 
+.svx-card {
+  display: grid;
+  align-content: start;
+  gap: var(--component-card-section-gap);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  padding: var(--component-card-padding);
+  border: 1px solid var(--component-card-border);
+  border-radius: var(--component-card-radius);
+  background: var(--component-card-surface);
+  color: var(--system-text-primary);
+  font: var(--system-type-body-font);
+  letter-spacing: var(--system-type-body-tracking);
+  container-type: inline-size;
+  overflow-wrap: anywhere;
+}
+.svx-card__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--component-card-section-gap);
+}
+.svx-card .svx-card__heading.svx-stack { --svx-layout-gap: var(--component-card-heading-gap); }
+.svx-card__actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: var(--component-card-actions-gap);
+}
+.svx-card .svx-card__title,
+.svx-card .svx-card__description { margin: 0; }
+.svx-card h2.svx-card__title { font: var(--system-type-h2-font); letter-spacing: var(--system-type-h2-tracking); color: var(--system-type-h2-color); }
+.svx-card h3.svx-card__title { font: var(--system-type-h3-font); letter-spacing: var(--system-type-h3-tracking); color: var(--system-type-h3-color); }
+.svx-card h4.svx-card__title { font: var(--system-type-h4-font); letter-spacing: var(--system-type-h4-tracking); color: var(--system-type-h4-color); }
+.svx-card h5.svx-card__title { font: var(--system-type-h5-font); letter-spacing: var(--system-type-h5-tracking); color: var(--system-type-h5-color); }
+.svx-card h6.svx-card__title { font: var(--system-type-h6-font); letter-spacing: var(--system-type-h6-tracking); color: var(--system-type-h6-color); }
+.svx-card__description {
+  font: var(--system-type-body-secondary-font);
+  letter-spacing: var(--system-type-body-secondary-tracking);
+  color: var(--system-type-body-secondary-color);
+}
+.svx-card .svx-card__body.svx-stack { --svx-layout-gap: var(--component-card-section-gap); }
+.svx-card .svx-card__footer > .svx-inline { --svx-layout-gap: var(--component-card-actions-gap); }
+@media (forced-colors: active) {
+  .svx-card { border-color: CanvasText; }
+}
+
 .svx-stack,
 .svx-grid,
 .svx-inline {
@@ -99,7 +146,7 @@
 .svx-skeleton--circle {
   width: var(--svx-skeleton-size);
   height: var(--svx-skeleton-size);
-  border-radius: 50%;
+  border-radius: var(--component-skeleton-circle-radius);
   flex-shrink: 0;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -149,7 +196,7 @@
   color: var(--component-choice-on-selected);
   cursor: pointer;
 }
-.svx-radio { border-radius: 50%; }
+.svx-radio { border-radius: var(--component-radio-radius); }
 .svx-choice:where(:hover:not(:disabled)) {
   border-color: var(--system-border-control-hover);
   background: var(--system-interactive-surface-hover);
@@ -198,7 +245,7 @@
   display: block;
   width: 40%;
   height: 40%;
-  border-radius: 50%;
+  border-radius: var(--component-radio-radius);
   background: currentColor;
 }
 .svx-radio-group {
@@ -837,7 +884,7 @@
 .svx-menu-item {
   display: flex;
   align-items: center;
-  border-radius: var(--radius-md);
+  border-radius: var(--component-control-radius);
   padding: var(--component-menu-item-padding-y) var(--component-menu-item-padding-x);
   font: var(--component-menu-label-sm);
   color: var(--system-text-primary);
@@ -860,12 +907,12 @@
   display: inline-flex;
 }
 .svx-split-button__primary {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-right-radius: var(--system-radius-none);
+  border-bottom-right-radius: var(--system-radius-none);
 }
 .svx-split-button__trigger {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: var(--system-radius-none);
+  border-bottom-left-radius: var(--system-radius-none);
   /* Divider reuses the same color-mix() overlay technique as the hover states
    * above, mixed against the trigger's own foreground so it reads correctly
    * on solid, outline, and ghost variants alike without a dedicated token. */

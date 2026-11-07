@@ -23,7 +23,7 @@
  * describe the baseline, not a fixed rendered size. Both units share the
  * same complete set of steps. Semantic and component tokens choose rem for
  * values that should scale with the root font size, or px for fixed geometry.
- * Component radii also use this ramp; there is no separate radius scale.
+ * Corner-radius semantics reuse this ramp; shape endpoints are defined separately.
  *
  * TOKEN GROUPS IN THIS FILE
  * -------------------------
@@ -35,6 +35,9 @@
  */
 
 @theme static {
+  --shape-radius-none: 0;
+  --shape-radius-full: 50%;
+  --shape-radius-pill: 9999px;
   /* ── Size scale — pixel-exact values ── */
 
   --size-px-2: 2px;

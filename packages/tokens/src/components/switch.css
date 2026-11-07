@@ -10,7 +10,7 @@
   --component-switch-thumb-md: var(--size-px-16);
   --component-switch-thumb-lg: var(--size-px-20);
   --component-switch-inset: var(--size-px-2);
-  --component-switch-radius: var(--size-px-24);
+  --component-switch-radius: var(--system-radius-pill);
   --component-switch-thumb-surface: var(--system-surface-white);
   --component-switch-thumb-border: var(--system-border-control);
   --component-switch-thumb-surface-disabled: var(--system-surface-disabled);

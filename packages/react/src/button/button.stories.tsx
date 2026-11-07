@@ -1,5 +1,5 @@
 import { TokenReference } from '../tokens/token-reference';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ComponentProps } from 'react';
 import { Button, buttonColors } from './button';
 import { IconButton } from '../icon-button/icon-button';

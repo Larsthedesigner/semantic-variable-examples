@@ -4,6 +4,7 @@ import buttonSource from '../../../tokens/src/components/button.css?raw';
 import fieldSource from '../../../tokens/src/components/field.css?raw';
 import inputSource from '../../../tokens/src/components/input.css?raw';
 import labelSource from '../../../tokens/src/components/label.css?raw';
+import cardSource from '../../../tokens/src/components/card.css?raw';
 import layoutSource from '../../../tokens/src/components/layout.css?raw';
 import menuSource from '../../../tokens/src/components/menu.css?raw';
 import sharedSource from '../../../tokens/src/components/shared-controls.css?raw';
@@ -33,7 +34,7 @@ function block(source: string, selector: string) {
 export const primitiveTokens = block(primitivesSource, '@theme static');
 const semanticBase = block(semanticSource, '@theme static');
 const componentSources: Record<string, string> = {
-  button: buttonSource, field: fieldSource, input: inputSource, label: labelSource, layout: layoutSource,
+  button: buttonSource, card: cardSource, field: fieldSource, input: inputSource, label: labelSource, layout: layoutSource,
   menu: menuSource, skeleton: skeletonSource, 'selection-controls': selectionSource,
   'shared-controls': sharedSource, status: statusSource,
   'supporting-text': supportingSource, switch: switchSource, tooltip: tooltipSource,

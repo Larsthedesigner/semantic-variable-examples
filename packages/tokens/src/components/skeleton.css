@@ -3,7 +3,8 @@
   --component-skeleton-surface: var(--system-loading-surface);
   --component-skeleton-shimmer: var(--system-loading-shimmer);
   --component-skeleton-animation: var(--system-animation-loading-shimmer);
-  --component-skeleton-radius: var(--size-rem-4);
+  --component-skeleton-radius: var(--system-radius-sm);
+  --component-skeleton-circle-radius: var(--system-radius-full);
   --component-skeleton-line-gap: var(--system-spacer-rem-xs);
   --component-skeleton-size-sm: var(--size-rem-24);
   --component-skeleton-size-md: var(--size-rem-32);

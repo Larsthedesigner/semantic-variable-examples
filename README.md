@@ -101,6 +101,21 @@ WCAG 3.0's APCA-based conformance model stabilizes.
 
 ## Getting started
 
+### Storybook MCP
+
+The Storybook 10 dev server provides the official MCP addon and component
+manifest. Run `pnpm storybook`, then start/trust `svx-storybook` from VS Code's
+MCP server controls. The workspace configuration lives in `.vscode/mcp.json`
+and connects to `http://127.0.0.1:6006/mcp`. Restart/reload MCP tools in the
+agent session if the server does not appear automatically.
+
+The server binds to loopback only. Its docs tools discover components, props,
+and stories; development tools provide story guidance and previews. Prefer
+those tools for component context and reserve browser inspection for visual
+checks. MCP test execution is intentionally disabled: the existing Vitest
+suite remains the test runner, without introducing Storybook's browser-test
+addon. Static Storybook builds do not host the MCP server.
+
 ### Theme foundations and token reference
 
 All six primitive color families use 12 light-to-dark stops (`100`–`1200`).
@@ -269,6 +284,78 @@ Typography Semantics displays all 14 bundles as real text specimens, with
 intended markup, usage, authored mappings, resolved values, and primitive
 dependencies. These are token foundations, not a new public React typography
 component or global heading reset.
+
+### Radius semantics
+
+Corner rounding uses a shared shape scale, not spacer tokens:
+
+| Semantic | Default | At a 16px root |
+| --- | --- | --- |
+| `--system-radius-none` | 0 | 0 |
+| `--system-radius-xs` | 0.125rem | 2px |
+| `--system-radius-sm` | 0.25rem | 4px |
+| `--system-radius-md` | 0.5rem | 8px |
+| `--system-radius-lg` | 0.625rem | 10px |
+| `--system-radius-xl` | 1rem | 16px |
+| `--system-radius-2xl` | 1.5rem | 24px |
+| `--system-radius-full` | 50% | Circle on square boxes; ellipse on rectangles |
+| `--system-radius-pill` | 9999px | Capsule on ordinary rectangular controls |
+
+Component-owned radius tokens reference these semantics. Buttons, inputs,
+textareas, cards, menus, and tooltips use md/lg; checkboxes and skeleton blocks
+use sm; radios and circular skeletons use full; switches use pill. Joined control
+edges use none. The legacy `--radius-md` alias remains for compatibility.
+T-shirt values scale with root font size, including Input and large Button
+corners that previously used fixed pixels. At a 16px root their shape is
+unchanged. Shape and spacing are separate roles even when their values match.
+The Foundations / Radius story shows the scale, mapping, usage, and previews.
+
+### Card
+
+Card is a non-interactive bordered content surface with prescribed padding,
+section spacing, and typography. It adds no role, tab stop, click behavior,
+shadow, or automatic heading associations.
+
+```tsx
+<Card asChild>
+  <section aria-labelledby="workspace-title">
+    <CardHeader actions={<Button variant="outline">Edit</Button>}>
+      <CardTitle id="workspace-title" level={2}>Workspace</CardTitle>
+      <CardDescription>Manage your team's settings.</CardDescription>
+    </CardHeader>
+    <CardBody>{content}</CardBody>
+    <CardFooter>
+      <Button variant="outline">Cancel</Button>
+      <Button>Save changes</Button>
+    </CardFooter>
+  </section>
+</Card>
+```
+
+Card renders a div by default; `asChild` merges onto a single non-interactive
+article, section, or form. Give landmarks an appropriate accessible name when
+needed. CardTitle requires a level from 2 through 6; select by document hierarchy,
+not appearance. The corresponding system heading bundle controls its styling.
+CardDescription uses the supporting body bundle. CardBody is a Stack with a
+prescribed gap; child paragraphs/lists retain their native margins.
+
+CardHeader accepts heading content and optional `actions`. Below sm (768px) of
+the Card's content width, header actions stack beneath the heading and fill the
+available track. At sm and above they sit beside it. CardFooter uses Inline:
+actions stack below sm of the footer's own width and align to the end above it.
+Neither arrangement reorders the DOM. Keep header actions short enough to fit
+beside content at the wide threshold. Card uses inline-size containment and
+should receive its width from a parent layout, not shrink-to-fit content.
+
+Component-owned card tokens map the surface/border to theme roles and geometry
+to size/spacer scales. This initial Card has one prescribed treatment, not a
+variant API. Use links/buttons inside for actions; do not make a whole Card
+interactive while nesting other controls. Loading features own aria-busy and
+status announcements; Skeleton remains decorative.
+
+Keep component stories concise: one basic example, a small number of distinct
+behavior examples, and a token reference. Avoid separate stories for every
+composition or visual permutation; use automated tests for broader coverage.
 
 ### Layout foundations
 

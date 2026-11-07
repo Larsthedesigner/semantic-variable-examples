@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Stack, layoutGaps } from './layout';
 import { Block, LayoutPage, Specimen, useLayoutMeasurement } from './layout-story-helpers';
 import { primitiveTokens, tokenCatalog } from '../tokens/token-catalog';

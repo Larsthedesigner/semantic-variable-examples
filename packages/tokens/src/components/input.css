@@ -13,7 +13,7 @@
   --component-input-text-sm: 400 var(--font-size-xs)/var(--line-height-xs) var(--font-family-sans);
   --component-input-text-md: 400 var(--font-size-sm)/var(--line-height-sm) var(--font-family-sans);
   --component-input-text-lg: 400 var(--font-size-md)/var(--line-height-md) var(--font-family-sans);
-  --component-input-radius-sm: var(--size-px-8);
-  --component-input-radius-md: var(--size-px-8);
-  --component-input-radius-lg: var(--size-px-10);
+  --component-input-radius-sm: var(--system-radius-md);
+  --component-input-radius-md: var(--system-radius-md);
+  --component-input-radius-lg: var(--system-radius-lg);
 }

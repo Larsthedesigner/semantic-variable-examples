@@ -1,4 +1,15 @@
 /* Build-time query names resolve from --breakpoint-* primitives. Not browser CSS. */
+@container svx-from-sm {
+  .svx-card > .svx-card__header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+@container svx-below-sm {
+  .svx-card > .svx-card__header > .svx-card__actions {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+  }
+}
 @media svx-from-sm {
   .svx-container { --svx-container-gutter: var(--component-container-gutter-default); }
 }

@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Container, Grid, Inline, Stack, layoutBreakpoints } from './layout';
 import { Block, LayoutPage, Specimen, useLayoutMeasurement } from './layout-story-helpers';
 import { Button } from '../button/button';
