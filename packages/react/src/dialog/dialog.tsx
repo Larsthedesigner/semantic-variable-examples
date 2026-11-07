@@ -16,15 +16,17 @@ export const DialogOverlay = forwardRef<
 
 export interface DialogContentProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   overlayClassName?: string;
+  /** Show the backdrop scrim. Modal behavior remains active when false. Defaults to true. */
+  scrim?: boolean;
 }
 
 export const DialogContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(function DialogContent({ className, overlayClassName, ...props }, ref) {
+>(function DialogContent({ className, overlayClassName, scrim = true, ...props }, ref) {
   return (
     <DialogPrimitive.Portal>
-      <DialogOverlay className={overlayClassName} />
+      <DialogOverlay className={overlayClassName} data-scrim={scrim} />
       <DialogPrimitive.Content {...props} ref={ref} className={['svx-dialog-content', className].filter(Boolean).join(' ')} />
     </DialogPrimitive.Portal>
   );

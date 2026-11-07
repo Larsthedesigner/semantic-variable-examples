@@ -29,7 +29,7 @@ export const ConfirmDestructiveAction: Story = {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild><Button variant="outline">Keep workspace</Button></AlertDialogCancel>
-          <AlertDialogAction asChild><Button onClick={onConfirm}>Delete workspace</Button></AlertDialogAction>
+          <AlertDialogAction asChild><Button color="error" onClick={onConfirm}>Delete workspace</Button></AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -37,6 +37,7 @@ export const ConfirmDestructiveAction: Story = {
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Delete workspace' }));
     await expect(screen.getByRole('alertdialog', { name: 'Delete this workspace?' })).toBeVisible();
+    await expect(screen.getByRole('button', { name: 'Delete workspace' })).toHaveClass('svx-button--color-error');
     await userEvent.click(screen.getByRole('button', { name: 'Delete workspace' }));
     await expect(onConfirm).toHaveBeenCalledTimes(1);
     await expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
@@ -53,9 +54,31 @@ export const Open: Story = {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild><Button variant="outline">Continue editing</Button></AlertDialogCancel>
-          <AlertDialogAction asChild><Button>Discard changes</Button></AlertDialogAction>
+          <AlertDialogAction asChild><Button color="error">Discard changes</Button></AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   ),
+};
+
+export const WithoutScrim: Story = {
+  render: () => (
+    <AlertDialog defaultOpen>
+      <AlertDialogContent scrim={false}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+          <AlertDialogDescription>Your edits will be lost if you leave this page.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel asChild><Button variant="outline">Continue editing</Button></AlertDialogCancel>
+          <AlertDialogAction asChild><Button color="error">Discard changes</Button></AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+  play: async () => {
+    await expect(screen.getByRole('alertdialog', { name: 'Discard unsaved changes?' })).toBeVisible();
+    await userEvent.click(screen.getByRole('button', { name: 'Continue editing' }));
+    await expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+  },
 };

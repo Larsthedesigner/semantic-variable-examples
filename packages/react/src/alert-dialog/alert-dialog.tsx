@@ -17,15 +17,17 @@ export const AlertDialogOverlay = forwardRef<
 
 export interface AlertDialogContentProps extends ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> {
   overlayClassName?: string;
+  /** Show the backdrop scrim. Modal behavior remains active when false. Defaults to true. */
+  scrim?: boolean;
 }
 
 export const AlertDialogContent = forwardRef<
   ElementRef<typeof AlertDialogPrimitive.Content>,
   AlertDialogContentProps
->(function AlertDialogContent({ className, overlayClassName, ...props }, ref) {
+>(function AlertDialogContent({ className, overlayClassName, scrim = true, ...props }, ref) {
   return (
     <AlertDialogPrimitive.Portal>
-      <AlertDialogOverlay className={overlayClassName} />
+      <AlertDialogOverlay className={overlayClassName} data-scrim={scrim} />
       <AlertDialogPrimitive.Content {...props} ref={ref} className={['svx-alert-dialog-content', className].filter(Boolean).join(' ')} />
     </AlertDialogPrimitive.Portal>
   );

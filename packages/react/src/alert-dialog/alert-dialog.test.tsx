@@ -8,6 +8,26 @@ import {
 } from './alert-dialog';
 
 describe('AlertDialog', () => {
+  it.each([undefined, true, false])('sets the scrim to %s and keeps the alert modal', async (scrim) => {
+    const user = userEvent.setup();
+    render(
+      <AlertDialog defaultOpen>
+        <AlertDialogContent scrim={scrim} overlayClassName="custom-overlay">
+          <AlertDialogTitle>Discard changes?</AlertDialogTitle>
+          <AlertDialogDescription>Your changes will be lost.</AlertDialogDescription>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Discard</AlertDialogAction>
+        </AlertDialogContent>
+      </AlertDialog>,
+    );
+
+    expect(document.querySelector('.custom-overlay')).toHaveAttribute('data-scrim', String(scrim ?? true));
+    expect(screen.getByRole('alertdialog', { name: 'Discard changes?' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus();
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+  });
+
   it('uses alertdialog semantics and initially focuses the safe cancel action', async () => {
     const user = userEvent.setup();
     render(

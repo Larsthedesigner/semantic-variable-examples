@@ -7,6 +7,24 @@ import {
 } from './dialog';
 
 describe('Dialog', () => {
+  it.each([undefined, true, false])('sets the scrim to %s without changing modal dismissal', async (scrim) => {
+    const user = userEvent.setup();
+    render(
+      <Dialog defaultOpen>
+        <DialogContent scrim={scrim} overlayClassName="custom-overlay">
+          <DialogTitle>Project details</DialogTitle>
+          <DialogDescription>Review project information.</DialogDescription>
+          <DialogClose>Done</DialogClose>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    expect(document.querySelector('.custom-overlay')).toHaveAttribute('data-scrim', String(scrim ?? true));
+    expect(screen.getByRole('dialog', { name: 'Project details' })).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
   it('renders a named trigger and keeps modal content closed by default', () => {
     render(
       <Dialog>

@@ -60,4 +60,23 @@ export const Open: Story = {
   ),
 };
 
+export const WithoutScrim: Story = {
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogContent scrim={false}>
+        <DialogHeader>
+          <DialogTitle>Project details</DialogTitle>
+          <DialogDescription>Review the project before returning to your workspace.</DialogDescription>
+        </DialogHeader>
+        <DialogFooter><DialogClose asChild><Button>Done</Button></DialogClose></DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async () => {
+    await expect(screen.getByRole('dialog', { name: 'Project details' })).toBeVisible();
+    await userEvent.click(screen.getByRole('button', { name: 'Done' }));
+    await expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  },
+};
+
 export const Tokens: Story = { render: () => <TokenReference owner="dialog" /> };

@@ -929,6 +929,11 @@
   background: var(--component-dialog-overlay);
 }
 
+.svx-dialog-overlay[data-scrim="false"],
+.svx-alert-dialog-overlay[data-scrim="false"] {
+  background: transparent;
+}
+
 .svx-dialog-content,
 .svx-alert-dialog-content {
   position: fixed;

@@ -132,6 +132,7 @@
   --system-surface-default: var(--color-white); /* Background fill for main content areas, list containers, and flat panels with no elevation. Pair with --system-text-primary and --system-text-secondary for ordinary content. */
   --system-surface-raised: var(--color-white); /* Background fill for cards and panels elevated above the default content surface. Reinforce elevation with a shadow rather than assuming the fill alone communicates depth. */
   --system-surface-overlay: var(--system-surface-default); /* Background fill for floating dialogs, popovers, dropdown menus, and command panels above page content. This fills the floating container, not the scrim behind it. */
+  --system-scrim: color-mix(in srgb, var(--color-black) 48%, transparent); /* Translucent backdrop behind modal dialogs and temporary panels. Apply over the page, not to the floating surface itself. */
   --system-surface-panel: var(--color-white); /* Background fill for persistent side panels, detail panes, and application chrome. Use for layout structure rather than temporary floating content. */
   --system-surface-white: var(--color-white); /* Invariant white background for content that must remain white in every mode, such as avatar backplates or icon containers on colored fills. Choose a foreground that remains visible on white. */
   --system-surface-disabled: var(--color-neutral-300); /* Background fill for disabled inputs, buttons, and selectable controls. Pair with --system-text-disabled, --system-icon-disabled, and --system-border-disabled as appropriate. */

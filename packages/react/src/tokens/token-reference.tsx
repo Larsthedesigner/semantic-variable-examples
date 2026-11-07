@@ -4,7 +4,7 @@ import type { TokenMode } from './token-catalog';
 import { ReferenceHeader } from './reference-header';
 
 const colorGroups = [
-  { id: 'surfaces', title: 'Surfaces', description: 'Build depth and structure with fills for content, panels, and elevated regions.', pattern: /^--system-(surface|deep)-/ },
+  { id: 'surfaces', title: 'Surfaces', description: 'Build depth and structure with fills for content, panels, and elevated regions.', pattern: /^--system-(?:(surface|deep)-|scrim$)/ },
   { id: 'foregrounds', title: 'Text & icons', description: 'Choose content emphasis and foreground roles for the surface underneath.', pattern: /^--system-(text|icon)-/ },
   { id: 'loading', title: 'Loading', description: 'Reserve pending content with neutral placeholder fills and shimmer overlays.', pattern: /^--system-loading-/ },
   { id: 'borders', title: 'Borders & focus', description: 'Define boundaries and visible focus indicators.', pattern: /^--system-border-|^--system-interactive-focus-ring$/ },

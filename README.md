@@ -367,6 +367,11 @@ and non-modal by default. Each content component renders its portal and token-
 backed surface. Compose `Title` and `Description` parts so the overlay has a
 programmatic accessible name and description. Popover content should also set
 `aria-label` or `aria-labelledby`, since Popover has no built-in title part.
+Dialog and AlertDialog content show a scrim by default; set `scrim={false}` to
+hide it without changing modal focus, scrolling, or dismissal behavior. The
+shared `--system-scrim` token controls the backdrop color for dialogs and
+other temporary panels; `--component-dialog-overlay` maps to it.
+For destructive confirmations, compose the action with `Button color="error"`.
 
 ```tsx
 <Dialog>
@@ -392,7 +397,7 @@ programmatic accessible name and description. Popover content should also set
     </AlertDialogHeader>
     <AlertDialogFooter>
       <AlertDialogCancel asChild><Button variant="outline">Cancel</Button></AlertDialogCancel>
-      <AlertDialogAction asChild><Button>Delete workspace</Button></AlertDialogAction>
+      <AlertDialogAction asChild><Button color="error">Delete workspace</Button></AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>

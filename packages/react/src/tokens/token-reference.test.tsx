@@ -41,8 +41,9 @@ describe('Foundation reference categories', () => {
     expect(screen.queryByText('About these previews')).not.toBeInTheDocument();
     for (const header of screen.getAllByRole('columnheader')) expect(header).toHaveAttribute('scope', 'col');
     const rows = screen.getAllByRole('table').flatMap(table => within(table).getAllByRole('row').slice(1));
-    expect(rows).toHaveLength(131);
-    expect(new Set(rows.map(row => within(row).getAllByRole('cell')[0].textContent)).size).toBe(131);
+    expect(rows).toHaveLength(132);
+    expect(new Set(rows.map(row => within(row).getAllByRole('cell')[0].textContent)).size).toBe(132);
+    expect(screen.getByText('--system-scrim')).toBeInTheDocument();
     for (const row of rows) {
       expect(within(row).getAllByRole('cell')[0].textContent).toMatch(/^--system-/);
       expect(row.textContent).not.toContain('--system-spacer-');
@@ -64,22 +65,23 @@ describe('Foundation reference categories', () => {
       expect(screen.getByRole('table')).toBe(table);
       const rows = within(table).getAllByRole('row').slice(1);
       expect(button.querySelector('span')).toHaveTextContent(String(rows.length));
-      expect(screen.getByRole('status')).toHaveTextContent(`${rows.length} of 131 tokens`);
+      expect(screen.getByRole('status')).toHaveTextContent(`${rows.length} of 132 tokens`);
       for (const row of rows) names.add(within(row).getAllByRole('cell')[0].textContent ?? '');
     }
-    expect(names.size).toBe(131);
+    expect(names.size).toBe(132);
     fireEvent.click(buttons[0]);
     expect(buttons[0]).toHaveAttribute('aria-pressed', 'true');
-    expect(within(table).getAllByRole('row')).toHaveLength(132);
-    expect(screen.getByText('131 tokens / 11 groups / Light + dark')).toBeInTheDocument();
+    expect(within(table).getAllByRole('row')).toHaveLength(133);
+    expect(screen.getByText('132 tokens / 11 groups / Light + dark')).toBeInTheDocument();
   });
 
   it('keeps filters independent when multiple references are rendered', () => {
     render(<><TokenReference category="color" /><TokenReference category="color" /></>);
-    fireEvent.click(screen.getAllByRole('button', { name: 'Surfaces 16' })[0]);
+    fireEvent.click(screen.getAllByRole('button', { name: 'Surfaces 17' })[0]);
     const tables = screen.getAllByRole('table');
-    expect(within(tables[0]).getAllByRole('row')).toHaveLength(17);
-    expect(within(tables[1]).getAllByRole('row')).toHaveLength(132);
+    expect(within(tables[0]).getAllByRole('row')).toHaveLength(18);
+    expect(within(tables[0]).getByText('--system-scrim')).toBeInTheDocument();
+    expect(within(tables[1]).getAllByRole('row')).toHaveLength(133);
   });
 
   it('shows only spacer roles and their mappings in Size Semantics', () => {

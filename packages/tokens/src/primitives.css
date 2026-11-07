@@ -9,7 +9,7 @@
  * Every color family has 12 stops (100–1200), ordered from light to dark.
  * Blue 800 is the exact Apple system-blue anchor (#007AFF).
  * Stops describe shared roles, not guaranteed contrast ratios or equal
- * perceptual intervals. White is a standalone endpoint.
+ * perceptual intervals. White and black are standalone endpoints.
  *
  * This mirrors a common two-tier design-token convention: a primitive
  * layer feeding an intention-based semantic layer, so a theme change only
@@ -137,6 +137,7 @@
 
   /* white palette */
   --color-white: #ffffff;
+  --color-black: #000000;
 
   /* blue palette */
   --color-blue-100: #f5f9ff;
