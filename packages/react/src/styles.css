@@ -918,3 +918,122 @@
    * on solid, outline, and ghost variants alike without a dedicated token. */
   border-left: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }
+
+/* ── Dialog and AlertDialog — shared modal surface, distinct semantics ────── */
+
+.svx-dialog-overlay,
+.svx-alert-dialog-overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: var(--component-dialog-overlay);
+}
+
+.svx-dialog-content,
+.svx-alert-dialog-content {
+  position: fixed;
+  z-index: 1001;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  display: grid;
+  align-content: start;
+  gap: var(--component-dialog-gap);
+  box-sizing: border-box;
+  width: min(var(--component-dialog-width), calc(100vw - var(--system-spacer-rem-md) - var(--system-spacer-rem-md)));
+  max-block-size: calc(100dvh - 2 * var(--system-spacer-rem-md));
+  overflow: auto;
+  padding: var(--component-dialog-padding);
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--component-dialog-border);
+  border-radius: var(--component-dialog-radius);
+  background: var(--component-dialog-surface);
+  box-shadow: var(--component-dialog-shadow);
+  color: var(--system-text-primary);
+  font: var(--system-type-body-font);
+  letter-spacing: var(--system-type-body-tracking);
+}
+
+.svx-dialog-content p,
+.svx-alert-dialog-content p { margin: 0; }
+
+.svx-dialog__header,
+.svx-alert-dialog__header {
+  display: grid;
+  gap: var(--component-dialog-header-gap);
+}
+
+.svx-dialog__title,
+.svx-alert-dialog__title {
+  margin: 0;
+  color: var(--system-type-h3-color);
+  font: var(--system-type-h3-font);
+  letter-spacing: var(--system-type-h3-tracking);
+}
+
+.svx-dialog__description,
+.svx-alert-dialog__description {
+  margin: 0;
+  color: var(--system-type-body-secondary-color);
+  font: var(--system-type-body-secondary-font);
+  letter-spacing: var(--system-type-body-secondary-tracking);
+}
+
+.svx-dialog__footer,
+.svx-alert-dialog__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--component-dialog-actions-gap);
+}
+
+.svx-dialog__field {
+  display: grid;
+  gap: var(--system-spacer-rem-xs);
+  color: var(--system-text-primary);
+  font: var(--system-type-label-md-font);
+  letter-spacing: var(--system-type-label-md-tracking);
+}
+
+@media (forced-colors: active) {
+  .svx-dialog-content,
+  .svx-alert-dialog-content {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}
+
+/* ── Popover — anchored, non-modal floating surface ──────────────────────── */
+
+.svx-popover-content {
+  z-index: 1000;
+  box-sizing: border-box;
+  min-inline-size: min(var(--component-popover-min-width), calc(100vw - var(--system-spacer-rem-md) - var(--system-spacer-rem-md)));
+  max-inline-size: min(var(--component-popover-max-width), calc(100vw - var(--system-spacer-rem-md) - var(--system-spacer-rem-md)));
+  max-block-size: min(var(--radix-popover-content-available-height, calc(100dvh - var(--system-spacer-rem-md) - var(--system-spacer-rem-md))), calc(100dvh - var(--system-spacer-rem-md) - var(--system-spacer-rem-md)));
+  overflow: auto;
+  padding: var(--component-popover-padding);
+  border: 1px solid var(--component-popover-border);
+  border-radius: var(--component-popover-radius);
+  background: var(--component-popover-surface);
+  box-shadow: var(--component-popover-shadow);
+  color: var(--system-text-primary);
+  font: var(--system-type-body-font);
+  letter-spacing: var(--system-type-body-tracking);
+  outline: none;
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+
+.svx-popover__content {
+  display: grid;
+  gap: var(--system-spacer-rem-md);
+}
+
+.svx-popover__content p { margin: 0; color: var(--system-text-secondary); }
+.svx-popover__title { margin: 0; font: var(--system-type-h4-font); color: var(--system-type-h4-color); }
+
+@media (forced-colors: active) {
+  .svx-popover-content {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}

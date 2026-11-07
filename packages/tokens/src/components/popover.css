@@ -1,0 +1,9 @@
+@theme static {
+  --component-popover-surface: var(--system-surface-overlay);
+  --component-popover-border: var(--system-border-default);
+  --component-popover-radius: var(--system-radius-md);
+  --component-popover-padding: var(--system-spacer-rem-md);
+  --component-popover-min-width: 12rem;
+  --component-popover-max-width: 24rem;
+  --component-popover-shadow: 0 0.5rem 2rem rgb(0 0 0 / 0.2);
+}

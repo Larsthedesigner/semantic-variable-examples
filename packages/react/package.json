@@ -34,13 +34,18 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
+    "@radix-ui/react-alert-dialog": "^1.2.1",
+    "@radix-ui/react-dialog": "^1.3.1",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
+    "@radix-ui/react-popover": "^1.3.1",
     "@radix-ui/react-slot": "^1.1.1",
     "@svx/tokens": "workspace:*",
     "class-variance-authority": "^0.7.1"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.6.6",
+    "@storybook/addon-docs": "^10.6.6",
+    "@storybook/addon-mcp": "^10.6.6",
     "@storybook/react": "^10.6.6",
     "@storybook/react-vite": "^10.6.6",
     "@testing-library/jest-dom": "^6.6.3",
@@ -55,8 +60,6 @@
     "storybook": "^10.6.6",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8",
-    "@storybook/addon-mcp": "^10.6.6",
-    "@storybook/addon-docs": "^10.6.6"
+    "vitest": "^2.1.8"
   }
 }

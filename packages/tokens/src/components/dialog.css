@@ -1,0 +1,12 @@
+@theme static {
+  --component-dialog-surface: var(--system-surface-overlay);
+  --component-dialog-border: var(--system-border-default);
+  --component-dialog-radius: var(--system-radius-xl);
+  --component-dialog-padding: var(--system-spacer-rem-xl);
+  --component-dialog-width: 32rem;
+  --component-dialog-overlay: rgb(0 0 0 / 0.48);
+  --component-dialog-shadow: 0 1.25rem 4rem rgb(0 0 0 / 0.24);
+  --component-dialog-gap: var(--system-spacer-rem-lg);
+  --component-dialog-header-gap: var(--system-spacer-rem-xs);
+  --component-dialog-actions-gap: var(--system-spacer-rem-sm);
+}

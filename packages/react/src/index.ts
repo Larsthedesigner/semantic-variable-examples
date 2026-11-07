@@ -32,3 +32,17 @@ export type { PolymorphicProps } from './polymorphic';
 export { Menu, MenuTrigger, MenuContent, MenuItem } from './menu/menu';
 export { SplitButton } from './split-button/split-button';
 export type { SplitButtonProps, SplitButtonAction } from './split-button/split-button';
+export {
+  Dialog, DialogTrigger, DialogPortal, DialogOverlay, DialogContent, DialogClose,
+  DialogHeader, DialogFooter, DialogTitle, DialogDescription,
+} from './dialog/dialog';
+export type { DialogContentProps } from './dialog/dialog';
+export {
+  AlertDialog, AlertDialogTrigger, AlertDialogPortal, AlertDialogOverlay,
+  AlertDialogContent, AlertDialogCancel, AlertDialogAction, AlertDialogHeader,
+  AlertDialogFooter, AlertDialogTitle, AlertDialogDescription,
+} from './alert-dialog/alert-dialog';
+export type { AlertDialogContentProps } from './alert-dialog/alert-dialog';
+export {
+  Popover, PopoverTrigger, PopoverAnchor, PopoverPortal, PopoverContent, PopoverClose,
+} from './popover/popover';

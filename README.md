@@ -357,6 +357,59 @@ Keep component stories concise: one basic example, a small number of distinct
 behavior examples, and a token reference. Avoid separate stories for every
 composition or visual permutation; use automated tests for broader coverage.
 
+### Dialog, AlertDialog, and Popover
+
+These overlays use Radix primitives for focus management, keyboard behavior,
+dismissal, and positioning. `Dialog` is modal and dismisses on Escape or an
+outside interaction; `AlertDialog` is a modal confirmation that requires an
+explicit action and does not dismiss from outside clicks; `Popover` is anchored
+and non-modal by default. Each content component renders its portal and token-
+backed surface. Compose `Title` and `Description` parts so the overlay has a
+programmatic accessible name and description. Popover content should also set
+`aria-label` or `aria-labelledby`, since Popover has no built-in title part.
+
+```tsx
+<Dialog>
+  <DialogTrigger asChild><Button>Edit profile</Button></DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>Update your public name.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+      <DialogClose asChild><Button>Save changes</Button></DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+<AlertDialog>
+  <AlertDialogTrigger asChild><Button>Delete workspace</Button></AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete this workspace?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel asChild><Button variant="outline">Cancel</Button></AlertDialogCancel>
+      <AlertDialogAction asChild><Button>Delete workspace</Button></AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+<Popover>
+  <PopoverTrigger asChild><Button variant="outline">Filters</Button></PopoverTrigger>
+  <PopoverContent aria-label="Project filters">{/* filter controls */}</PopoverContent>
+</Popover>
+```
+
+Keep confirmation actions explicit: use AlertDialog for consequential choices,
+with a cancel path and a clearly named action. Use Dialog for broader forms or
+workflows. Popover content is capped to the available viewport space; set an
+appropriate `side`, `align`, or `aria-labelledby` on its content when needed.
+Dialog surface and Popover surface/geometry tokens are exposed in their
+component token stories.
+
 ### Layout foundations
 
 `Stack`, `Inline`, `Grid`, and `Container` arrange content without choosing its

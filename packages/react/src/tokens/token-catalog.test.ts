@@ -28,6 +28,19 @@ describe('Token foundations', () => {
       }
     }
   });
+  it.each(['light', 'dark', 'high-contrast'] as const)('resolves dialog and popover component tokens in %s', mode => {
+    for (const [owner, expectedSurface] of [
+      ['dialog', '--component-dialog-surface'],
+      ['popover', '--component-popover-surface'],
+    ]) {
+      const tokens = tokenCatalog(mode, owner);
+      expect(tokens.length).toBeGreaterThan(0);
+      for (const token of tokens) expect(token.value).not.toContain('var(');
+      expect(tokens.find(token => token.name === expectedSurface)?.expression).toBe('var(--system-surface-overlay)');
+      expect(tokens.find(token => token.name === expectedSurface)?.value)
+        .toBe(tokenCatalog(mode).find(token => token.name === '--system-surface-overlay')?.value);
+    }
+  });
   it.each(['light', 'dark', 'high-contrast'] as const)('resolves shared selection-control tokens in %s', mode => {
     const catalog = tokenCatalog(mode, 'selection-controls');
     expect(catalog).toHaveLength(11);
