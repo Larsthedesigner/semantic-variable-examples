@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react-vite';
 import '../src/styles.css';
 import '../src/material-symbols.css';
 import './storybook.css';
@@ -15,6 +15,7 @@ const preview: Preview = {
       },
     },
   },
+
   globalTypes: {
     theme: {
       description: 'Global theme for components',
@@ -26,12 +27,15 @@ const preview: Preview = {
       },
     },
   },
+
   decorators: [
     (Story, context) => {
       document.documentElement.dataset.theme = context.globals.theme ?? 'light';
       return Story();
     },
   ],
+
+  tags: ['autodocs'],
 };
 
 export default preview;

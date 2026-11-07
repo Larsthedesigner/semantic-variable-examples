@@ -21,14 +21,14 @@ const colorGroups = [
 export function TokenReference({ mode = 'light', owner, category }: {
   mode?: TokenMode;
   owner?: string;
-  category?: 'color' | 'spacer' | 'animation';
+  category?: 'color' | 'spacer' | 'animation' | 'layout' | 'radius';
 }) {
   const [activeGroup, setActiveGroup] = useState('all');
-  const showColorComparison = !owner && category !== 'spacer' && category !== 'animation';
+  const showColorComparison = !owner && (category === undefined || category === 'color');
   const tokens = tokenCatalog(showColorComparison ? 'light' : mode, owner).filter(token =>
-    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : category === 'animation' ? token.name.startsWith('--system-animation-') : !/^--system-(spacer|type|animation)-/.test(token.name)));
+    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : category === 'animation' ? token.name.startsWith('--system-animation-') : category === 'layout' ? token.name.startsWith('--system-layout-') : category === 'radius' ? token.name.startsWith('--system-radius-') : !/^--system-(spacer|type|animation|layout|radius)-/.test(token.name)));
   const darkTokens = new Map(showColorComparison ? tokenCatalog('dark').map(token => [token.name, token]) : []);
-  const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : category === 'animation' ? 'Animation semantics' : 'Semantic color reference';
+  const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : category === 'animation' ? 'Animation semantics' : category === 'layout' ? 'Layout semantics' : category === 'radius' ? 'Radius semantics' : 'Semantic color reference';
   const groups = showColorComparison ? colorGroups.map(group => ({
     ...group, tokens: tokens.filter(token => group.pattern.test(token.name)),
   })).filter(group => group.tokens.length) : [{ id: 'tokens', title, description: '', tokens }];
@@ -41,12 +41,14 @@ export function TokenReference({ mode = 'light', owner, category }: {
   return (
     <div className={['sbx-reference', mode === 'light' ? undefined : mode].filter(Boolean).join(' ')}>
       <ReferenceHeader
-        eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : category === 'animation' ? 'Motion' : 'Color'} / Semantics`}
+        eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : category === 'animation' ? 'Motion' : category === 'layout' ? 'Layout' : category === 'radius' ? 'Radius' : 'Color'} / Semantics`}
         title={title}
         description={showColorComparison
           ? 'Choose colors by purpose, not palette. Compare each role in light and dark mode before using it in your application.'
           : category === 'spacer' ? 'A shared spacing rhythm for gaps, padding, and margins. Use rem for scalable layouts and px for fixed geometry.'
           : category === 'animation' ? 'Apply animation shorthands to decorative layers, not content. Reduced-motion preferences disable the loading shimmer at runtime.'
+          : category === 'layout' ? 'Parent fill, viewport fit, bounded content widths, and page gutters. Percentages follow the parent; viewport units follow the iframe viewport.'
+          : category === 'radius' ? 'Shared corner sizes, from square to pill. T-shirt values scale with root text size; full uses 50% and makes a circle only on a square box.'
           : 'Component-owned mappings connect theme roles and primitive dimensions to the control.'}
         summary={`${tokens.length} tokens${showColorComparison ? ` / ${groups.length} groups / Light + dark` : ` / ${mode} mode`}`}
       />
@@ -85,6 +87,11 @@ export function TokenReference({ mode = 'light', owner, category }: {
                 </div>
               )}
               {token.name.startsWith('--system-spacer-') && <div className="sbx-size-preview" aria-hidden="true" style={{ width: `var(${token.name})` }} />}
+              {token.name.startsWith('--system-radius-') && <div aria-hidden="true" style={{
+                width: '4rem', height: '2.5rem', marginBlockStart: 'var(--system-spacer-rem-sm)',
+                border: '1px solid var(--system-border-control)', background: 'var(--system-surface-sunken-soft)',
+                borderRadius: `var(${token.name})`,
+              }} />}
             </td>
             {showColorComparison && darkToken && [token.value, darkToken.value].map((value, index) => (
               <td key={index} className="sbx-preview-cell">

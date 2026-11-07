@@ -101,6 +101,21 @@ WCAG 3.0's APCA-based conformance model stabilizes.
 
 ## Getting started
 
+### Storybook MCP
+
+The Storybook 10 dev server provides the official MCP addon and component
+manifest. Run `pnpm storybook`, then start/trust `svx-storybook` from VS Code's
+MCP server controls. The workspace configuration lives in `.vscode/mcp.json`
+and connects to `http://127.0.0.1:6006/mcp`. Restart/reload MCP tools in the
+agent session if the server does not appear automatically.
+
+The server binds to loopback only. Its docs tools discover components, props,
+and stories; development tools provide story guidance and previews. Prefer
+those tools for component context and reserve browser inspection for visual
+checks. MCP test execution is intentionally disabled: the existing Vitest
+suite remains the test runner, without introducing Storybook's browser-test
+addon. Static Storybook builds do not host the MCP server.
+
 ### Theme foundations and token reference
 
 All six primitive color families use 12 light-to-dark stops (`100`–`1200`).
@@ -269,6 +284,211 @@ Typography Semantics displays all 14 bundles as real text specimens, with
 intended markup, usage, authored mappings, resolved values, and primitive
 dependencies. These are token foundations, not a new public React typography
 component or global heading reset.
+
+### Radius semantics
+
+Corner rounding uses a shared shape scale, not spacer tokens:
+
+| Semantic | Default | At a 16px root |
+| --- | --- | --- |
+| `--system-radius-none` | 0 | 0 |
+| `--system-radius-xs` | 0.125rem | 2px |
+| `--system-radius-sm` | 0.25rem | 4px |
+| `--system-radius-md` | 0.5rem | 8px |
+| `--system-radius-lg` | 0.625rem | 10px |
+| `--system-radius-xl` | 1rem | 16px |
+| `--system-radius-2xl` | 1.5rem | 24px |
+| `--system-radius-full` | 50% | Circle on square boxes; ellipse on rectangles |
+| `--system-radius-pill` | 9999px | Capsule on ordinary rectangular controls |
+
+Component-owned radius tokens reference these semantics. Buttons, inputs,
+textareas, cards, menus, and tooltips use md/lg; checkboxes and skeleton blocks
+use sm; radios and circular skeletons use full; switches use pill. Joined control
+edges use none. The legacy `--radius-md` alias remains for compatibility.
+T-shirt values scale with root font size, including Input and large Button
+corners that previously used fixed pixels. At a 16px root their shape is
+unchanged. Shape and spacing are separate roles even when their values match.
+The Foundations / Radius story shows the scale, mapping, usage, and previews.
+
+### Card
+
+Card is a non-interactive bordered content surface with prescribed padding,
+section spacing, and typography. It adds no role, tab stop, click behavior,
+shadow, or automatic heading associations.
+
+```tsx
+<Card asChild>
+  <section aria-labelledby="workspace-title">
+    <CardHeader actions={<Button variant="outline">Edit</Button>}>
+      <CardTitle id="workspace-title" level={2}>Workspace</CardTitle>
+      <CardDescription>Manage your team's settings.</CardDescription>
+    </CardHeader>
+    <CardBody>{content}</CardBody>
+    <CardFooter>
+      <Button variant="outline">Cancel</Button>
+      <Button>Save changes</Button>
+    </CardFooter>
+  </section>
+</Card>
+```
+
+Card renders a div by default; `asChild` merges onto a single non-interactive
+article, section, or form. Give landmarks an appropriate accessible name when
+needed. CardTitle requires a level from 2 through 6; select by document hierarchy,
+not appearance. The corresponding system heading bundle controls its styling.
+CardDescription uses the supporting body bundle. CardBody is a Stack with a
+prescribed gap; child paragraphs/lists retain their native margins.
+
+CardHeader accepts heading content and optional `actions`. Below sm (768px) of
+the Card's content width, header actions stack beneath the heading and fill the
+available track. At sm and above they sit beside it. CardFooter uses Inline:
+actions stack below sm of the footer's own width and align to the end above it.
+Neither arrangement reorders the DOM. Keep header actions short enough to fit
+beside content at the wide threshold. Card uses inline-size containment and
+should receive its width from a parent layout, not shrink-to-fit content.
+
+Component-owned card tokens map the surface/border to theme roles and geometry
+to size/spacer scales. This initial Card has one prescribed treatment, not a
+variant API. Use links/buttons inside for actions; do not make a whole Card
+interactive while nesting other controls. Loading features own aria-busy and
+status announcements; Skeleton remains decorative.
+
+Keep component stories concise: one basic example, a small number of distinct
+behavior examples, and a token reference. Avoid separate stories for every
+composition or visual permutation; use automated tests for broader coverage.
+
+### Layout foundations
+
+`Stack`, `Inline`, `Grid`, and `Container` arrange content without choosing its
+surface, typography, padding inside a Card, or interaction behavior.
+
+```tsx
+<Container size="content">
+  <Stack gap="xl">
+    <Inline justify="end" stackBelow="sm">
+      <Button>Cancel</Button>
+      <Button>Save changes</Button>
+    </Inline>
+    <Grid preset="cards">{items}</Grid>
+  </Stack>
+</Container>
+```
+
+- Stack uses a single vertical Grid track and defaults to `gap="lg"`.
+- Inline defaults to `gap="sm"`, center alignment, start justification, and
+  `stackBelow="sm"`. An outer div establishes an inline-size query container;
+  an inner Grid arranges children. Its ref, native attributes, and className
+  target the outer wrapper. Below the threshold it stacks and stretches tracks.
+  It does not implement variable-width flex wrapping; choose a suitable threshold
+  for the content. It needs available width from its parent, not shrink-to-fit
+  sizing. Reading and focus order always follow the DOM.
+- Grid defaults to adaptive `preset="cards"` with a 17.5rem minimum item width
+  and an xl gap. It falls to one track when space is narrower than the minimum.
+  `equal-2` and `equal-3` deliberately retain two/three equal tracks at all widths.
+  These fixed presets are not responsive card layouts.
+- Container defaults to `size="content"` and `gutter="responsive"`. Reading,
+  content, and wide outer-width caps are initially 40rem, 70rem, and 90rem,
+  including gutters. Responsive gutters change from lg to xl at the sm viewport
+  threshold. `gutter="fluid"` uses bounded 3vw spacing (lg to 2xl);
+  `gutter="none"` removes the inset. Nested Containers add their own gutters;
+  use none when the parent already supplies the intended inset.
+
+Gap choices are `none`, `2xs`, `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, and `3xl`,
+mapped to existing rem spacer semantics. Layout offers no general margin/padding
+props. Parent gaps separate siblings; surface components own their internal
+insets. Stack, Grid, and Container support `asChild` for a single semantic child
+such as main, section, or ul. The child retains its native browser styles:
+reset list/heading/paragraph margins where the composition requires it.
+Inline intentionally retains its two-div query boundary and has no asChild.
+
+Minimum-width thresholds are xs 480px, sm 768px, md 992px, lg 1280px,
+xl 1440px, and 2xl 1920px. Base styles apply below xs. These correspond to
+Webflow's familiar boundaries but cascade mobile-first. Compact (base/xs),
+regular (sm/md), and wide (lg and above) are descriptive groupings, not automatic
+device detection. Gap sizes and breakpoint sizes are separate scales.
+
+The CSS source `--breakpoint-*` primitives are build inputs. Named rules in
+`packages/tokens/src/layout-queries.css` compile to actual media/container
+conditions in `dist/css/layout-queries.css`, imported by the React stylesheet.
+CSS custom properties cannot be substituted directly into query conditions.
+Rebuild tokens after changing thresholds. Queries use CSS pixels, while rem
+content widths/spacing scale with the root font size.
+
+`--system-layout-size-fill` means 100% of the containing block on the applied
+axis, not the viewport or remaining space beside siblings. Percentage block
+sizes need a definite parent block size. Use border-box when borders and padding
+must fit. `--system-layout-viewport-block-size` supplies 100dvh for full-height
+regions; use min-block-size for growing pages and test keyboard/safe-area behavior.
+Content-width and gutter roles are shared system semantics; layout-owned
+component tokens map those roles to Container and Grid.
+
+Storybook's Foundations / Layout includes gap/width references, breakpoint
+definitions, a continuously resizable parent preview, fixed/adaptive grids,
+RTL/long-content stress cases, and parent/viewport/remaining-track comparisons.
+Dedicated Stack, Inline, Grid, and Container stories expose their own Controls.
+Specimens pair minimal code with boundary/spacing diagrams; live readouts report
+rendered widths, gaps, gutters, and track counts. The parent playground offers
+a number input, range slider, T-shirt presets, and optional layout guides.
+Large previews retain their actual CSS-pixel width and scroll within the canvas;
+they are never visually scaled to fit. Breakpoint tables show exact ranges.
+Parent resizing changes Inline queries and intrinsic Grid columns; changing the
+Storybook iframe viewport changes Container media queries, vw, and dvh.
+
+### Checkbox and radio selection
+
+`Checkbox` is a native checkbox, distinct from a Switch's immediate on/off setting.
+Use it for independent options, multi-selection, and consent. It supports
+`checked`/`defaultChecked`, native `onChange`, optional `onCheckedChange(boolean)`,
+sm/md/lg sizes, disabled, required, invalid, names/values, and input refs.
+
+```tsx
+<Field required invalid={hasError}>
+  <FieldLabel>Accept the terms</FieldLabel>
+  <FieldControl><Checkbox name="terms" value="accepted" /></FieldControl>
+  <FieldDescription>Read the agreement before continuing.</FieldDescription>
+  <FieldError>Accept the terms to continue.</FieldError>
+</Field>
+```
+
+`indeterminate` is a controlled boolean presentation/accessible mixed state,
+independent of `checked`. For select-all, derive it from a partially selected
+collection and clear it by updating that collection in `onCheckedChange`.
+Native checked state still determines form submission and required validation;
+an indeterminate mark alone does not submit a value. Uncontrolled checked state
+resets with the form; controlled state remains the parent's responsibility.
+
+`Radio` is a native radio input for mutually exclusive choices. Use
+`RadioGroup` to supply a common name, size, state, and native legend:
+
+```tsx
+<RadioGroup legend="Billing period" name="billing" defaultValue="monthly">
+  <Label><Radio value="monthly" />Monthly</Label>
+  <Label><Radio value="annual" />Annual</Label>
+</RadioGroup>
+```
+
+RadioGroup renders a fieldset with a legend; it is not itself a FieldControl.
+Label every option using a wrapping Label or `htmlFor`/`id`. The group generates
+an isolated name if omitted; use an explicit name for useful form submission.
+Set group `value`/`onValueChange` for controlled selection or `defaultValue` for
+native uncontrolled state and reset. Let the group own names and checked state;
+do not mix group state with individual `checked`/`defaultChecked` props.
+Native keyboard navigation moves among enabled options, selecting with arrow
+keys; Space selects the focused option. Required applies to the whole choice set.
+
+Set `aria-describedby` on RadioGroup to associate separately rendered
+SupportingText/error messages with the group and its options. `invalid` marks
+the fieldset and options without replacing native validation. Disabled groups
+disable every option and omit their values from submission. Individual options
+can also be disabled. Standalone Radio inputs accept native checked state and
+can use Field when a single option needs those associations.
+
+Checkbox/Radio share selection-control component tokens for geometry and theme
+roles. They reuse the focus utility, preserve semantic invalid/disabled colors,
+and provide system-color checked/mixed indicators in forced-colors mode.
+Checkbox check/mixed glyphs use Material Symbols; load the icon font as described
+above. Wrapping Label compositions align the control and text with a shared gap.
+Group layout uses spacer semantics; no new app-wide selection colors are added.
 
 ### Loading placeholders
 

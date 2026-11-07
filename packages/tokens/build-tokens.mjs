@@ -163,6 +163,17 @@ async function buildCss() {
 
   await fs.mkdir('dist/css', { recursive: true });
   await fs.writeFile('dist/css/index.css', banner + primitivesCss + '\n' + semanticCss + '\n' + componentsCss + '\n');
+  const queries = postcss.parse(await fs.readFile('src/layout-queries.css', 'utf8'), { from: 'src/layout-queries.css' });
+  for (const type of ['media', 'container']) {
+    queries.walkAtRules(type, rule => {
+      const match = /^svx-(from|below)-([\w-]+)$/.exec(rule.params);
+      if (!match) throw new Error(`Invalid layout query: ${rule.params}`);
+      const value = primitives.themeDecls.get(`breakpoint-${match[2]}`);
+      if (!value || !/^\d+px$/.test(value)) throw new Error(`Missing or invalid breakpoint: ${match[2]}`);
+      rule.params = `(width ${match[1] === 'from' ? '>=' : '<'} ${value})`;
+    });
+  }
+  await fs.writeFile('dist/css/layout-queries.css', banner + queries.toString() + '\n');
 }
 
 // --- 5. write dist/json (resolved, no var() left) --------------------------

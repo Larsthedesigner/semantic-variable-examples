@@ -1,5 +1,5 @@
 import { TokenReference } from '../tokens/token-reference';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SupportingText } from './supporting-text';
 
 const meta: Meta<typeof SupportingText> = {

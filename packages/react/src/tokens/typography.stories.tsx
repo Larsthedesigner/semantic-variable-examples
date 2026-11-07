@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TypographyPrimitives, TypographySemantics } from './typography-reference';
 
 const meta: Meta<typeof TypographySemantics> = {

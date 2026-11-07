@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Skeleton } from './skeleton';
 import { TokenReference } from '../tokens/token-reference';
@@ -38,10 +38,10 @@ function LoadingCard() {
     <p role="status">{loading ? 'Loading account details...' : 'Account details loaded.'}</p>
     <section aria-label="Account details" aria-busy={loading} style={{
       display: 'flex', gap: 'var(--system-spacer-rem-lg)', padding: 'var(--system-spacer-rem-lg)',
-      border: '1px solid var(--system-border-default)', borderRadius: 'var(--size-rem-8)', maxWidth: 400,
+      border: '1px solid var(--system-border-default)', borderRadius: 'var(--system-radius-md)', maxWidth: 400,
     }}>
       {loading ? <Skeleton variant="circle" size="lg" /> : <div aria-hidden="true" style={{
-        width: '2.5rem', height: '2.5rem', flexShrink: 0, borderRadius: '50%',
+        width: '2.5rem', height: '2.5rem', flexShrink: 0, borderRadius: 'var(--system-radius-full)',
         background: 'var(--system-interactive-surface)', display: 'grid', placeItems: 'center',
       }}>JD</div>}
       <div style={{ flex: 1, minWidth: 0 }}>

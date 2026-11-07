@@ -25,7 +25,7 @@
     "test": "vitest run",
     "lint": "echo \"no lint configured for react\" && exit 0",
     "typecheck": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --host 127.0.0.1 --no-open --disable-telemetry",
     "build:storybook": "storybook build -o storybook-static"
   },
   "peerDependencies": {
@@ -40,10 +40,9 @@
     "class-variance-authority": "^0.7.1"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^8.5.0",
-    "@storybook/addon-essentials": "^8.5.0",
-    "@storybook/react": "^8.5.0",
-    "@storybook/react-vite": "^8.5.0",
+    "@storybook/addon-a11y": "^10.6.6",
+    "@storybook/react": "^10.6.6",
+    "@storybook/react-vite": "^10.6.6",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
@@ -53,9 +52,11 @@
     "jsdom": "^25.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "storybook": "^8.5.0",
+    "storybook": "^10.6.6",
     "tsup": "^8.3.5",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "@storybook/addon-mcp": "^10.6.6",
+    "@storybook/addon-docs": "^10.6.6"
   }
 }

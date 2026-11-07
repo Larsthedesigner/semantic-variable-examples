@@ -13,10 +13,34 @@ function luminance(hex: string) {
 }
 
 describe('Token foundations', () => {
+  it.each(['light', 'dark', 'high-contrast'] as const)('maps component shapes through shared radius semantics in %s', mode => {
+    const radii = tokenCatalog(mode).filter(token => token.name.startsWith('--system-radius-'));
+    expect(Object.fromEntries(radii.map(token => [token.name.replace('--system-radius-', ''), token.value]))).toEqual({
+      none: '0', xs: '0.125rem', sm: '0.25rem', md: '0.5rem', lg: '0.625rem',
+      xl: '1rem', '2xl': '1.5rem', full: '50%', pill: '9999px',
+    });
+    for (const owner of ['button', 'input', 'card', 'selection-controls', 'switch', 'skeleton']) {
+      const tokens = tokenCatalog(mode, owner).filter(token => token.name.includes('radius'));
+      expect(tokens.length).toBeGreaterThan(0);
+      for (const token of tokens) {
+        expect(token.expression).toMatch(/^var\(--system-radius-[\w-]+\)$/);
+        expect(token.value).not.toContain('var(');
+      }
+    }
+  });
+  it.each(['light', 'dark', 'high-contrast'] as const)('resolves shared selection-control tokens in %s', mode => {
+    const catalog = tokenCatalog(mode, 'selection-controls');
+    expect(catalog).toHaveLength(11);
+    for (const token of catalog) expect(token.value).not.toContain('var(');
+    expect(catalog.find(token => token.name === '--component-choice-size-md')?.value).toBe('1rem');
+    expect(catalog.find(token => token.name === '--component-choice-gap')?.value).toBe('0.5rem');
+    expect(catalog.find(token => token.name === '--component-choice-selected')?.value)
+      .toBe(tokenCatalog(mode).find(token => token.name === '--system-interactive-solid')?.value);
+  });
   it('uses the inline base-declaration comment for every system usage', () => {
     const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
     const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];
-    expect(documented).toHaveLength(190);
+    expect(documented).toHaveLength(207);
     for (const [, name, usage] of documented) expect(tokenUsage(name)).toBe(usage);
     expect(() => tokenUsage('--system-undocumented')).toThrow('Missing usage description');
   });
@@ -90,7 +114,7 @@ describe('Token foundations', () => {
 
   it.each(['light', 'dark', 'high-contrast'] as const)('documents and resolves every semantic token in %s', (mode) => {
     const catalog = tokenCatalog(mode);
-    expect(catalog.length).toBe(190);
+    expect(catalog.length).toBe(207);
     for (const token of catalog) {
       expect(token.name).toMatch(/^--system-/);
       expect(token.value).not.toContain('var(');

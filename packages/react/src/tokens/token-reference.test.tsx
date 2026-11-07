@@ -4,6 +4,17 @@ import { describe, expect, it } from 'vitest';
 import { TokenReference } from './token-reference';
 
 describe('Foundation reference categories', () => {
+  it('shows only radius semantics with shape previews', () => {
+    render(<TokenReference category="radius" />);
+    expect(screen.getByRole('heading', { name: 'Radius semantics' })).toBeInTheDocument();
+    const rows = within(screen.getByRole('table')).getAllByRole('row').slice(1);
+    expect(rows).toHaveLength(9);
+    for (const row of rows) {
+      expect(row.querySelector('code')?.textContent).toMatch(/^--system-radius-/);
+      expect(row.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
+    }
+    expect(screen.queryByText('--system-text-primary')).not.toBeInTheDocument();
+  });
   it.each(['light', 'dark', 'high-contrast'] as const)('shows fixed light and dark previews in %s mode', mode => {
     render(<TokenReference category="color" mode={mode} />);
     for (const table of screen.getAllByRole('table')) {
@@ -93,6 +104,15 @@ describe('Foundation reference categories', () => {
     expect(rows[0]).toHaveTextContent('--system-animation-loading-shimmer');
     expect(rows[0]).toHaveTextContent('svx-loading-shimmer 1400ms linear infinite');
     expect(screen.queryByText('--system-loading-surface')).not.toBeInTheDocument();
+  });
+  it('shows layout roles separately from color and spacer references', () => {
+    render(<TokenReference category="layout" />);
+    expect(screen.getByRole('heading', { name: 'Layout semantics' })).toBeInTheDocument();
+    const rows = within(screen.getByRole('table')).getAllByRole('row').slice(1);
+    expect(rows).toHaveLength(8);
+    for (const row of rows) expect(within(row).getAllByRole('cell')[0].textContent).toMatch(/^--system-layout-/);
+    expect(screen.queryByText('--system-text-primary')).not.toBeInTheDocument();
+    expect(screen.getByText('100%')).toBeInTheDocument();
   });
 
   it('renders each color preview as one colored div without nested elements', () => {

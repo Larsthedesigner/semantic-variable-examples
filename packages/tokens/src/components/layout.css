@@ -1,0 +1,11 @@
+/* Layout primitives arrange content without supplying a visual surface. */
+@theme static {
+  --component-container-width-reading: var(--system-layout-width-reading);
+  --component-container-width-content: var(--system-layout-width-content);
+  --component-container-width-wide: var(--system-layout-width-wide);
+  --component-container-gutter-compact: var(--system-layout-gutter-compact);
+  --component-container-gutter-default: var(--system-layout-gutter-default);
+  --component-container-gutter-fluid: var(--system-layout-gutter-fluid);
+  --component-grid-cards-item-min: var(--layout-item-width-280);
+  --component-grid-cards-gap: var(--system-spacer-rem-xl);
+}

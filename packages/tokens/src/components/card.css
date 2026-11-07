@@ -1,0 +1,18 @@
+/* Bordered content surface; layout and type remain prescribed by the component. */
+@theme static {
+  --component-card-surface: var(--system-surface-default);
+  --component-card-border: var(--system-border-default);
+  --component-card-radius: var(--system-radius-md);
+  --component-card-padding: var(--system-spacer-rem-xl);
+  --component-card-section-gap: var(--system-spacer-rem-lg);
+  --component-card-heading-gap: var(--system-spacer-rem-xs);
+  --component-card-actions-gap: var(--system-spacer-rem-sm);
+}
+.dark {
+  --component-card-surface: var(--system-surface-default);
+  --component-card-border: var(--system-border-default);
+}
+.high-contrast {
+  --component-card-surface: var(--system-surface-default);
+  --component-card-border: var(--system-border-default);
+}

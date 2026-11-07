@@ -38,6 +38,23 @@
 
 
 @theme static {
+  --system-radius-none: var(--shape-radius-none); /* Square corners for intentionally joined edges or unrounded surfaces. Use component edge rules for joined controls rather than changing the whole shape scale. */
+  --system-radius-xs: var(--size-rem-2); /* Minimal corner rounding for small markers and compact visual details. Scales with the root font size; not a spacing value. */
+  --system-radius-sm: var(--size-rem-4); /* Small corner rounding for checkboxes, skeleton blocks, and compact nested surfaces. Use full for circular indicators instead. */
+  --system-radius-md: var(--size-rem-8); /* Standard corner rounding for buttons, inputs, cards, menus, and reference panels. Components own their mapping to this shared shape role. */
+  --system-radius-lg: var(--size-rem-10); /* Larger control corner rounding, initially used by large buttons and inputs. Scales with the root font size rather than remaining fixed in CSS pixels. */
+  --system-radius-xl: var(--size-rem-16); /* Generous corner rounding for larger panels when their component design calls for it. Not an automatic radius based on viewport width or component dimensions. */
+  --system-radius-2xl: var(--size-rem-24); /* Extra-generous corner rounding for spacious surfaces. Choose through a component mapping rather than adding arbitrary downstream radii. */
+  --system-radius-full: var(--shape-radius-full); /* Elliptical rounding of half each axis; produces a circle only on a square box. Use pill for capsule-shaped rectangles such as switch tracks. */
+  --system-radius-pill: var(--shape-radius-pill); /* Oversized length clamped by CSS to capsule corners on ordinary rectangular controls. Keeps switch tracks and thumbs fully rounded independently of their size. */
+  --system-layout-size-fill: var(--layout-size-full); /* Fill the containing block on the applied axis, not the viewport or remaining sibling space. Percentage block size needs a definite containing block size; use border-box when padding and borders must fit inside. */
+  --system-layout-viewport-block-size: var(--layout-size-viewport); /* Dynamic viewport block size for full-height app regions. Prefer min-block-size for growing page content; mobile keyboard and safe-area behavior still require explicit handling. */
+  --system-layout-width-reading: var(--layout-width-640); /* Maximum outer width for reading-focused content, including container gutters. This is a content constraint, not a responsive breakpoint. */
+  --system-layout-width-content: var(--layout-width-1120); /* Standard maximum outer width for application content, including container gutters. Fill the parent below this limit; do not force this width inside smaller regions. */
+  --system-layout-width-wide: var(--layout-width-1440); /* Maximum outer width for dashboards and data-rich application pages, including container gutters. Wide screens retain this cap instead of stretching content indefinitely. */
+  --system-layout-gutter-compact: var(--system-spacer-rem-lg); /* Root-relative inline inset for page containers below the sm viewport threshold. Internal cards and panels own their padding separately. */
+  --system-layout-gutter-default: var(--system-spacer-rem-xl); /* Root-relative inline inset for page containers at or above the sm viewport threshold. Layout queries choose the mode; the spacer does not change automatically with viewport size. */
+  --system-layout-gutter-fluid: clamp(var(--system-spacer-rem-lg), 3vw, var(--system-spacer-rem-2xl)); /* Optional viewport-responsive page gutter bounded by the rem spacing scale. Use for page-level containers, not narrow cards within a wide viewport; iframe resizing, not parent resizing, changes vw. */
   --system-loading-surface: var(--color-neutral-300); /* Resting background for loading placeholders that reserve space for pending content on standard surfaces. Not a disabled-control fill or progress indicator. */
   --system-loading-shimmer: color-mix(in srgb, var(--color-white) 65%, transparent); /* Moving light overlay composited over --system-loading-surface. Use in a transparent-to-shimmer gradient, not as text or a standalone background. */
   --system-animation-loading-shimmer: svx-loading-shimmer var(--duration-loading) var(--easing-linear) infinite; /* Reusable animation shorthand for a clipped, full-width shimmer overlay. Shared keyframes translate the overlay from -100% to 100%; apply to an absolutely positioned decorative layer, never the loading content itself. Reduced motion disables this animation. */

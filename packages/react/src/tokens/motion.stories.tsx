@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { primitiveTokens } from './token-catalog';
 import { ReferenceHeader } from './reference-header';
 import { TokenReference } from './token-reference';
