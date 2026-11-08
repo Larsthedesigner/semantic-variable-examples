@@ -33,7 +33,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
           if (!event.defaultPrevented) onCheckedChange?.(event.target.checked);
         }}
       />
-      <span className="svx-switch__thumb" aria-hidden="true" />
+      <span className="svx-switch__track" aria-hidden="true">
+        <span className="svx-switch__thumb" />
+      </span>
     </span>
   );
 });

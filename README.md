@@ -544,10 +544,15 @@ can also be disabled. Standalone Radio inputs accept native checked state and
 can use Field when a single option needs those associations.
 
 Checkbox/Radio share selection-control component tokens for geometry and theme
-roles. They reuse the focus utility, preserve semantic invalid/disabled colors,
+roles. They share the focus-ring tokens, preserve semantic invalid/disabled colors,
 and provide system-color checked/mixed indicators in forced-colors mode.
 Checkbox check/mixed glyphs use Material Symbols; load the icon font as described
 above. Wrapping Label compositions align the control and text with a shared gap.
+Checkbox, Radio, and Switch reserve at least 24 by 24 CSS pixels for each native
+input, while retaining their smaller visual shapes. Allow that layout space and
+avoid clipping or covering it; associated labels can provide a larger target.
+Native props, `className`, and inline styles apply to the transparent input,
+not the decorative visual shape.
 Group layout uses spacer semantics; no new app-wide selection colors are added.
 
 ### Loading placeholders
@@ -748,8 +753,8 @@ Both support `disabled`, `size="sm" | "md" | "lg"` (default `md`), and forwarded
 refs. Toggle's sizes match Button's 24/32/40px heights. Switch tracks are
 28x16 / 32x20 / 40x24px with 12/16/20px thumbs. Switch uses logical positioning
 for RTL layouts, respects reduced motion, and supports system forced colors.
-Its compact track is not an enlarged touch target; use a clickable label row
-with appropriate spacing when a larger target is needed.
+Its compact track sits within the minimum 24px-high interactive area; use a
+clickable label row when a larger target is needed.
 
 Toggle's persistent pressed appearance uses the selected interactive surface and
 its surface foreground, independently of hover and pointer-down overlays.
@@ -764,8 +769,9 @@ Compose it with Field for automatic labels, descriptions, size, and
 required/disabled/invalid state. FieldControl and the forwarded ref target the
 native input; Switch adds a small presentation wrapper for its decorative thumb.
 `className` and native props/style apply to the input. Toggle is an action button,
-not a Field control. Neither component performs application validation or saves
-a setting for you.
+not a Field control. The input is transparent; the visible track and thumb are
+decorative elements styled through the component's CSS and tokens. Neither
+component performs application validation or saves a setting for you.
 
 ```tsx
 <Toggle defaultPressed iconStartIcon="format_bold">Bold</Toggle>
