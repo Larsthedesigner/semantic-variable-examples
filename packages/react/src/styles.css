@@ -616,7 +616,7 @@
   }
 }
 
-/* Reusable focus ring (box-shadow "ring", not outline) — apply alongside any
+/* Reusable focus ring — apply alongside any
  * interactive element's own class. A solid system surface
  * band stands in for Tailwind's ring-offset-color, then the ring color band
  * outside it; box-shadow paints on top, so z-index lets it cleanly overlay
@@ -632,6 +632,13 @@
     0 0 0 var(--interactive-focus-ring-offset) var(--system-surface-raised),
     0 0 0 calc(var(--interactive-focus-ring-offset) + var(--interactive-focus-ring-width))
       var(--system-interactive-focus-ring);
+}
+@media (forced-colors: active) {
+  .svx-focus-ring:focus-visible {
+    outline: var(--interactive-focus-ring-width) solid Highlight;
+    outline-offset: var(--interactive-focus-ring-offset);
+    box-shadow: none;
+  }
 }
 
 .svx-button--sm {
