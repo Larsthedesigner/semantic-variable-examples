@@ -71,6 +71,8 @@ Pass ligature names rather than React elements; each control renders
 `MaterialSymbol` internally. SplitButton uses IconButton for its dropdown
 trigger. All three share icon sizes of 12px / 16px / 20px for `sm` / `md` /
 `lg` controls, and the internal SVG loading spinner follows the same sizing.
+When reduced motion is requested, the spinner remains visible but stops
+rotating. Loading controls remain disabled and expose `aria-busy`.
 
 ```tsx
 <Button iconStartIcon="add" iconEndIcon="arrow_forward">Add item</Button>
