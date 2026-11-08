@@ -29,13 +29,20 @@ export const Invalid: Story = { args: { invalid: true, required: true } };
 export const Disabled: Story = { args: { disabled: true, required: true } };
 
 export const Sizes: Story = {
-  render: () => (
+  argTypes: {
+    size: { control: false },
+    children: { control: false },
+  },
+  render: (args) => (
     <div style={{ display: 'grid', gap: 12 }}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
-        <Label key={size} size={size} required>{size} label</Label>
+        <Label {...args} key={size} size={size}>{size} label</Label>
       ))}
     </div>
   ),
+  parameters: {
+    docs: { description: { story: 'A fixed size comparison. Size and children are disabled because each example sets them explicitly; the other Label controls apply to all three examples.' } },
+  },
 };
 
 export const WithControl: Story = {
@@ -62,4 +69,10 @@ export const WithControl: Story = {
   ),
 };
 
-export const Tokens: Story = { render: () => <TokenReference owner="label" /> };
+export const Tokens: Story = {
+  render: () => <TokenReference owner="label" />,
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'Reference-only view of Label design tokens. This story renders TokenReference rather than a Label, so component controls do not apply.' } },
+  },
+};

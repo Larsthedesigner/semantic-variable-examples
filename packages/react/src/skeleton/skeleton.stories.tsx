@@ -17,19 +17,33 @@ export default meta;
 type Story = StoryObj<typeof Skeleton>;
 export const Default: Story = {};
 export const Shapes: Story = {
-  render: () => <div style={{ display: 'grid', gap: 'var(--system-spacer-rem-lg)', maxWidth: 400 }}>
+  argTypes: {
+    variant: { control: false },
+    size: { control: false },
+  },
+  render: ({ lines }) => <div style={{ display: 'grid', gap: 'var(--system-spacer-rem-lg)', maxWidth: 400 }}>
     <Skeleton variant="circle" size="lg" />
-    <Skeleton variant="text" lines={3} />
+    <Skeleton variant="text" lines={lines} />
     <Skeleton variant="rectangle" style={{ height: 120 }} />
   </div>,
+  parameters: {
+    docs: { description: { story: 'A fixed shape comparison. Variant and size are disabled because each specimen sets them explicitly; lines controls the text specimen.' } },
+  },
 };
 export const Themes: Story = {
-  render: () => <div style={{ display: 'grid', gap: 'var(--system-spacer-rem-lg)' }}>
+  render: ({ lines }) => <div style={{ display: 'grid', gap: 'var(--system-spacer-rem-lg)' }}>
     {['light', 'dark', 'high-contrast'].map(mode => <section key={mode} className={`sbx-reference ${mode}`}>
       <h2>{mode}</h2>
-      <Skeleton lines={3} />
+      <Skeleton lines={lines} />
     </section>)}
   </div>,
+  argTypes: {
+    variant: { control: false },
+    size: { control: false },
+  },
+  parameters: {
+    docs: { description: { story: 'A fixed theme comparison. Variant and size are disabled because the examples use the same text skeleton in each theme.' } },
+  },
 };
 function LoadingCard() {
   const [loading, setLoading] = useState(true);
@@ -54,5 +68,17 @@ function LoadingCard() {
     </section>
   </div>;
 }
-export const AccountCard: Story = { render: () => <LoadingCard /> };
-export const Tokens: Story = { render: () => <TokenReference owner="skeleton" /> };
+export const AccountCard: Story = {
+  render: () => <LoadingCard />,
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'The loading state is controlled by the button inside the example, so Skeleton component controls do not apply.' } },
+  },
+};
+export const Tokens: Story = {
+  render: () => <TokenReference owner="skeleton" />,
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'Reference-only view of Skeleton design tokens. This story renders TokenReference rather than a Skeleton, so component controls do not apply.' } },
+  },
+};

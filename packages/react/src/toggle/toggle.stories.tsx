@@ -26,6 +26,10 @@ export const IconOnly: Story = {
   args: { children: undefined, 'aria-label': 'Bold' },
 };
 export const Sizes: Story = {
+  argTypes: {
+    size: { control: false },
+    children: { control: false },
+  },
   render: (args) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
       {(['sm', 'md', 'lg'] as const).map((size) => (
@@ -33,6 +37,9 @@ export const Sizes: Story = {
       ))}
     </div>
   ),
+  parameters: {
+    docs: { description: { story: 'A fixed size comparison. Size and children are disabled because each example sets them explicitly; the other Toggle controls apply to all three examples.' } },
+  },
 };
 
 function ControlledExample() {
@@ -45,7 +52,13 @@ function ControlledExample() {
   );
 }
 
-export const Controlled: Story = { render: () => <ControlledExample /> };
+export const Controlled: Story = {
+  render: () => <ControlledExample />,
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'The example manages the controlled pressed state internally, so Toggle component controls do not apply.' } },
+  },
+};
 export const Themes: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 16 }}>
@@ -63,6 +76,16 @@ export const Themes: Story = {
       ))}
     </div>
   ),
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'A fixed theme and state comparison. Each Toggle is configured explicitly, so component controls do not apply.' } },
+  },
 };
 
-export const Tokens: Story = { render: () => <TokenReference owner="button" /> };
+export const Tokens: Story = {
+  render: () => <TokenReference owner="button" />,
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'Reference-only view of Toggle design tokens. This story renders TokenReference rather than a Toggle, so component controls do not apply.' } },
+  },
+};
