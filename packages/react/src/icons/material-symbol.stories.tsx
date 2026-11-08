@@ -23,14 +23,20 @@ export const Default: Story = {};
 export const Filled: Story = { args: { name: 'favorite', fill: true } };
 
 export const SizeScale: Story = {
-  render: () => (
+  argTypes: {
+    size: { control: false },
+  },
+  render: (args) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
       {materialSymbolSizes.map((size) => (
         <div key={size} style={{ display: 'grid', justifyItems: 'center', gap: 8 }}>
-          <MaterialSymbol name="star" size={size} />
+          <MaterialSymbol {...args} size={size} />
           <span>{size}</span>
         </div>
       ))}
     </div>
   ),
+  parameters: {
+    docs: { description: { story: 'A fixed size comparison. Size is disabled because each icon sets its own size; name, fill, and weight controls apply to every icon.' } },
+  },
 };

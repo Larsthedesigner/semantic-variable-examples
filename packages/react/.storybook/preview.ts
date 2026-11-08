@@ -5,6 +5,7 @@ import './storybook.css';
 
 const preview: Preview = {
   parameters: {
+    options: { storySort: { order: ['Introduction', '*'] } },
     controls: { expanded: true },
     a11y: {
       // WCAG 3.0 uses APCA contrast + a broader set of outcomes than 2.x's

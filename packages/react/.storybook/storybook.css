@@ -156,6 +156,28 @@
   background: var(--sbx-preview-surface);
 }
 .sbx-layout-overview p { color: var(--system-text-secondary); margin-block-end: 0; }
+.sbx-introduction { max-width: 56rem; line-height: 1.65; }
+.sbx-introduction-sections { display: grid; gap: var(--system-spacer-rem-2xl); }
+.sbx-introduction-sections section { min-width: 0; }
+.sbx-introduction-sections p { margin: 0 0 var(--system-spacer-rem-md); }
+.sbx-introduction-sections p:last-child { margin-bottom: 0; }
+.sbx-introduction a { color: var(--system-text-primary); text-decoration: underline; text-underline-offset: 0.2em; }
+.sbx-introduction a:focus-visible { outline: 2px solid var(--system-interactive-focus-ring); outline-offset: 3px; }
+.sbx-introduction-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--system-spacer-rem-sm) var(--system-spacer-rem-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sbx-introduction-flow {
+  display: grid;
+  gap: var(--system-spacer-rem-xs);
+  margin: 0 0 var(--system-spacer-rem-md);
+  padding-inline-start: var(--system-spacer-rem-xl);
+}
+.sbx-introduction-flow code { overflow-wrap: anywhere; }
 @media (width < 768px) {
   .sbx-layout-toolbar,
   .sbx-layout-gap-row { grid-template-columns: minmax(0, 1fr); }

@@ -103,6 +103,10 @@ WCAG 3.0's APCA-based conformance model stabilizes.
 
 ## Getting started
 
+Storybook opens with an introduction to the token layers, component references,
+and AI-assisted workflow. Use the sidebar to explore foundations and component
+stories, or follow a direct story link to open a specific example.
+
 ### Storybook MCP
 
 The Storybook 10 dev server provides the official MCP addon and component
