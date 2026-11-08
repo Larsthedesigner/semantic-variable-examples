@@ -8,13 +8,15 @@ This document records how this repo's token architecture and `Button`
 component anticipate that model today, and what remains provisional until
 WCAG 3.0 stabilizes.
 
-## What we did now (WCAG 2.2 baseline, enforced)
+## Current WCAG 2.2 baseline
 
 - **Contrast**: every semantic `text-on-*` / `interactive-*` pairing in
-  [`packages/tokens/src/semantic.css`](../../packages/tokens/src/semantic.css)
+  [`packages/tokens/src/semantic.css`](../packages/tokens/src/semantic.css)
   (light values, plus the `.dark { }` overrides in the same file) is chosen to
-  clear WCAG 2.2 AA (4.5:1 text, 3:1 UI component) in both themes. Storybook's
-  `addon-a11y` lints every story against the `wcag22aa` tag on every commit.
+  support WCAG 2.2 AA contrast in both themes. Token tests cover selected
+  pairings; check new foreground and background combinations in context.
+  Storybook's `addon-a11y` is configured with the `wcag22aa` tag for
+  inspection. CI does not currently run automated Storybook accessibility tests.
 - **Target size**: Button's visual heights are 24px, 32px, and
   40px. The smallest size does not guarantee a 44px hit area; consumers should
   ensure each instance satisfies WCAG 2.2 SC 2.5.8 through its target dimensions
@@ -38,20 +40,16 @@ WCAG 3.0 stabilizes.
   a lint pass just needs to score `text-*`/`interactive-*` pairs) and fail
   the build below the target bronze/silver tier — rather than only
   checking WCAG 2.x ratios as we do today.
-- **Outcome-based scoring**: move Storybook's a11y gate from a single
-  pass/fail tag to recording an outcome score per component (bronze/
-  silver/gold) once the W3C publishes stable scoring guidance, so
+- **Outcome-based scoring**: evaluate recording an outcome score per component
+  (bronze/silver/gold) once the W3C publishes stable scoring guidance, so
   component docs can state a conformance *level*, not just a binary pass.
-- **Non-color status cues**: this example only ships a two-ramp
-  (grey/blue) palette, so it has no status/error color to worry about yet
-  — but the same principle applies the moment one is added: pair any
-  status color with an icon/shape, never color alone, per WCAG 3.0's
-  outcome model.
+- **Non-color status cues**: the system includes status and error palettes.
+  Communicate status through text, icons, shape, or other cues as well as color.
 
 ## Why this belongs in the token layer, not the component
 
 Because `Button` only ever consumes semantic tokens (never raw palette
-values, see [`styles.css`](../../packages/react/src/styles.css)), contrast and
+values, see [`styles.css`](../packages/react/src/styles.css)), contrast and
 target-size fixes made in `tokens/src/semantic.css` propagate to every
 consumer and platform output (CSS/JSON/Compose/Swift) without touching
 component code — the same reason the primitive/semantic split exists.
