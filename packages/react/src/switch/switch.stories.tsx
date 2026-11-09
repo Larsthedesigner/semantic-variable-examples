@@ -11,11 +11,69 @@ const meta: Meta<typeof Switch> = {
   tags: ['autodocs'],
   args: { 'aria-label': 'Notifications', size: 'md' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    checked: { control: 'boolean' },
-    defaultChecked: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    invalid: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Switch size when not supplied by FieldControl.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    'data-size': {
+      control: false,
+      description: 'Size supplied by FieldControl when the switch is composed inside a Field.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" } },
+    },
+    checked: {
+      control: 'boolean',
+      description: 'Controlled checked state. Use defaultChecked for an uncontrolled switch.',
+      table: { type: { summary: 'boolean' } },
+    },
+    defaultChecked: {
+      control: 'boolean',
+      description: 'Initial checked state for an uncontrolled switch.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable interaction.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    invalid: {
+      control: 'boolean',
+      description: 'Mark the switch invalid and set aria-invalid unless explicitly overridden.',
+      table: { type: { summary: 'boolean' } },
+    },
+    required: {
+      control: false,
+      description: 'Require the switch to be on before its form can be submitted.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: false,
+      description: 'Form field name used when submitting an on switch.',
+      table: { type: { summary: 'string' } },
+    },
+    value: {
+      control: false,
+      description: 'Form value submitted when the switch is on.',
+      table: { type: { summary: 'string' }, defaultValue: { summary: 'on' } },
+    },
+    onCheckedChange: {
+      control: false,
+      description: 'Called with the new checked value after an unprevented change.',
+      table: { type: { summary: '(checked: boolean) => void' } },
+    },
+    onChange: {
+      control: false,
+      description: 'Native input change handler. Preventing the event skips onCheckedChange.',
+      table: { type: { summary: '(event: ChangeEvent<HTMLInputElement>) => void' } },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Switch accepts standard checkbox input props in addition to the size and invalid props listed here. Associate it with visible label text or provide an accessible name.',
+      },
+    },
   },
 };
 

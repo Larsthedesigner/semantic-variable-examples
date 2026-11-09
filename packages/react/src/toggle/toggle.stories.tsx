@@ -9,10 +9,65 @@ const meta: Meta<typeof Toggle> = {
   tags: ['autodocs'],
   args: { children: 'Bold', iconStartIcon: 'format_bold', size: 'md' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    pressed: { control: 'boolean' },
-    defaultPressed: { control: 'boolean' },
-    disabled: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Toggle size.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    pressed: {
+      control: 'boolean',
+      description: 'Controlled pressed state. Use defaultPressed for an uncontrolled toggle.',
+      table: { type: { summary: 'boolean' } },
+    },
+    defaultPressed: {
+      control: 'boolean',
+      description: 'Initial pressed state for an uncontrolled toggle.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    onPressedChange: {
+      control: false,
+      description: 'Called with the new pressed state after an unprevented click.',
+      table: { type: { summary: '(pressed: boolean) => void' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable interaction.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    iconStartIcon: {
+      control: 'text',
+      description: 'Material Symbols ligature name for a leading icon.',
+      table: { type: { summary: 'string' } },
+    },
+    iconEndIcon: {
+      control: 'text',
+      description: 'Material Symbols ligature name for a trailing icon.',
+      table: { type: { summary: 'string' } },
+    },
+    children: {
+      control: 'text',
+      description: 'Toggle content.',
+      table: { type: { summary: 'ReactNode' } },
+    },
+    type: {
+      control: 'select',
+      options: ['button', 'submit', 'reset'],
+      description: 'Native button type.',
+      table: { type: { summary: "'button' | 'submit' | 'reset'" }, defaultValue: { summary: 'button' } },
+    },
+    className: {
+      control: false,
+      description: 'Additional CSS class names.',
+      table: { type: { summary: 'string' } },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Toggle accepts native button props except aria-pressed, which is managed by the pressed state. Its visual treatment and color reflect whether it is pressed.',
+      },
+    },
   },
 };
 

@@ -9,10 +9,69 @@ const meta: Meta<typeof Textarea> = {
   tags: ['autodocs'],
   args: { 'aria-label': 'Message', placeholder: 'Write a message...', size: 'md', rows: 3 },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    invalid: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    readOnly: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Visual size of the textarea.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    invalid: {
+      control: 'boolean',
+      description: 'Mark the textarea invalid and set aria-invalid unless explicitly overridden.',
+      table: { type: { summary: 'boolean' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable interaction.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    readOnly: {
+      control: 'boolean',
+      description: 'Prevent editing while allowing the value to be focused and copied.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    rows: {
+      control: 'number',
+      description: 'Visible text rows.',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '3' } },
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Hint displayed when the textarea has no value.',
+      table: { type: { summary: 'string' } },
+    },
+    value: {
+      control: false,
+      description: 'Controlled textarea value. Use defaultValue for an uncontrolled textarea.',
+      table: { type: { summary: 'string | number | readonly string[]' } },
+    },
+    defaultValue: {
+      control: false,
+      description: 'Initial value for an uncontrolled textarea.',
+      table: { type: { summary: 'string | number | readonly string[]' } },
+    },
+    name: {
+      control: false,
+      description: 'Form field name used when submitting the textarea.',
+      table: { type: { summary: 'string' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Require a value before the form can be submitted.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    className: {
+      control: false,
+      description: 'Additional CSS class names.',
+      table: { type: { summary: 'string' } },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Textarea accepts standard native textarea props in addition to the visual size and invalid props listed here. The accessible name in the example is supplied through aria-label.',
+      },
+    },
   },
 };
 

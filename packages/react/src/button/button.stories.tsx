@@ -10,16 +10,80 @@ const meta: Meta<typeof Button> = {
   component: Button,
   tags: ['autodocs'],
   argTypes: {
-    variant: { control: 'select', options: ['solid', 'soft', 'outline', 'ghost'] },
-    color: { control: 'select', options: buttonColors },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    asChild: { control: 'boolean' },
-    loading: { control: 'boolean' },
-    iconStartIcon: { control: 'text' },
-    iconEndIcon: { control: 'text' },
+    variant: {
+      control: 'select',
+      options: ['solid', 'soft', 'outline', 'ghost'],
+      description: 'Visual treatment of the button.',
+      table: { type: { summary: "'solid' | 'soft' | 'outline' | 'ghost'" }, defaultValue: { summary: 'solid' } },
+    },
+    color: {
+      control: 'select',
+      options: buttonColors,
+      description: 'Semantic color intent.',
+      table: { type: { summary: "'accent' | 'neutral' | 'error' | 'success' | 'warning' | 'info'" }, defaultValue: { summary: 'accent' } },
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Button size.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    as: {
+      control: false,
+      description: 'Render as the specified element or component; its props depend on the selected element.',
+      table: { type: { summary: 'ElementType' }, defaultValue: { summary: 'button' } },
+    },
+    asChild: {
+      control: false,
+      description: 'Merge button behavior and props onto one child using the Radix Slot pattern.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Show a loading indicator and disable interaction.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable interaction.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    iconStartIcon: {
+      control: 'text',
+      description: 'Material Symbols ligature name for a leading icon.',
+      table: { type: { summary: 'string' } },
+    },
+    iconEndIcon: {
+      control: 'text',
+      description: 'Material Symbols ligature name for a trailing icon.',
+      table: { type: { summary: 'string' } },
+    },
+    children: {
+      control: 'text',
+      description: 'Button content.',
+      table: { type: { summary: 'ReactNode' } },
+    },
+    className: {
+      control: 'text',
+      description: 'Additional CSS class names.',
+      table: { type: { summary: 'string' } },
+    },
+    type: {
+      control: 'select',
+      options: ['button', 'submit', 'reset'],
+      description: 'Native button type. Defaults to submit when used in a form.',
+      table: { type: { summary: "'button' | 'submit' | 'reset'" }, defaultValue: { summary: 'submit' } },
+    },
   },
   args: {
     children: 'Button',
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Button accepts native button props and supports polymorphic rendering with `as` or `asChild`. When using `as`, the available props depend on the rendered element; see the polymorphic and asChild stories.',
+      },
+    },
   },
 };
 
