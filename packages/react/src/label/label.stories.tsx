@@ -9,12 +9,45 @@ const meta: Meta<typeof Label> = {
   tags: ['autodocs'],
   args: { children: 'Email' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    required: { control: 'boolean' },
-    optional: { control: 'boolean' },
-    textCase: { control: 'select', options: ['sentence', 'uppercase'] },
-    invalid: { control: 'boolean' },
-    disabled: { control: 'boolean' },
+    size: {
+      control: 'select', options: ['sm', 'md', 'lg'], description: 'Label text size.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    required: {
+      control: 'boolean', description: 'Show a visual required marker and suppress the optional indicator. Also set required on the associated control.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    optional: {
+      control: 'boolean', description: 'Show an optional indicator when required is false.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    textCase: {
+      control: 'select', options: ['sentence', 'uppercase'], description: 'Text casing treatment.',
+      table: { type: { summary: "'sentence' | 'uppercase'" }, defaultValue: { summary: 'sentence' } },
+    },
+    invalid: {
+      control: 'boolean', description: 'Apply invalid styling; does not set validity on the associated control.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    disabled: {
+      control: 'boolean', description: 'Apply disabled styling; does not disable the associated control.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    htmlFor: {
+      control: false, description: 'ID of the associated control. Alternatively, nest the control inside the label.',
+      table: { type: { summary: 'string' } },
+    },
+    children: {
+      control: 'text', description: 'Visible label content.',
+      table: { type: { summary: 'ReactNode' } },
+    },
+    className: {
+      control: false, description: 'Additional CSS class names on the label.',
+      table: { type: { summary: 'string' } },
+    },
+  },
+  parameters: {
+    docs: { description: { component: 'Label accepts native label props and forwards its ref to the label element. Required, invalid, and disabled are visual indicators; configure the associated control separately. With Control demonstrates this association.' } },
   },
 };
 

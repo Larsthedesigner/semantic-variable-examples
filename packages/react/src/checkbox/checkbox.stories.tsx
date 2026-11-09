@@ -10,8 +10,74 @@ const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox', component: Checkbox, tags: ['autodocs'],
   args: { 'aria-label': 'Select item' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    indeterminate: { control: 'boolean' }, disabled: { control: 'boolean' }, invalid: { control: 'boolean' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Checkbox size when not supplied by FieldControl.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    'data-size': {
+      control: false,
+      description: 'Size supplied by FieldControl when the checkbox is composed inside a Field.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" } },
+    },
+    indeterminate: {
+      control: 'boolean',
+      description: 'Show the mixed-state indicator; checked still determines form submission.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    invalid: {
+      control: 'boolean',
+      description: 'Mark the checkbox invalid and set aria-invalid unless explicitly overridden.',
+      table: { type: { summary: 'boolean' } },
+    },
+    checked: {
+      control: 'boolean',
+      description: 'Controlled checked state. Use defaultChecked for an uncontrolled checkbox.',
+      table: { type: { summary: 'boolean' } },
+    },
+    defaultChecked: {
+      control: 'boolean',
+      description: 'Initial checked state for an uncontrolled checkbox.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable interaction.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    required: {
+      control: false,
+      description: 'Require the checkbox to be checked before its form can be submitted.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: false,
+      description: 'Form field name used when submitting a checked checkbox.',
+      table: { type: { summary: 'string' } },
+    },
+    value: {
+      control: false,
+      description: 'Form value submitted when the checkbox is checked.',
+      table: { type: { summary: 'string' }, defaultValue: { summary: 'on' } },
+    },
+    onCheckedChange: {
+      control: false,
+      description: 'Called with the new checked value after an unprevented change.',
+      table: { type: { summary: '(checked: boolean) => void' } },
+    },
+    onChange: {
+      control: false,
+      description: 'Native input change handler. Preventing the event skips onCheckedChange.',
+      table: { type: { summary: '(event: ChangeEvent<HTMLInputElement>) => void' } },
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Checkbox accepts standard checkbox input props in addition to the size, invalid, and indeterminate props listed here. Associate it with visible label text or provide an accessible name.',
+      },
+    },
   },
 };
 export default meta;

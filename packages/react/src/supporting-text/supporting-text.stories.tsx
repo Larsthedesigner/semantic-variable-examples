@@ -8,12 +8,46 @@ const meta: Meta<typeof SupportingText> = {
   tags: ['autodocs'],
   args: { children: 'Use your work email.' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    invalid: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    variant: { control: 'select', options: ['default', 'error', 'success', 'disabled'] },
-    startIcon: { control: 'boolean' },
-    endIcon: { control: 'boolean' },
+    size: {
+      control: 'select', options: ['sm', 'md', 'lg'], description: 'Supporting text size.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    invalid: {
+      control: 'boolean', description: 'Use the error treatment unless disabled is true.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    disabled: {
+      control: 'boolean', description: 'Use the disabled treatment, overriding invalid and variant.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    variant: {
+      control: 'select', options: ['default', 'error', 'success', 'disabled'],
+      description: 'Text and icon treatment when neither disabled nor invalid overrides it.',
+      table: { type: { summary: "'default' | 'error' | 'success' | 'disabled'" }, defaultValue: { summary: 'default' } },
+    },
+    startIcon: {
+      control: 'boolean', description: 'Show a decorative leading icon chosen from the resolved treatment.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    endIcon: {
+      control: 'boolean', description: 'Show a decorative trailing icon chosen from the resolved treatment.',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    children: {
+      control: 'text', description: 'Supporting text content.',
+      table: { type: { summary: 'ReactNode' } },
+    },
+    id: {
+      control: false, description: 'ID referenced by a control through aria-describedby.',
+      table: { type: { summary: 'string' } },
+    },
+    className: {
+      control: false, description: 'Additional CSS class names on the paragraph.',
+      table: { type: { summary: 'string' } },
+    },
+  },
+  parameters: {
+    docs: { description: { component: 'SupportingText accepts native paragraph props and forwards its ref to the paragraph. Treatment precedence is disabled, then invalid (error), then variant. Connect help or error text to its control with id and aria-describedby; styling alone does not establish that relationship.' } },
   },
 };
 

@@ -8,9 +8,32 @@ const meta: Meta<typeof Skeleton> = {
   component: Skeleton,
   args: { variant: 'text', size: 'md', lines: 3 },
   argTypes: {
-    variant: { control: 'select', options: ['text', 'rectangle', 'circle'] },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    lines: { control: { type: 'number', min: 1, step: 1 }, if: { arg: 'variant', eq: 'text' } },
+    variant: {
+      control: 'select', options: ['text', 'rectangle', 'circle'],
+      description: 'Placeholder shape. Only the text variant accepts lines.',
+      table: { type: { summary: "'text' | 'rectangle' | 'circle'" }, defaultValue: { summary: 'text' } },
+    },
+    size: {
+      control: 'select', options: ['sm', 'md', 'lg'],
+      description: 'Placeholder size.',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } },
+    },
+    lines: {
+      control: { type: 'number', min: 1, step: 1 }, if: { arg: 'variant', eq: 'text' },
+      description: 'Positive integer count of text lines. Only valid with variant="text"; invalid counts throw a RangeError.',
+      table: { type: { summary: 'number (text variant only)' }, defaultValue: { summary: '1' } },
+    },
+    className: {
+      control: false, description: 'Additional CSS class names on the placeholder div.',
+      table: { type: { summary: 'string' } },
+    },
+    style: {
+      control: false, description: 'Native div styles, for example width or height for a rectangular placeholder.',
+      table: { type: { summary: 'CSSProperties' } },
+    },
+  },
+  parameters: {
+    docs: { description: { component: 'Skeleton accepts native div props except children and dangerouslySetInnerHTML. It is always aria-hidden and inert; supply loading announcements and aria-busy on the surrounding content, as shown in Account Card. Defaults below describe the component, not the example, which starts with three lines.' } },
   },
 };
 export default meta;
