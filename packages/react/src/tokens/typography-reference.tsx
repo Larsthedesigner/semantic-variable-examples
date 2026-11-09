@@ -22,7 +22,7 @@ const typeStyles = [
 export function TypographySemantics({ mode = 'light' }: { mode?: TokenMode }) {
   const catalog = tokenCatalog(mode);
   return (
-    <div className={`sbx-reference${mode === 'light' ? '' : ` ${mode}`}`}>
+    <div className={`sbx-reference ${mode}`}>
       <ReferenceHeader
         eyebrow="Foundations / Typography / Semantics"
         title="Typography semantics"

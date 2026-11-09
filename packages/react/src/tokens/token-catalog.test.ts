@@ -69,9 +69,78 @@ describe('Token foundations', () => {
     for (let index = 1; index < lightness.length; index++) expect(lightness[index]).toBeLessThan(lightness[index - 1]);
   });
 
-  it('preserves Apple system blue exactly and removes magenta', () => {
-    expect(primitiveTokens['--color-blue-800']).toBe('#007aff');
+  it('keeps light neutrals achromatic and progressively increases blue tint in darker stops', () => {
+    for (const stop of [100, 200, 300, 400, 500, 600]) {
+      const hex = primitiveTokens[`--color-neutral-${stop}`];
+      expect(hex.slice(1, 3)).toBe(hex.slice(3, 5));
+      expect(hex.slice(3, 5)).toBe(hex.slice(5, 7));
+    }
+    let previousBlueBias = 0;
+    for (const stop of [700, 800, 900, 1000, 1100, 1200]) {
+      const hex = primitiveTokens[`--color-neutral-${stop}`];
+      const [red, green, blue] = [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
+      expect(blue).toBeGreaterThan(green);
+      expect(green).toBeGreaterThan(red);
+      const blueBias = (blue - red) / (blue + red);
+      expect(blueBias).toBeGreaterThan(previousBlueBias);
+      previousBlueBias = blueBias;
+    }
+  });
+
+  it('keeps error pink-red and success vivid green without changing their status identities', () => {
+    expect(primitiveTokens['--color-error-700']).toBe('#ff456b');
+    expect(primitiveTokens['--color-success-700']).toBe('#39bb3d');
+    for (let stop = 100; stop <= 1200; stop += 100) {
+      const channels = (family: string) => [1, 3, 5].map(offset =>
+        parseInt(primitiveTokens[`--color-${family}-${stop}`].slice(offset, offset + 2), 16));
+      const [errorRed, errorGreen, errorBlue] = channels('error');
+      expect(errorRed).toBeGreaterThan(errorBlue);
+      expect(errorBlue).toBeGreaterThan(errorGreen);
+      const [successRed, successGreen, successBlue] = channels('success');
+      expect(successGreen).toBeGreaterThan(successRed);
+      expect(successGreen).toBeGreaterThan(successBlue);
+    }
+  });
+
+  it('keeps warning golden and info cyan-blue across all stops', () => {
+    expect(primitiveTokens['--color-warning-600']).toBe('#ffb20a');
+    expect(primitiveTokens['--color-info-700']).toBe('#159bc4');
+    for (let stop = 100; stop <= 1200; stop += 100) {
+      const channels = (family: string) => [1, 3, 5].map(offset =>
+        parseInt(primitiveTokens[`--color-${family}-${stop}`].slice(offset, offset + 2), 16));
+      const [warningRed, warningGreen, warningBlue] = channels('warning');
+      expect(warningRed).toBeGreaterThan(warningGreen);
+      expect(warningGreen).toBeGreaterThan(warningBlue);
+      const [infoRed, infoGreen, infoBlue] = channels('info');
+      expect(infoBlue).toBeGreaterThan(infoGreen);
+      expect(infoGreen).toBeGreaterThan(infoRed);
+    }
+  });
+
+  it('preserves the blue seed exactly and removes magenta', () => {
+    expect(primitiveTokens['--color-blue-800']).toBe('#0166cc');
     expect(Object.keys(primitiveTokens).some(name => name.includes('magenta'))).toBe(false);
+  });
+
+  it('derives all blue stops from the seed using the documented sRGB tint and shade weights', () => {
+    const seed = [1, 102, 204];
+    const hex = (channels: number[]) => `#${channels.map(channel => Math.round(channel).toString(16).padStart(2, '0')).join('')}`;
+    for (const [index, white] of [0.96, 0.92, 0.84, 0.72, 0.56, 0.38, 0.20].entries()) {
+      expect(primitiveTokens[`--color-blue-${(index + 1) * 100}`])
+        .toBe(hex(seed.map(channel => channel * (1 - white) + 255 * white)));
+    }
+    for (const [index, retained] of [0.80, 0.62, 0.44, 0.28].entries()) {
+      expect(primitiveTokens[`--color-blue-${900 + index * 100}`])
+        .toBe(hex(seed.map(channel => channel * retained)));
+    }
+  });
+
+  it.each(['light', 'dark', 'high-contrast'] as const)('propagates the blue ramp to semantic roles in %s', mode => {
+    const blueRoles = tokenCatalog(mode).filter(token => /^var\(--color-blue-\d+\)$/.test(token.expression));
+    expect(blueRoles.length).toBeGreaterThan(0);
+    for (const token of blueRoles) {
+      expect(token.value).toBe(primitiveTokens[token.expression.slice(4, -1)]);
+    }
   });
 
   it('has identical px/rem step sets and equivalent baseline values', () => {

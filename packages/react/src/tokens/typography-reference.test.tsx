@@ -5,7 +5,8 @@ import { TypographyPrimitives, TypographySemantics } from './typography-referenc
 
 describe('Typography references', () => {
   it.each(['light', 'dark', 'high-contrast'] as const)('documents complete bundles and renders specimens in %s', mode => {
-    render(<TypographySemantics mode={mode} />);
+    const { container } = render(<TypographySemantics mode={mode} />);
+    expect(container.firstElementChild).toHaveClass(mode);
     expect(screen.getAllByRole('table')).toHaveLength(14);
     const rows = screen.getAllByRole('table').flatMap(table => within(table).getAllByRole('row').slice(1));
     expect(rows).toHaveLength(42);

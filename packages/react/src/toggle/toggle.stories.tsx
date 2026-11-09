@@ -118,7 +118,7 @@ export const Themes: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 16 }}>
       {(['light', 'dark', 'high-contrast'] as const).map((theme) => (
-        <section key={theme} className={theme === 'light' ? undefined : theme} style={{
+        <section key={theme} className={theme} style={{
           background: 'var(--system-surface-default)', color: 'var(--system-text-primary)',
           padding: 16, display: 'flex', alignItems: 'center', gap: 16,
         }}>
