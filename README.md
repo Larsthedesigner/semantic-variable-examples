@@ -44,7 +44,7 @@ packages/tokens/src/semantic.css     existing control tokens plus the system sem
         │
         ▼  build-tokens.mjs (parses the CSS with postcss — no separate JSON source)
 packages/tokens/dist/
-  css/index.css          `@theme static` lowered to plain `:root { }` + mode overrides,
+  css/index.css          `@theme static` lowered to root + explicit theme scopes,
                           so it works with or without Tailwind
   json/tokens.json        { light, dark, highContrast }, resolved, nested by category
   json/tokens.flat.json   same, flat
@@ -107,6 +107,13 @@ Storybook opens with an introduction to the token layers, component references,
 and AI-assisted workflow. Use the sidebar to explore foundations and component
 stories, or follow a direct story link to open a specific example.
 
+Storybook defaults to dark mode. Use the **Theme** toolbar to switch between
+dark and light; the sidebar, Docs pages, and component previews switch together.
+Explicit theme links (for example, `globals=theme:light`) override the default.
+Explicit `.light`, `.dark`, and `.high-contrast` scopes keep theme-comparison
+examples independent of the surrounding page theme. The portable token CSS
+supports these scopes too; token values and native platform exports are unchanged.
+
 ### Storybook MCP
 
 The Storybook 10 dev server provides the official MCP addon and component
@@ -125,9 +132,13 @@ addon. Static Storybook builds do not host the MCP server.
 ### Theme foundations and token reference
 
 All six primitive color families use 12 light-to-dark stops (`100`–`1200`).
-Blue `800` is Apple system blue `#007AFF`; solid actions with small white text
+Neutral `100`–`600` are achromatic greys. Stops `700`–`1200` progressively
+shift toward blue-black, giving dark surfaces a cooler atmosphere while light
+surfaces stay untinted. Existing semantic aliases inherit these palette changes.
+Blue `800` is the exact seed `#0166CC`; solid actions with small white text
 use a darker semantic mapping to meet 4.5:1 contrast. Error, success, warning,
-and info palettes use coordinated red, green, amber, and informational blue.
+and info palettes use a subtly pink-red error ramp, a slightly more vivid
+yellow-leaning success green, golden amber warning, and cyan-blue info.
 Magenta is removed; escalated workflow status now uses the error foreground.
 Semantic names stay stable, but palette colors and removed primitive stops are
 intentional theme changes. Update direct primitive consumers; application
@@ -185,7 +196,7 @@ These descriptions live in inline comments beside the base declarations in
 `packages/tokens/src/semantic.css`; Storybook reads them directly so source
 documentation and the reference table stay aligned across modes.
 All foundation references share a page header, and color primitives use connected
-palette strips with an Apple blue anchor marker.
+palette strips with a blue seed anchor marker.
 Size and component references show selected-mode values and transitive primitive
 dependencies. Data comes from the CSS sources, not a
 duplicated palette snapshot. Color-mix values remain CSS expressions; their

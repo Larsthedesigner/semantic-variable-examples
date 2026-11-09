@@ -1,10 +1,14 @@
 import type { Preview } from '@storybook/react-vite';
+import { ThemedDocsContainer } from './docs-container';
+import { applyPreviewTheme } from './theme';
 import '../src/styles.css';
 import '../src/material-symbols.css';
 import './storybook.css';
 
 const preview: Preview = {
+  initialGlobals: { theme: 'dark' },
   parameters: {
+    docs: { container: ThemedDocsContainer },
     options: { storySort: { order: ['Introduction', '*'] } },
     controls: { expanded: true },
     a11y: {
@@ -19,11 +23,11 @@ const preview: Preview = {
 
   globalTypes: {
     theme: {
-      description: 'Global theme for components',
+      description: 'Theme for Storybook, documentation, and components',
       toolbar: {
         title: 'Theme',
         icon: 'circlehollow',
-        items: ['light', 'dark'],
+        items: ['dark', 'light'],
         dynamicTitle: true,
       },
     },
@@ -31,7 +35,7 @@ const preview: Preview = {
 
   decorators: [
     (Story, context) => {
-      document.documentElement.dataset.theme = context.globals.theme ?? 'light';
+      applyPreviewTheme(context.globals.theme);
       return Story();
     },
   ],

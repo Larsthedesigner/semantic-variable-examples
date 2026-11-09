@@ -7,7 +7,7 @@ import { promises as fs } from 'node:fs';
  * component-specific tokens. This
  * script parses that CSS (rather than a separate JSON source of truth) and
  * builds:
- *   - dist/css   a portable bundle (`@theme static` lowered to `:root`)
+ *   - dist/css   a portable bundle (defaults scoped to `:root` and explicit theme classes)
  *   - dist/json  a resolved (var()-free) snapshot for light, dark, and high contrast
  *   - dist/compose / dist/swift  native platform constants, resolved
  * Any token whose final value isn't a plain hex color / px dimension /
@@ -142,13 +142,13 @@ function nativeMembers(resolved, formatValue) {
   return { lines, skipped };
 }
 
-// --- 4. write dist/css (`@theme static` -> `:root`, dark stays `.dark`) ---
+// --- 4. write dist/css (explicit theme scopes reset inherited theme overrides) ---
 
 async function lowerThemeToRoot(file) {
   const css = await fs.readFile(file, 'utf8');
   const root = postcss.parse(css, { from: file });
   root.walkAtRules('theme', (atRule) => {
-    const rule = postcss.rule({ selector: ':root' });
+    const rule = postcss.rule({ selector: ':root, .light, .dark, .high-contrast' });
     rule.append(atRule.nodes);
     atRule.replaceWith(rule);
   });

@@ -1,3 +1,14 @@
+:root {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+body {
+  background: var(--system-surface-default);
+  color: var(--system-text-primary);
+}
+
 .sbx-reference {
   --sbx-panel-radius: var(--system-radius-md);
   --sbx-panel-border: var(--system-border-subtle);

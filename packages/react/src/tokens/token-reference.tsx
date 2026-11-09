@@ -39,7 +39,7 @@ export function TokenReference({ mode = 'light', owner, category }: {
     ? groups.filter(group => group.id === activeGroup).flatMap(group => group.tokens)
     : tokens;
   return (
-    <div className={['sbx-reference', mode === 'light' ? undefined : mode].filter(Boolean).join(' ')}>
+    <div className={`sbx-reference ${mode}`}>
       <ReferenceHeader
         eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : category === 'animation' ? 'Motion' : category === 'layout' ? 'Layout' : category === 'radius' ? 'Radius' : 'Color'} / Semantics`}
         title={title}
