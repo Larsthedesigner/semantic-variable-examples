@@ -349,21 +349,21 @@
   --system-text-primary: var(--color-neutral-100);
   --system-text-secondary: var(--color-neutral-600);
   --system-text-muted: var(--color-neutral-300);
-  --system-text-disabled: var(--color-neutral-1000);
+  --system-text-disabled: var(--color-neutral-700);
   --system-text-placeholder: var(--color-neutral-400);
   --system-text-inverse: var(--color-neutral-1200);
 
   /* icon */
   --system-icon-default: var(--color-neutral-300);
   --system-icon-muted: var(--color-neutral-400);
-  --system-icon-disabled: var(--color-neutral-1000);
+  --system-icon-disabled: var(--color-neutral-700);
 
   /* border */
   --system-border-default: var(--color-neutral-800);
   --system-border-subtle: var(--color-neutral-900);
   --system-border-control: var(--color-neutral-500);
   --system-border-control-hover: var(--color-neutral-400);
-  --system-border-disabled: var(--color-neutral-1000);
+  --system-border-disabled: var(--color-neutral-700);
   --system-border-focus: var(--color-blue-600);
 
   /* interactive */
@@ -376,8 +376,9 @@
   --system-interactive-surface-pressed: color-mix(in srgb, var(--color-neutral-700) 20%, transparent);
   --system-interactive-surface-selected: var(--color-blue-1000);
   --system-interactive-surface-foreground: var(--color-blue-400);
+  --system-interactive-fg: var(--color-blue-400);
   --system-interactive-fg-variant: var(--color-blue-400);
-  --system-interactive-disabled: var(--color-neutral-800);
+  --system-interactive-disabled: var(--system-surface-disabled);
   --system-interactive-border-default: var(--color-blue-500);
   --system-interactive-border-strong: var(--color-blue-400);
 
@@ -388,11 +389,11 @@
   --system-status-error-solid-selected: var(--color-error-1000);
   --system-status-error-surface: var(--color-error-1200);
   --system-status-error-surface-hover: color-mix(in srgb, var(--color-error-600) 8%, transparent);
-  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-600) 15%, transparent);
-  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-700) 25%, transparent);
+  --system-status-error-surface-pressed: color-mix(in srgb, var(--color-error-600) 10%, transparent);
+  --system-status-error-surface-selected: color-mix(in srgb, var(--color-error-700) 12%, transparent);
   --system-status-error-interactive-surface: var(--color-error-1100);
   --system-status-error-fg: var(--color-error-500);
-  --system-status-error-subtle-text: var(--color-error-1200);
+  --system-status-error-subtle-text: var(--color-error-500);
   --system-status-error-border: var(--color-error-600);
   --system-status-error-border-strong: var(--color-error-700);
 
@@ -401,11 +402,11 @@
   --system-status-success-solid-hover: var(--color-success-1000);
   --system-status-success-solid-pressed: var(--color-success-1100);
   --system-status-success-solid-selected: var(--color-success-1000);
-  --system-status-success-surface: var(--color-success-1000);
+  --system-status-success-surface: var(--color-success-1100);
   --system-status-success-surface-hover: color-mix(in srgb, var(--color-success-400) 8%, transparent);
   --system-status-success-surface-pressed: color-mix(in srgb, var(--color-success-400) 15%, transparent);
-  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-400) 25%, transparent);
-  --system-status-success-interactive-surface: var(--color-success-900);
+  --system-status-success-surface-selected: color-mix(in srgb, var(--color-success-400) 20%, transparent);
+  --system-status-success-interactive-surface: var(--color-success-1100);
   --system-status-success-fg: var(--color-success-400);
   --system-status-success-border: var(--color-success-400);
   --system-status-success-border-strong: var(--color-success-500);
@@ -419,7 +420,7 @@
   --system-status-warning-surface: var(--color-warning-1200);
   --system-status-warning-surface-hover: color-mix(in srgb, var(--color-warning-500) 8%, transparent);
   --system-status-warning-surface-pressed: color-mix(in srgb, var(--color-warning-500) 15%, transparent);
-  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-500) 25%, transparent);
+  --system-status-warning-surface-selected: color-mix(in srgb, var(--color-warning-500) 15%, transparent);
   --system-status-warning-interactive-surface: var(--color-warning-1200);
   --system-status-warning-fg: var(--color-warning-500);
   --system-status-warning-border: var(--color-warning-600);

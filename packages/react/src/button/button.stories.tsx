@@ -111,6 +111,33 @@ export const ColorVariants: Story = {
   ),
 };
 
+export const DarkSurfaces: Story = {
+  globals: { theme: 'dark' },
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'Fixed dark-mode contrast matrix on default and raised surfaces. Hover, press, and keyboard-focus the actions to compare their states. Component controls do not apply to this fixed comparison.' } },
+  },
+  render: () => (
+    <div style={{ display: 'grid', gap: 16 }}>
+      {(['default', 'raised'] as const).map(surface => (
+        <section key={surface} style={{ background: `var(--system-surface-${surface})`, color: 'var(--system-text-primary)', padding: 16, borderRadius: 'var(--system-radius-md)' }}>
+          <h2>{surface} surface</h2>
+          <div style={{ display: 'grid', gap: 12 }}>
+            {buttonColors.map(color => (
+              <div key={color} style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {(['solid', 'soft', 'outline', 'ghost'] as const).map(variant => (
+                  <Button key={variant} color={color} variant={variant}>{color} {variant}</Button>
+                ))}
+                <Button color={color} disabled>{color} disabled</Button>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  ),
+};
+
 export const Sizes: Story = {
   render: (args: ComponentProps<typeof Button>) => (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>

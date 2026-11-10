@@ -27,6 +27,12 @@ import preview from './preview';
 import { applyPreviewTheme } from './theme';
 
 describe('Storybook theme', () => {
+  it('includes earlier WCAG rules so AA contrast is not excluded', () => {
+    expect(preview.parameters?.a11y.config.runOnly).toEqual({
+      type: 'tag',
+      values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
+    });
+  });
   it('builds baseline token scopes so nested theme comparisons do not inherit another mode', () => {
     expect(portableTokens).toContain(':root, .light, .dark, .high-contrast {');
   });

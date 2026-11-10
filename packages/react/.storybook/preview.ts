@@ -12,11 +12,10 @@ const preview: Preview = {
     options: { storySort: { order: ['Introduction', '*'] } },
     controls: { expanded: true },
     a11y: {
-      // WCAG 3.0 uses APCA contrast + a broader set of outcomes than 2.x's
-      // success criteria; until tooling catches up, we lint against the
-      // strictest available ruleset (WCAG 2.2 AA) as a conservative proxy.
+      // Axe tags are additive: wcag22aa alone excludes earlier AA rules,
+      // including color-contrast (wcag2aa).
       config: {
-        runOnly: { type: 'tag', values: ['wcag22aa'] },
+        runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] },
       },
     },
   },

@@ -15,8 +15,9 @@ WCAG 3.0 stabilizes.
   (light values, plus the `.dark { }` overrides in the same file) is chosen to
   support WCAG 2.2 AA contrast in both themes. Token tests cover selected
   pairings; check new foreground and background combinations in context.
-  Storybook's `addon-a11y` is configured with the `wcag22aa` tag for
-  inspection. CI does not currently run automated Storybook accessibility tests.
+  Storybook's `addon-a11y` includes WCAG 2.0, 2.1, and 2.2 A/AA tags for
+  inspection; `wcag22aa` alone does not include earlier rules such as
+  `color-contrast`. CI does not currently run automated Storybook accessibility tests.
 - **Target size**: Button's visual heights are 24px, 32px, and
   40px. The smallest size does not guarantee a 44px hit area; consumers should
   ensure each instance satisfies WCAG 2.2 SC 2.5.8 through its target dimensions
@@ -45,6 +46,28 @@ WCAG 3.0 stabilizes.
   component docs can state a conformance *level*, not just a binary pass.
 - **Non-color status cues**: the system includes status and error palettes.
   Communicate status through text, icons, shape, or other cues as well as color.
+
+## Dark-mode contrast safeguards
+
+- Non-solid accent actions use a light foreground independently of their dark
+  solid fills. White remains the foreground on solid actions.
+- Soft status colors are tested after compositing hover, pressed, and selected
+  overlays over their intended bases, not as isolated translucent colors.
+- Disabled content remains legible on default, raised, and disabled surfaces.
+  This is a usability target, not a claim that disabled controls require WCAG
+  text contrast.
+- Solid buttons have a component-owned border in dark mode to separate them
+  from default and raised surfaces without an extra background layer.
+- Menu highlights include an inset focus outline rather than relying solely
+  on a low-contrast surface tint. Forced colors use the system Highlight color.
+- The Button Dark Surfaces story compares all color variants and disabled
+  actions on both standard backgrounds. Token tests cover the corresponding
+  dark foreground, boundary, and composited state pairings.
+
+CSS and JSON preserve translucent `color-mix()` overlays. The native Compose
+and Swift exporters still skip CSS expressions without native representations,
+including these overlays and transparent border values; resolved hex colors,
+including the dark solid-button border, remain available.
 
 ## Why this belongs in the token layer, not the component
 

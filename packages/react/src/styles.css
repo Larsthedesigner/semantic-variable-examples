@@ -687,6 +687,7 @@
 
 /* variants -> semantic interactive tokens */
 .svx-button--solid {
+  border-color: var(--component-button-solid-border);
   background-color: var(--svx-button-solid);
   color: var(--svx-button-on-solid);
 }
@@ -704,7 +705,6 @@
   background-color: var(--system-interactive-disabled);
   color: var(--system-text-disabled);
 }
-
 .svx-button--soft {
   background-color: var(--svx-button-surface);
   color: var(--svx-button-fg);
@@ -932,10 +932,16 @@
 /* [data-highlighted] covers hover *and* keyboard arrow-nav — one rule, both inputs. */
 .svx-menu-item[data-highlighted] {
   background-color: var(--system-interactive-surface-hover);
+  outline: var(--interactive-focus-ring-width) solid var(--system-interactive-focus-ring);
+  outline-offset: calc(-1 * var(--interactive-focus-ring-width));
 }
 .svx-menu-item[data-disabled] {
   color: var(--system-text-disabled);
   cursor: not-allowed;
+}
+@media (forced-colors: active) {
+  .svx-menu-item[data-highlighted] { outline-color: Highlight; }
+  .svx-menu-item[data-disabled] { color: GrayText; }
 }
 
 /* ── SplitButton — two Buttons fused by layout-only modifier classes ─────── */

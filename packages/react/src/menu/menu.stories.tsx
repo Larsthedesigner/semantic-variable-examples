@@ -203,7 +203,7 @@ export const Default: Story = {
 
 export const KeyboardNavigation: Story = {
   args: { loop: true },
-  parameters: { docs: { description: { story: 'Open with ArrowDown; skip disabled Delete, wrap, jump, type ahead, select, and dismiss with Escape. Tab stays in the menu.' } } },
+  parameters: { docs: { description: { story: 'Open with ArrowDown; the active item has an inset focus outline in addition to its surface tint. Skip disabled Delete, wrap, jump, type ahead, select, and dismiss with Escape. Tab stays in the menu.' } } },
   play: async ({ canvas, canvasElement }) => {
     const body = within(canvasElement.ownerDocument.body);
     const trigger = canvas.getByRole('button');
@@ -213,8 +213,12 @@ export const KeyboardNavigation: Story = {
     const first = body.getByRole('menuitem', { name: 'Duplicate' });
     const last = body.getByRole('menuitem', { name: 'Archive' });
     await waitFor(() => expect(first).toHaveFocus());
+    await expect(first).toHaveAttribute('data-highlighted');
+    await expect(first).toHaveStyle({ outlineStyle: 'solid' });
     await userEvent.keyboard('{ArrowDown}');
     await expect(last).toHaveFocus();
+    await expect(last).toHaveAttribute('data-highlighted');
+    await expect(last).toHaveStyle({ outlineStyle: 'solid' });
     await userEvent.keyboard('{ArrowDown}');
     await expect(first).toHaveFocus();
     await userEvent.keyboard('{End}');
