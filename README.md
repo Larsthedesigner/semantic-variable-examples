@@ -114,6 +114,14 @@ Explicit `.light`, `.dark`, and `.high-contrast` scopes keep theme-comparison
 examples independent of the surrounding page theme. The portable token CSS
 supports these scopes too; token values and native platform exports are unchanged.
 
+The **Menu** stories document `Menu`, `MenuTrigger`, `MenuContent`, and `MenuItem`
+separately, with positioning and state controls, controlled and uncontrolled
+examples, disabled states, and cancellable selection. Browser play functions
+cover pointer selection, keyboard navigation, dismissal, and focus restoration.
+Direct unit tests cover wrapper prop/class/ref forwarding and supported
+interactions; the full Radix open/select cycle is checked in the browser because
+of the existing jsdom limitation.
+
 ### Storybook MCP
 
 The Storybook 10 dev server provides the official MCP addon and component
