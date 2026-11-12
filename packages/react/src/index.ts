@@ -18,6 +18,8 @@ export { Input } from './input/input';
 export type { InputProps } from './input/input';
 export { Textarea } from './textarea/textarea';
 export type { TextareaProps } from './textarea/textarea';
+export { Select } from './select/select';
+export type { SelectProps } from './select/select';
 export { Toggle } from './toggle/toggle';
 export type { ToggleProps } from './toggle/toggle';
 export { Switch } from './switch/switch';

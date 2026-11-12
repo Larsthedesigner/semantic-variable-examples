@@ -82,8 +82,12 @@ export const FieldLabel = forwardRef<HTMLLabelElement, FieldLabelProps>(function
 });
 
 export interface FieldControlProps {
-  /** One native input/textarea/select, or a component forwarding these props and ref. */
-  children: ReactElement<ComponentPropsWithoutRef<'input'> & { 'data-size'?: LabelProps['size'] }>;
+  /** One native input, textarea, or select, or a component forwarding these props and ref. */
+  children: ReactElement<
+    | (ComponentPropsWithoutRef<'input'> & { 'data-size'?: LabelProps['size'] })
+    | (ComponentPropsWithoutRef<'textarea'> & { 'data-size'?: LabelProps['size'] })
+    | (ComponentPropsWithoutRef<'select'> & { 'data-size'?: LabelProps['size'] })
+  >;
 }
 
 export const FieldControl = forwardRef<HTMLElement, FieldControlProps>(function FieldControl(
