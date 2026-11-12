@@ -3,26 +3,28 @@ import { describe, expect, it } from 'vitest';
 import { Introduction } from './introduction';
 
 describe('Storybook introduction', () => {
-  it('explains the token layers and the local AI-assisted workflow', () => {
+  it('introduces the design system and explains its purpose', () => {
     render(<Introduction />);
 
-    expect(screen.getByRole('heading', { name: 'Welcome to the design system' })).toBeInTheDocument();
-    expect(screen.getByText('--size-px-12')).toBeInTheDocument();
-    expect(screen.getByText('--system-spacer-px-md')).toBeInTheDocument();
-    expect(screen.getByText('--component-button-padding-x-md')).toBeInTheDocument();
-    expect(screen.getByText('svx-storybook')).toBeInTheDocument();
-    expect(screen.getByText(/does not run tests/)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'An exploratory design system' })).toBeInTheDocument();
+    expect(screen.getByText('Example Design System')).toBeInTheDocument();
+    expect(screen.getByText('Explore primitives, semantics, components, and their usage in an example design system.')).toBeInTheDocument();
   });
 
-  it.each([
-    ['Explore color semantics', './?path=/story/foundations-color--semantics'],
-    ['Explore Button', './?path=/story/components-button--solid'],
-    ['Explore layout foundations', './?path=/story/foundations-layout--overview'],
-    ['Explore size semantics', './?path=/story/foundations-size--semantics'],
-  ])('links %s to the Storybook manager', (label, href) => {
+  it('describes Storybook and semantic design decisions in labeled sections', () => {
     render(<Introduction />);
-    expect(screen.getByRole('link', { name: label })).toHaveAttribute('href', href);
-    expect(screen.getByRole('link', { name: label })).toHaveAttribute('target', '_top');
+
+    expect(screen.getByRole('region', { name: 'About Storybook' })).toHaveTextContent(
+      'Storybook is a sandbox environment for exploring and developing UI components.',
+    );
+    expect(screen.getByRole('region', { name: 'Semantic driven design decisions' })).toHaveTextContent(
+      'When usage is implied, engineers and AI can deterministically infer proper usage.',
+    );
+  });
+
+  it('does not apply the dark theme by default', () => {
+    render(<Introduction />);
+    expect(screen.getByRole('main')).not.toHaveClass('dark');
   });
 
   it('applies the dark theme when requested', () => {
