@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import type { DivAsChildComponent } from '../polymorphic';
 
 export const layoutGaps = ['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'] as const;
 export type LayoutGap = (typeof layoutGaps)[number];
@@ -14,13 +15,14 @@ interface LayoutProps extends ComponentPropsWithoutRef<'div'> {
 export interface StackProps extends LayoutProps {
   gap?: LayoutGap;
 }
-export const Stack = forwardRef<HTMLDivElement, StackProps>(function Stack(
+const StackImplementation = forwardRef<HTMLDivElement, StackProps>(function Stack(
   { gap = 'lg', asChild = false, className, ...props }, ref,
 ) {
   const Component = asChild ? Slot : 'div';
   return <Component {...props} ref={ref} data-gap={gap}
     className={['svx-stack', className].filter(Boolean).join(' ')} />;
 });
+export const Stack = StackImplementation as DivAsChildComponent<StackProps>;
 
 export interface InlineProps extends ComponentPropsWithoutRef<'div'> {
   gap?: LayoutGap;
@@ -44,22 +46,24 @@ export interface GridProps extends LayoutProps {
   preset?: 'cards' | 'equal-2' | 'equal-3';
   gap?: LayoutGap;
 }
-export const Grid = forwardRef<HTMLDivElement, GridProps>(function Grid(
+const GridImplementation = forwardRef<HTMLDivElement, GridProps>(function Grid(
   { preset = 'cards', gap, asChild = false, className, ...props }, ref,
 ) {
   const Component = asChild ? Slot : 'div';
   return <Component {...props} ref={ref} data-preset={preset} data-gap={gap}
     className={['svx-grid', className].filter(Boolean).join(' ')} />;
 });
+export const Grid = GridImplementation as DivAsChildComponent<GridProps>;
 
 export interface ContainerProps extends LayoutProps {
   size?: 'reading' | 'content' | 'wide';
   gutter?: 'responsive' | 'fluid' | 'none';
 }
-export const Container = forwardRef<HTMLDivElement, ContainerProps>(function Container(
+const ContainerImplementation = forwardRef<HTMLDivElement, ContainerProps>(function Container(
   { size = 'content', gutter = 'responsive', asChild = false, className, ...props }, ref,
 ) {
   const Component = asChild ? Slot : 'div';
   return <Component {...props} ref={ref} data-size={size} data-gutter={gutter}
     className={['svx-container', className].filter(Boolean).join(' ')} />;
 });
+export const Container = ContainerImplementation as DivAsChildComponent<ContainerProps>;

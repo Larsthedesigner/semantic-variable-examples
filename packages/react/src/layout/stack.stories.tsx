@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Stack, layoutGaps } from './layout';
+import type { StackProps } from './layout';
 import { Block, LayoutPage, Specimen, useLayoutMeasurement } from './layout-story-helpers';
 import { primitiveTokens, tokenCatalog } from '../tokens/token-catalog';
 
@@ -8,7 +9,7 @@ const meta = {
   args: { gap: 'lg' }, argTypes: { gap: { control: 'select', options: layoutGaps }, asChild: { table: { disable: true } } },
 } satisfies Meta<typeof Stack>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<StackProps>;
 export const Playground: Story = {
   render: args => <LayoutPage title="Stack" description="Arrange related content vertically. The parent owns the gap; children retain their own margins.">
     <Specimen title="Vertical flow" code={`<Stack gap="${args.gap}">…</Stack>`}>

@@ -11,6 +11,15 @@ import * as stories from './card.stories';
 const { Settings, Loading } = composeStories(stories);
 
 describe('Card', () => {
+  it('keeps the div ref contract for its default element and uses the child ref in asChild mode', () => {
+    const ref = createRef<HTMLElement>();
+    const card = <Card ref={createRef<HTMLDivElement>()}>Content</Card>;
+    const composition = <Card asChild><article ref={ref}>Content</article></Card>;
+    void card;
+    render(composition);
+    expect(ref.current).toBe(screen.getByRole('article'));
+  });
+
   it('is a non-interactive surface without an implied landmark or tab stop', () => {
     const ref = createRef<HTMLDivElement>();
     render(<Card ref={ref} data-testid="card" className="custom"><CardBody>Content</CardBody></Card>);
@@ -20,6 +29,13 @@ describe('Card', () => {
     expect(card).not.toHaveAttribute('role');
     expect(card).not.toHaveAttribute('tabindex');
     expect(card.tagName).toBe('DIV');
+  });
+
+  it('rejects a wrapper ref when the rendered element comes from the child', () => {
+    const divRef = createRef<HTMLDivElement>();
+    // @ts-expect-error In asChild mode, put a correctly typed ref on the child.
+    const invalid = <Card asChild ref={divRef}><article /></Card>;
+    void invalid;
   });
   it('composes semantic markup, explicit heading hierarchy, and optional descriptions', () => {
     render(<Card asChild><article aria-labelledby="title" aria-describedby="description">

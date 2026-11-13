@@ -9,7 +9,24 @@ const meta = {
   title: 'Components/Popover',
   component: Popover,
   tags: ['autodocs'],
-  parameters: { controls: { disable: true } },
+  argTypes: {
+    children: { control: false, description: 'Compose a trigger/anchor and content.', table: { type: { summary: 'ReactNode' } } },
+  },
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { component: `Popover is a compound Radix-based API; compose its parts rather than controlling the complete interaction through one story args object.
+
+| Part | Props | Defaults and behavior |
+| --- | --- | --- |
+| Popover | Radix Root props: \`open?\`, \`defaultOpen?\`, \`onOpenChange?\`, \`modal?\` | Uncontrolled and non-modal by default. |
+| PopoverTrigger | Radix Trigger props; \`asChild?\` | \`asChild=false\`; merge trigger behavior onto a custom child when true. |
+| PopoverAnchor | Radix Anchor props; \`asChild?\` | \`asChild=false\`; positions the popover relative to its anchor. |
+| PopoverPortal | Radix Portal props, including \`container?\` | Portals content to the document body unless a container is supplied. |
+| PopoverContent | Radix Content props, including \`side\`, \`align\`, focus callbacks, and \`className\` | \`sideOffset=8\`, \`collisionPadding=8\`; rendered in a portal. |
+| PopoverClose | Radix Close props; \`asChild?\` | \`asChild=false\`; closes the root when activated. |
+
+Give PopoverContent an accessible name directly or through a visible heading using \`aria-labelledby\`. Keyboard navigation, Escape dismissal, and focus restoration are provided by the Radix primitive.` } },
+  },
 } satisfies Meta<typeof Popover>;
 export default meta;
 type Story = StoryObj<typeof meta>;

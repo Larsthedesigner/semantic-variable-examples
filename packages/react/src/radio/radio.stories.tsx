@@ -9,7 +9,28 @@ import { Button } from '../button/button';
 const meta: Meta<typeof RadioGroup> = {
   title: 'Components/RadioGroup', component: RadioGroup, tags: ['autodocs'],
   args: { legend: 'Choose a plan', name: 'plan' },
-  argTypes: { size: { control: 'select', options: ['sm', 'md', 'lg'] } },
+  argTypes: {
+    legend: { control: 'text', description: 'Visible native legend naming the group.', table: { type: { summary: 'ReactNode' } } },
+    name: { control: 'text', description: 'Shared native form field name.', table: { type: { summary: 'string' } } },
+    value: { control: false, description: 'Controlled selected value.', table: { type: { summary: 'string' } } },
+    defaultValue: { control: false, description: 'Initial selected value for uncontrolled use.', table: { type: { summary: 'string' } } },
+    size: { control: 'select', options: ['sm', 'md', 'lg'], description: 'Size applied to all options.', table: { type: { summary: "'sm' | 'md' | 'lg'" }, defaultValue: { summary: 'md' } } },
+    disabled: { control: 'boolean', description: 'Disable the group and all its options.', table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } } },
+    required: { control: 'boolean', description: 'Require one selected option during native form validation.', table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } } },
+    invalid: { control: 'boolean', description: 'Expose invalid state on the fieldset and options.', table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } } },
+    onValueChange: { control: false, description: 'Called with the newly selected value.', table: { type: { summary: '(value: string) => void' } } },
+    children: { control: false, description: 'Radio controls, each associated with its own visible label.', table: { type: { summary: 'ReactNode' } } },
+  },
+  parameters: {
+    docs: { description: { component: `RadioGroup renders a native fieldset and legend, shares controlled/uncontrolled selection state, and preserves native form submission.
+
+| Part | Props | Defaults and behavior |
+| --- | --- | --- |
+| RadioGroup | Native fieldset props; required \`legend\`; optional \`name\`, \`value\`, \`defaultValue\`, \`size\`, \`required\`, \`disabled\`, \`invalid\`, \`onValueChange\` | Size defaults to \`md\`; use either \`value\` with \`onValueChange\` or \`defaultValue\`. |
+| Radio | Native input props except type/role/size/checked/readOnly; required \`value\`; optional \`size\`, \`invalid\`, \`onCheckedChange\` | Native radio input; group props override option-level name, selection, and disabled/required states. |
+
+Each Radio needs an individual visible label (for example, wrap it in Label). Set \`aria-describedby\` on the group to associate help and validation text.` } },
+  },
 };
 export default meta;
 type Story = StoryObj<typeof RadioGroup>;

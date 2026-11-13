@@ -1,0 +1,13 @@
+/* avatar component-owned tokens. */
+@theme static {
+  --component-avatar-size-sm: var(--size-px-24);
+  --component-avatar-size-md: var(--size-px-32);
+  --component-avatar-size-lg: var(--size-px-40);
+  --component-avatar-surface: var(--system-status-neutral-surface);
+  --component-avatar-foreground: var(--system-status-neutral-fg);
+  --component-avatar-border: var(--system-border-subtle);
+  --component-avatar-radius: var(--system-radius-full);
+  --component-avatar-label-sm: var(--system-type-label-sm-font);
+  --component-avatar-label-md: var(--system-type-label-md-font);
+  --component-avatar-label-lg: var(--system-type-label-lg-font);
+}

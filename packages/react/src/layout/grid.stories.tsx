@@ -10,7 +10,7 @@ const meta = {
   argTypes: { preset: { control: 'select', options: ['cards', 'equal-2', 'equal-3'] }, gap: { control: 'select', options: layoutGaps }, asChild: { table: { disable: true } } },
 } satisfies Meta<typeof Grid>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<GridProps>;
 function GridExample({ preset, ...args }: GridProps) {
   const { ref, measurement } = useLayoutMeasurement(`${preset}-${args.gap}`);
   return <Specimen title={preset === 'cards' ? 'Adaptive cards' : preset === 'equal-2' ? 'Equal 2' : 'Equal 3'}

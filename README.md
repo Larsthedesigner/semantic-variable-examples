@@ -19,7 +19,12 @@ public case study.
 | Package | What it is |
 | --- | --- |
 | [`@svx/tokens`](packages/tokens) | Primitive + semantic tokens authored as plain CSS custom properties, plus a build that lowers/parses them into `dist/css`, `dist/json`, `dist/compose` (Kotlin), and `dist/swift`. |
-| [`@svx/react`](packages/react) | `Button`, `IconButton`, and `MaterialSymbol` components + Storybook. Consumes only semantic tokens, never primitives, directly. |
+| [`@svx/react`](packages/react) | `Button`, `Badge`, `Avatar`, `IconButton`, and `MaterialSymbol` components + Storybook. Consumes semantic tokens through component mappings, never primitive tokens directly in component styles. |
+
+`Badge` provides neutral, informational, success, warning, and error treatments
+at three sizes, using the system status roles in each theme. `Avatar` supports
+an image or initials/custom fallback, three sizes, image-load fallback, and a
+required accessible name.
 
 ## Architecture
 

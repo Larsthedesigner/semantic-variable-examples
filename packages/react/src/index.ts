@@ -1,5 +1,9 @@
 export { Button, buttonColors, buttonVariants } from './button/button';
 export type { ButtonProps, ButtonOwnProps } from './button/button';
+export { Badge } from './badge/badge';
+export type { BadgeProps, BadgeSize, BadgeVariant } from './badge/badge';
+export { Avatar } from './avatar/avatar';
+export type { AvatarProps, AvatarSize } from './avatar/avatar';
 export { IconButton } from './icon-button/icon-button';
 export type { IconButtonProps } from './icon-button/icon-button';
 export { Label } from './label/label';

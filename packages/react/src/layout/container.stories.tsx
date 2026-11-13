@@ -9,7 +9,7 @@ const meta = {
   argTypes: { size: { control: 'select', options: ['reading', 'content', 'wide'] }, gutter: { control: 'select', options: ['responsive', 'fluid', 'none'] }, asChild: { table: { disable: true } } },
 } satisfies Meta<typeof Container>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<ContainerProps>;
 function ContainerExample(args: ContainerProps) {
   const { ref, measurement } = useLayoutMeasurement(`${args.size}-${args.gutter}`);
   return <Specimen title={`${args.size} width · ${args.gutter} gutters`}

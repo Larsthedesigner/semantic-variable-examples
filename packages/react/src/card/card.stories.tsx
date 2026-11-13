@@ -1,6 +1,7 @@
 import { useId, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
+import type { CardProps } from './card';
 import { Button } from '../button/button';
 import { Container, Stack } from '../layout/layout';
 import { Field, FieldControl, FieldDescription, FieldLabel } from '../field/field';
@@ -9,10 +10,24 @@ import { Skeleton } from '../skeleton/skeleton';
 import { TokenReference } from '../tokens/token-reference';
 
 const meta = { title: 'Components/Card', component: Card, tags: ['autodocs'],
-  parameters: { controls: { disable: true } },
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { component: `Card is a non-interactive surface. In asChild mode, place a ref on the child element; the Card wrapper ref is available only for its default div.
+
+| Part | Props | Defaults and behavior |
+| --- | --- | --- |
+| Card | Native div props; \`asChild\` | \`asChild=false\`; merge styles and props onto one non-interactive child element. |
+| CardHeader | Native div props; \`actions?: ReactNode\` | Optional actions render beside the heading content. |
+| CardTitle | Native h2 props; \`level: 2 \\| 3 \\| 4 \\| 5 \\| 6\` | \`level\` is required and selects the semantic heading element. |
+| CardDescription | Native paragraph props | Renders a paragraph. |
+| CardBody | Native div props | Composes a Stack with the card body spacing. |
+| CardFooter | Native div props | Composes a responsive Inline action row. |
+
+Compose the exported parts as children of Card. The component does not add a landmark; choose an appropriate semantic child with \`asChild\` when needed.` } },
+  },
 } satisfies Meta<typeof Card>;
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<CardProps>;
 
 function SummaryCard() {
   const id = useId();

@@ -8,6 +8,26 @@ import queries from '../../../tokens/dist/css/layout-queries.css?raw';
 import querySource from '../../../tokens/src/layout-queries.css?raw';
 
 describe('Layout foundations', () => {
+  it('keeps div refs for default layouts and types child refs in asChild mode', () => {
+    const sectionRef = createRef<HTMLElement>();
+    const defaults = [
+      <Container ref={createRef<HTMLDivElement>()} />,
+      <Stack ref={createRef<HTMLDivElement>()} />,
+      <Grid ref={createRef<HTMLDivElement>()} />,
+    ];
+    const composition = <Stack asChild><section ref={sectionRef}>Content</section></Stack>;
+    void defaults;
+    render(composition);
+    expect(sectionRef.current?.tagName).toBe('SECTION');
+  });
+
+  it('rejects wrapper refs when a layout renders its child element', () => {
+    const divRef = createRef<HTMLDivElement>();
+    // @ts-expect-error In asChild mode, put a correctly typed ref on the child.
+    const invalid = <Container asChild ref={divRef}><main /></Container>;
+    void invalid;
+  });
+
   it('forwards refs, native attributes, and prescribed defaults without adding roles', () => {
     const ref = createRef<HTMLDivElement>();
     render(<Stack ref={ref} data-testid="stack" className="custom" aria-label="Content"><span>Child</span></Stack>);

@@ -13,7 +13,23 @@ const meta = {
   title: 'Components/AlertDialog',
   component: AlertDialog,
   tags: ['autodocs'],
-  parameters: { controls: { disable: true } },
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { component: `AlertDialog is a compound confirmation API. Use its explicit cancel and action parts; unlike a regular Dialog, it cannot be dismissed with Escape or by clicking outside.
+
+| Part | Props | Defaults and behavior |
+| --- | --- | --- |
+| AlertDialog | Radix Root props: \`open?\`, \`defaultOpen?\`, \`onOpenChange?\` | Controlled with \`open\` and \`onOpenChange\`, or initialize with \`defaultOpen\`. |
+| AlertDialogTrigger | Radix Trigger props; \`asChild?\` | \`asChild=false\`; merges trigger behavior onto a custom child when true. |
+| AlertDialogPortal | Radix Portal props | Portals modal content to the document body. |
+| AlertDialogOverlay | Radix Overlay props; \`className?\` | Focus remains modal; overlay styling is provided by the component. |
+| AlertDialogContent | Radix Content props; \`scrim?\`, \`overlayClassName?\` | \`scrim=true\`; false hides the backdrop without disabling modal behavior. |
+| AlertDialogCancel / AlertDialogAction | Radix Cancel/Action button props; \`asChild?\` | \`asChild=false\`; use these explicit controls to dismiss or confirm. |
+| AlertDialogHeader / AlertDialogFooter | Native div props | Layout containers for the heading/description and decision actions. |
+| AlertDialogTitle / AlertDialogDescription | Radix Title/Description props | Provide the accessible title and explanation required by the confirmation. |
+
+The action and cancel controls should be clearly labeled and ordered according to the consequences of the decision. Destructive confirmations should use a destructive action style and a safe initial focus target.` } },
+  },
 } satisfies Meta<typeof AlertDialog>;
 export default meta;
 type Story = StoryObj<typeof meta>;

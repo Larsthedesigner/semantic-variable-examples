@@ -2,17 +2,19 @@ import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { Inline, Stack } from '../layout/layout';
+import type { DivAsChildComponent } from '../polymorphic';
 
 export interface CardProps extends ComponentPropsWithoutRef<'div'> {
   /** Merge onto a non-interactive semantic element such as article or section. */
   asChild?: boolean;
 }
-export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
+const CardImplementation = forwardRef<HTMLDivElement, CardProps>(function Card(
   { asChild = false, className, ...props }, ref,
 ) {
   const Component = asChild ? Slot : 'div';
   return <Component {...props} ref={ref} className={['svx-card', className].filter(Boolean).join(' ')} />;
 });
+export const Card = CardImplementation as DivAsChildComponent<CardProps>;
 
 export interface CardHeaderProps extends ComponentPropsWithoutRef<'div'> {
   actions?: ReactNode;

@@ -1,0 +1,28 @@
+/* badge component-owned tokens. Status colors inherit each semantic theme. */
+@theme static {
+  --component-badge-neutral-surface: var(--system-status-neutral-surface);
+  --component-badge-neutral-foreground: var(--system-status-neutral-fg);
+  --component-badge-neutral-border: var(--system-status-neutral-border);
+  --component-badge-info-surface: var(--system-status-info-surface);
+  --component-badge-info-foreground: var(--system-status-info-fg);
+  --component-badge-info-border: var(--system-status-info-border);
+  --component-badge-success-surface: var(--system-status-success-surface);
+  --component-badge-success-foreground: var(--system-status-success-fg);
+  --component-badge-success-border: var(--system-status-success-border);
+  --component-badge-warning-surface: var(--system-status-warning-surface);
+  --component-badge-warning-foreground: var(--system-status-warning-fg);
+  --component-badge-warning-border: var(--system-status-warning-border);
+  --component-badge-error-surface: var(--system-status-error-surface);
+  --component-badge-error-foreground: var(--system-status-error-fg);
+  --component-badge-error-border: var(--system-status-error-border);
+  --component-badge-padding-x-sm: var(--system-spacer-rem-xs);
+  --component-badge-padding-x-md: var(--system-spacer-rem-sm);
+  --component-badge-padding-x-lg: var(--system-spacer-rem-md);
+  --component-badge-padding-y-sm: var(--system-spacer-rem-2xs);
+  --component-badge-padding-y-md: var(--system-spacer-rem-xs);
+  --component-badge-padding-y-lg: var(--system-spacer-rem-xs);
+  --component-badge-radius: var(--system-radius-pill);
+  --component-badge-label-sm: var(--system-type-label-sm-font);
+  --component-badge-label-md: var(--system-type-label-md-font);
+  --component-badge-label-lg: var(--system-type-label-lg-font);
+}
