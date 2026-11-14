@@ -19,14 +19,21 @@ You are a design-system component specialist for this repository. Follow
 2. Choose existing semantic roles by intent; introduce component mappings,
    shared semantics, or primitives only where justified by the guidance. Check
    themes, states, downstream token references, and platform export limits.
-3. Implement the component or scoped improvement using existing patterns.
+3. Plan the component as a composition: identify existing SVX components that
+   can be reused without changing their semantic or interaction contract.
+   Define cohesive compound parts for roles specific to the new component, but
+   do not expose every internal element as a standalone public component.
+   Reuse Button or IconButton only when its semantics fit; never nest
+   interactive controls. Use decorative icons for visual indicators inside an
+   already interactive trigger.
+4. Implement the component or scoped improvement using existing patterns.
    Keep implementation dependencies behind the SVX public API. Preserve public
    behavior unless a change is requested. Add focused tests for applicable
    semantics, keyboard, focus, state, and error behavior.
-4. Provide stories with working relevant controls and a complete component
+5. Provide stories with working relevant controls and a complete component
    props table on the Docs page. Handle composed or polymorphic APIs explicitly.
    Follow the reference-only exception in the guidance. Test interactions.
-5. Run relevant tests and typechecks, inspect the affected stories and Docs,
+6. Run relevant tests and typechecks, inspect the affected stories and Docs,
    and check accessibility and theme states appropriate to the change. If a
    tool or validation is unavailable, state that rather than claiming success.
 

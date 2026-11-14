@@ -19,7 +19,7 @@ public case study.
 | Package | What it is |
 | --- | --- |
 | [`@svx/tokens`](packages/tokens) | Primitive + semantic tokens authored as plain CSS custom properties, plus a build that lowers/parses them into `dist/css`, `dist/json`, `dist/compose` (Kotlin), and `dist/swift`. |
-| [`@svx/react`](packages/react) | `Button`, `Badge`, `Avatar`, `IconButton`, `MaterialSymbol`, `Menu`, `Combobox`, `Tooltip`, and `Separator` components + Storybook. Consumes semantic tokens through component mappings, never primitive tokens directly in component styles. |
+| [`@svx/react`](packages/react) | `Button`, `Badge`, `Avatar`, `IconButton`, `MaterialSymbol`, `Menu`, `Dialog`, `Sheet`, `Combobox`, `Tooltip`, and `Separator` components + Storybook. Consumes semantic tokens through component mappings, never primitive tokens directly in component styles. |
 
 `Badge` provides neutral, informational, success, warning, and error treatments
 at three sizes, using the system status roles in each theme. `Avatar` supports
@@ -28,6 +28,9 @@ required accessible name.
 
 `Tooltip` composes Radix-based provider, trigger, and content primitives for
 brief supplemental descriptions on pointer hover and keyboard focus.
+`Sheet` composes the existing Dialog behavior with explicit top, right, bottom,
+or left placement; applications can wrap it with responsive behavior when
+their use cases call for it.
 `Separator` provides semantic or decorative horizontal and vertical dividers.
 `Menu` also exports grouped, labelled, checkable, radio, separator, and submenu
 parts. `Combobox` provides editable single- or multi-option search with

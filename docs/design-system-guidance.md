@@ -32,6 +32,17 @@ The [README](../README.md) describes the current implementation and setup.
 - Build on existing components and supported primitives rather than duplicating
   behavior. Define semantics, keyboard and focus behavior, labeling,
   controlled and uncontrolled states, and errors as applicable.
+- Compose components from existing, smaller SVX components when their semantic
+  and interaction contracts fit. Treat specialized compound parts (such as a
+  tab trigger) as part of the composed component's API; reuse does not require
+  exposing every implementation detail as a standalone public component.
+- Reuse controls such as `Button` or `IconButton` only when their semantics and
+  interaction behavior match the role they serve. Do not nest interactive
+  controls. For example, an accordion trigger is the interactive button; its
+  chevron is decorative content, not a second `IconButton`.
+- Keep compound APIs cohesive and composable, with explicit parts for the
+  structure consumers need to arrange. Avoid splitting simple markup into
+  public components without an independent reuse or API benefit.
 - Choose an interaction foundation based on the behavior the component needs:
   prefer native HTML controls when they provide the required behavior and
   accessibility; use an existing supported primitive such as Radix for complex

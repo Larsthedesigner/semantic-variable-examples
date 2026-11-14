@@ -1,0 +1,9 @@
+/* sheet component-owned tokens. */
+@theme static {
+  --component-sheet-width-sm: 20rem;
+  --component-sheet-width-md: 28rem;
+  --component-sheet-width-lg: 32rem;
+  --component-sheet-height-sm: 16rem;
+  --component-sheet-height-md: 24rem;
+  --component-sheet-height-lg: 28rem;
+}

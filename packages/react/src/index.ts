@@ -54,6 +54,11 @@ export {
 } from './dialog/dialog';
 export type { DialogContentProps } from './dialog/dialog';
 export {
+  Sheet, SheetTrigger, SheetPortal, SheetOverlay, SheetContent, SheetClose,
+  SheetHeader, SheetFooter, SheetTitle, SheetDescription,
+} from './sheet/sheet';
+export type { SheetContentProps, SheetSide, SheetSize } from './sheet/sheet';
+export {
   AlertDialog, AlertDialogTrigger, AlertDialogPortal, AlertDialogOverlay,
   AlertDialogContent, AlertDialogCancel, AlertDialogAction, AlertDialogHeader,
   AlertDialogFooter, AlertDialogTitle, AlertDialogDescription,
