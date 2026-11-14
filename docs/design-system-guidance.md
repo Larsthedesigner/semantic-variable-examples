@@ -32,6 +32,18 @@ The [README](../README.md) describes the current implementation and setup.
 - Build on existing components and supported primitives rather than duplicating
   behavior. Define semantics, keyboard and focus behavior, labeling,
   controlled and uncontrolled states, and errors as applicable.
+- Choose an interaction foundation based on the behavior the component needs:
+  prefer native HTML controls when they provide the required behavior and
+  accessibility; use an existing supported primitive such as Radix for complex
+  interactions when it supplies behavior we would otherwise need to recreate,
+  especially focus management, keyboard navigation, dismissal, or portal
+  handling. Add a new primitive dependency only when existing components,
+  supported primitives, and native elements do not meet the requirement.
+- Implement custom interaction logic only when native elements and supported
+  primitives do not fit the required UX. In that case, own and test its
+  semantics, keyboard and focus behavior, and relevant accessibility states.
+  Keep implementation dependencies behind the SVX public API rather than
+  requiring consumers to use the underlying primitive directly.
 - Verify relevant light, dark, high-contrast, forced-colors, and reduced-motion
   behavior. Test contrast and target sizes in context; do not rely on color
   alone to communicate status.
