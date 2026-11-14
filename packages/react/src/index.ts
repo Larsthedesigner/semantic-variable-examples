@@ -39,7 +39,13 @@ export type { SupportingTextProps, SupportingTextVariant } from './supporting-te
 export { MaterialSymbol, materialSymbolSizes } from './icons/material-symbol';
 export type { MaterialSymbolProps, MaterialSymbolSize, MaterialSymbolWeight } from './icons/material-symbol';
 export type { PolymorphicProps } from './polymorphic';
-export { Menu, MenuTrigger, MenuContent, MenuItem } from './menu/menu';
+export {
+  Menu, MenuTrigger, MenuContent, MenuItem, MenuGroup, MenuLabel, MenuSeparator,
+  MenuCheckboxItem, MenuRadioGroup, MenuRadioItem, MenuSub, MenuSubTrigger,
+  MenuSubContent, MenuPortal,
+} from './menu/menu';
+export { Combobox } from './combobox/combobox';
+export type { ComboboxProps, ComboboxOption } from './combobox/combobox';
 export { SplitButton } from './split-button/split-button';
 export type { SplitButtonProps, SplitButtonAction } from './split-button/split-button';
 export {

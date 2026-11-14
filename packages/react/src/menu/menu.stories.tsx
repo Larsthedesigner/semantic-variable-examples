@@ -3,7 +3,11 @@ import { useState } from 'react';
 import type { ComponentProps } from 'react';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button } from '../button/button';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from './menu';
+import {
+  Menu, MenuCheckboxItem, MenuContent, MenuGroup, MenuItem, MenuLabel,
+  MenuRadioGroup, MenuRadioItem, MenuSeparator, MenuSub, MenuSubContent,
+  MenuSubTrigger, MenuTrigger,
+} from './menu';
 
 type MenuStoryArgs = ComponentProps<typeof Menu> &
   Pick<ComponentProps<typeof MenuContent>, 'side' | 'sideOffset' | 'align' | 'alignOffset' | 'loop'> & {
@@ -50,10 +54,48 @@ function ControlledExample(args: MenuStoryArgs) {
   );
 }
 
+function MenuExtensionsExample() {
+  const [showHidden, setShowHidden] = useState(false);
+  const [sortBy, setSortBy] = useState('name');
+  const [lastAction, setLastAction] = useState('None');
+  return (
+    <div>
+      <Menu>
+        <MenuTrigger asChild><Button>File options</Button></MenuTrigger>
+        <MenuContent>
+          <MenuLabel>View</MenuLabel>
+          <MenuGroup>
+            <MenuCheckboxItem checked={showHidden} onCheckedChange={setShowHidden}>
+              Show hidden files
+            </MenuCheckboxItem>
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuLabel>Sort by</MenuLabel>
+          <MenuRadioGroup value={sortBy} onValueChange={setSortBy}>
+            <MenuRadioItem value="name">Name</MenuRadioItem>
+            <MenuRadioItem value="date">Date modified</MenuRadioItem>
+          </MenuRadioGroup>
+          <MenuSeparator />
+          <MenuSub>
+            <MenuSubTrigger>More options</MenuSubTrigger>
+            <MenuSubContent>
+              <MenuItem onSelect={() => setLastAction('Opened in new tab')}>
+                Open in new tab
+              </MenuItem>
+            </MenuSubContent>
+          </MenuSub>
+        </MenuContent>
+      </Menu>
+      <p role="status">Hidden files: {showHidden ? 'shown' : 'hidden'}; sorted by {sortBy}; last action: {lastAction}</p>
+    </div>
+  );
+}
+
 const api = `
-A token-styled Radix DropdownMenu. Compose the four exported parts; MenuContent
-portals to document.body automatically. No separate MenuPortal, checkbox/radio
-items, groups, or submenu wrappers are exported.
+A token-styled Radix DropdownMenu. Compose Menu, MenuTrigger and MenuContent
+with MenuItem or the additional grouped, labelled, checkable, radio, separator
+and submenu parts documented below. MenuContent portals to document.body
+automatically; MenuPortal is available for custom portal composition.
 
 The controls below configure this composition. triggerLabel, triggerDisabled,
 itemDisabled, and keepOpenOnSelect are **story-only arguments**, not Menu props.
@@ -132,6 +174,28 @@ Radix sets data-highlighted for pointer and keyboard focus and data-disabled
 for disabled items. Existing Menu styles reuse surface-raised, border-default,
 text-primary, text-disabled and interactive-surface-hover semantic tokens;
 this coverage does not add or change tokens.
+
+### Extended menu parts
+
+| Part | Public props | Behavior |
+| --- | --- | --- |
+| MenuPortal | Radix Portal props: container, forceMount, children | Optional custom portal; MenuContent already portals automatically. |
+| MenuGroup | children, asChild, ref, and div attributes | Groups related menu items for assistive technology. |
+| MenuLabel | children, className, asChild, ref, and div attributes | Labels a group; adds svx-menu-label styling. |
+| MenuSeparator | className, asChild, ref, and div attributes | Separates menu sections using the subtle border token. |
+| MenuCheckboxItem | checked (boolean or 'indeterminate'), onCheckedChange, disabled, textValue, onSelect, className, asChild, ref, and div attributes | Checkable item with an indicator; manage its value with checked and onCheckedChange. |
+| MenuRadioGroup | value, onValueChange, children, asChild, ref, and div attributes | Groups mutually exclusive radio items; manage selection with value and onValueChange. |
+| MenuRadioItem | value, disabled, textValue, onSelect, className, asChild, ref, and div attributes | Radio choice with a selected indicator. |
+| MenuSub | open, onOpenChange, children | Controls submenu state; provide open and onOpenChange for controlled usage. |
+| MenuSubTrigger | children, disabled, textValue, className, asChild, ref, and div attributes | Opens the nested menu; includes a directional indicator. |
+| MenuSubContent | children, className, sideOffset, align ('start' or 'end'), alignOffset, collision options, loop, forceMount, ref, and div attributes | Positions submenu content on the direction-aware side of its trigger and inherits MenuContent item styles. |
+
+Each part forwards the remaining props to its corresponding Radix primitive.
+Refs target the primitive's default DOM element; asChild renders the provided
+ref-forwarding child. Radix provides keyboard navigation, focus management,
+selection state, typeahead, and dismissal. Item selection closes the menu by
+default; call preventDefault from onSelect to keep it open, including for
+checkbox and radio items.
 
 Known dark-theme limitation: text-disabled and surface-raised currently resolve
 to the same color, so the disabled Delete label is not visually distinguishable.
@@ -270,6 +334,33 @@ export const KeepOpenOnSelect: Story = {
     await expect(canvasElement.querySelector('[role="status"]')).toHaveTextContent('Last action: Duplicate');
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
+  },
+};
+
+export const ExtendedParts: Story = {
+  render: () => <MenuExtensionsExample />,
+  parameters: {
+    controls: { disable: true },
+    docs: { description: { story: 'Demonstrates labelled groups, a persistent checkbox state, exclusive radio choices, separators, and an arrow-key accessible submenu.' } },
+  },
+  play: async ({ canvas, canvasElement }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole('button', { name: 'File options' }));
+    const checkbox = body.getByRole('menuitemcheckbox', { name: 'Show hidden files' });
+    await userEvent.click(checkbox);
+    await expect(checkbox).toHaveAttribute('aria-checked', 'true');
+    await userEvent.click(canvas.getByRole('button', { name: 'File options' }));
+    const radio = body.getByRole('menuitemradio', { name: 'Date modified' });
+    await userEvent.click(radio);
+    await expect(radio).toHaveAttribute('aria-checked', 'true');
+    await userEvent.click(canvas.getByRole('button', { name: 'File options' }));
+    const subTrigger = body.getByRole('menuitem', { name: 'More options' });
+    subTrigger.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    const subItem = await body.findByRole('menuitem', { name: 'Open in new tab' });
+    await userEvent.keyboard('{Enter}');
+    await expect(canvas.getByRole('status')).toHaveTextContent('last action: Opened in new tab');
+    await expect(subItem).not.toBeInTheDocument();
   },
 };
 

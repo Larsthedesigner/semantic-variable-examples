@@ -2,7 +2,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createRef } from 'react';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from './menu';
+import {
+  Menu, MenuCheckboxItem, MenuContent, MenuGroup, MenuItem, MenuLabel,
+  MenuRadioGroup, MenuRadioItem, MenuSeparator, MenuSub, MenuSubContent,
+  MenuSubTrigger, MenuTrigger,
+} from './menu';
 
 beforeAll(() => {
   class MockResizeObserver {
@@ -155,5 +159,55 @@ describe('Menu', () => {
     expect(onEscapeKeyDown).toHaveBeenCalledOnce();
     expect(onOpenChange).not.toHaveBeenCalled();
     expect(screen.getByRole('menu')).toBeInTheDocument();
+  });
+
+  it('renders labelled groups, separators, and accessible checkbox and radio items', () => {
+    render(
+      <Menu defaultOpen>
+        <MenuTrigger>Options</MenuTrigger>
+        <MenuContent>
+          <MenuLabel>Visibility</MenuLabel>
+          <MenuGroup>
+            <MenuCheckboxItem checked>Show hidden files</MenuCheckboxItem>
+            <MenuCheckboxItem checked="indeterminate">Partially selected</MenuCheckboxItem>
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuLabel>Sort by</MenuLabel>
+          <MenuRadioGroup value="name" onValueChange={() => {}}>
+            <MenuRadioItem value="name">Name</MenuRadioItem>
+            <MenuRadioItem value="date">Date modified</MenuRadioItem>
+          </MenuRadioGroup>
+        </MenuContent>
+      </Menu>,
+    );
+
+    expect(screen.getByText('Visibility')).toHaveClass('svx-menu-label');
+    expect(screen.getByRole('separator')).toHaveClass('svx-menu-separator');
+    expect(screen.getByRole('menuitemcheckbox', { name: 'Show hidden files' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('menuitemcheckbox', { name: 'Partially selected' })).toHaveAttribute('aria-checked', 'mixed');
+    expect(screen.getByText('−')).toBeInTheDocument();
+    expect(screen.getByRole('menuitemradio', { name: 'Name' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('menuitemradio', { name: 'Date modified' })).toHaveAttribute('aria-checked', 'false');
+  });
+
+  it('renders open submenu content with menu semantics and forwarded classes', () => {
+    render(
+      <Menu defaultOpen>
+        <MenuTrigger>Options</MenuTrigger>
+        <MenuContent>
+          <MenuSub open>
+            <MenuSubTrigger>More options</MenuSubTrigger>
+            <MenuSubContent className="custom-subcontent">
+              <MenuItem>Open in new tab</MenuItem>
+            </MenuSubContent>
+          </MenuSub>
+        </MenuContent>
+      </Menu>,
+    );
+
+    expect(screen.getByRole('menuitem', { name: 'More options' })).toHaveAttribute('aria-haspopup', 'menu');
+    expect(screen.getByRole('menuitem', { name: 'Open in new tab' })).toBeVisible();
+    expect(screen.getAllByRole('menu')).toHaveLength(2);
+    expect(screen.getAllByRole('menu')[1]).toHaveClass('svx-menu-content', 'custom-subcontent');
   });
 });
