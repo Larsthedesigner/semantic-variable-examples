@@ -1,4 +1,9 @@
 /* tooltip component-owned tokens. */
 @theme static {
   --component-tooltip-surface: var(--system-surface-deep);
+  --component-tooltip-foreground: var(--system-text-on-deep);
+  --component-tooltip-padding-x: var(--system-spacer-rem-sm);
+  --component-tooltip-padding-y: var(--system-spacer-rem-xs);
+  --component-tooltip-radius: var(--system-radius-sm);
+  --component-tooltip-text: var(--system-type-body-sm-font);
 }

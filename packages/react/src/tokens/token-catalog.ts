@@ -18,6 +18,7 @@ import switchSource from '../../../tokens/src/components/switch.css?raw';
 import skeletonSource from '../../../tokens/src/components/skeleton.css?raw';
 import selectionSource from '../../../tokens/src/components/selection-controls.css?raw';
 import tooltipSource from '../../../tokens/src/components/tooltip.css?raw';
+import separatorSource from '../../../tokens/src/components/separator.css?raw';
 
 export type TokenMode = 'light' | 'dark' | 'high-contrast';
 type TokenMap = Record<string, string>;
@@ -42,6 +43,7 @@ const componentSources: Record<string, string> = {
   menu: menuSource, popover: popoverSource, skeleton: skeletonSource, 'selection-controls': selectionSource,
   'shared-controls': sharedSource, status: statusSource,
   'supporting-text': supportingSource, switch: switchSource, tooltip: tooltipSource,
+  separator: separatorSource,
 };
 function componentValues(mode: TokenMode, owner?: string) {
   return Object.assign({}, ...Object.entries(componentSources)

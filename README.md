@@ -26,6 +26,10 @@ at three sizes, using the system status roles in each theme. `Avatar` supports
 an image or initials/custom fallback, three sizes, image-load fallback, and a
 required accessible name.
 
+`Tooltip` composes Radix-based provider, trigger, and content primitives for
+brief supplemental descriptions on pointer hover and keyboard focus.
+`Separator` provides semantic or decorative horizontal and vertical dividers.
+
 ## Architecture
 
 Tokens are authored as CSS, not JSON — a primitive layer (`primitives.css`)

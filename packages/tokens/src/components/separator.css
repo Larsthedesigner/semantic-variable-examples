@@ -1,0 +1,4 @@
+/* separator component-owned tokens. */
+@theme static {
+  --component-separator-color: var(--system-border-subtle);
+}

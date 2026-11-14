@@ -1127,6 +1127,44 @@
 
 /* ── Popover — anchored, non-modal floating surface ──────────────────────── */
 
+.svx-separator {
+  display: block;
+  flex: none;
+  border: 0;
+  background: var(--component-separator-color);
+}
+.svx-separator[data-orientation='horizontal'] {
+  width: 100%;
+  height: 1px;
+}
+.svx-separator[data-orientation='vertical'] {
+  width: 1px;
+  height: 100%;
+  align-self: stretch;
+}
+@media (forced-colors: active) {
+  .svx-separator { background: CanvasText; }
+}
+
+.svx-tooltip-content {
+  z-index: 1100;
+  box-sizing: border-box;
+  max-inline-size: min(20rem, calc(100vw - var(--system-spacer-rem-md) - var(--system-spacer-rem-md)));
+  padding: var(--component-tooltip-padding-y) var(--component-tooltip-padding-x);
+  border-radius: var(--component-tooltip-radius);
+  background: var(--component-tooltip-surface);
+  color: var(--component-tooltip-foreground);
+  font: var(--component-tooltip-text);
+  overflow-wrap: anywhere;
+}
+.svx-tooltip-arrow {
+  fill: var(--component-tooltip-surface);
+}
+@media (forced-colors: active) {
+  .svx-tooltip-content { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+  .svx-tooltip-arrow { fill: Canvas; stroke: CanvasText; }
+}
+
 .svx-popover-content {
   z-index: 1000;
   box-sizing: border-box;
