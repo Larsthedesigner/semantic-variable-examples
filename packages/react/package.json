@@ -20,7 +20,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup && cp src/styles.css dist/styles.css && cp src/material-symbols.css dist/material-symbols.css && cp node_modules/@fontsource-variable/inter/LICENSE dist/inter-OFL.txt",
+    "build": "tsup && cp src/styles.css dist/styles.css && node copy-css.mjs && cp src/material-symbols.css dist/material-symbols.css && cp node_modules/@fontsource-variable/inter/LICENSE dist/inter-OFL.txt",
     "dev": "tsup --watch",
     "test": "vitest run",
     "lint": "echo \"no lint configured for react\" && exit 0",

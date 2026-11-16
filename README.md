@@ -68,7 +68,9 @@ packages/tokens/dist/
   swift/SvxTokens.swift    SvxTokensLight / SvxTokensDark / SvxTokensHighContrast
         │
         ▼
-packages/react/src/styles.css   maps each Button variant to semantic CSS variables only
+packages/react/src/styles.css   public CSS entry; imports colocated component styles
+packages/react/src/*/*.css     component-specific styles beside their React source
+packages/react/src/styles/     shared styles used across multiple components
 packages/react/src/button/      polymorphic `as`, `asChild` via @radix-ui/react-slot,
                                 variant/size via class-variance-authority, forwardRef
 packages/react/src/icon-button/ builds on Button with a required accessible name
@@ -81,6 +83,9 @@ loads the Material Symbols Rounded variable font from Google Fonts; import it
 alongside `@svx/react/styles.css` to render those ligatures. Applications that
 need self-hosted fonts can provide the same font family locally instead. The
 font is distributed under the Apache License 2.0.
+The public `styles.css` entry remains the single import for component styles;
+its rules are maintained in component-specific CSS files and copied alongside
+the entry during the package build.
 
 Button and IconButton support only Material Symbols for their icon props.
 Pass ligature names rather than React elements; each control renders
@@ -652,7 +657,63 @@ Dark/high-contrast themes adjust loading fills without changing geometry.
 Color Semantics includes loading colors, Motion Semantics documents the reusable
 animation, and Skeleton stories show shapes, themes, and a loading-to-content
 card. JSON/native exports describe base theme values, not runtime media-query
-preferences. Existing Button spinners and progress patterns are unchanged.
+preferences. Button loading remains visible and its spinner stops under reduced
+motion.
+
+### Elevation and layering
+
+Elevation is a semantic shadow role paired with a semantic surface, not a
+component-specific literal:
+
+| Semantic role | Intended surface | Component mapping |
+| --- | --- | --- |
+| `--system-elevation-raised` | Cards and panels above the default surface | `--component-card-shadow` |
+| `--system-elevation-overlay` | Popovers and other transient surfaces | `--component-popover-shadow` |
+| `--system-elevation-floating` | Modal dialogs and sheets | `--component-dialog-shadow` |
+
+These roles retain the same shadow values in light, dark, and high-contrast
+themes; borders continue to identify surface boundaries. Forced-colors mode
+removes shadows and uses system-color borders instead. Shadow primitives are
+CSS effects and are represented in CSS/JSON, but omitted from Compose and Swift
+exports because those exporters do not model CSS `box-shadow`.
+
+Global stacking levels are independent of local control stacking:
+
+| Semantic role | Value | Use |
+| --- | ---: | --- |
+| `--system-layer-sticky` | 100 | Sticky page chrome, below overlays |
+| `--system-layer-overlay-backdrop` | 1000 | Modal backdrops |
+| `--system-layer-popover` | 1000 | Menus, popovers, and combobox panels |
+| `--system-layer-overlay-content` | 1001 | Dialog and sheet content above its backdrop |
+| `--system-layer-tooltip` | 1100 | Tooltips above floating content |
+| `--system-layer-toast` | 1200 | Reserved for future toast notifications |
+
+Menus, popovers, combobox panels, dialogs, sheets, and tooltips consume
+component-owned layer mappings. The equal backdrop/popover level preserves the
+existing ordering; portals and document order determine order within that
+level. Local control z-index values (such as focus rings) are intentionally
+not part of this global contract. A descendant can still be constrained by an
+ancestor stacking context. Layer numbers are included in numeric native
+exports.
+
+### Motion foundations
+
+New duration primitives carry units (`--duration-instant`, `--duration-quick`,
+`--duration-moderate`, `--duration-slow`, `--duration-steady`, and
+`--duration-loading`); easing primitives describe standard, entering, exiting,
+and linear motion. Use their intent-based `--system-motion-*` aliases or an
+owning component mapping. The button spinner remains an 800ms linear cycle,
+and the shimmer remains a 1400ms linear animation.
+
+For compatibility, `--duration-fast` remains the unitless number `120`, and
+`--motion-interactive` continues to expose that legacy millisecond value for
+existing CSS such as `calc(var(--motion-interactive) * 1ms)`. New consumers
+should prefer the unit-bearing semantic duration. Under
+`prefers-reduced-motion: reduce`, interactive component transitions resolve to
+zero, the button spinner stops, and loading feedback remains visible as a
+static fill. CSS/JSON retain unit-bearing durations and easing strings;
+Compose/Swift currently omit these raw values, and their exports represent
+the base theme rather than runtime motion preferences.
 
 ### Form text foundations
 

@@ -1,0 +1,75 @@
+.svx-card {
+  display: grid;
+  align-content: start;
+  gap: var(--component-card-section-gap);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  padding: var(--component-card-padding);
+  border: 1px solid var(--component-card-border);
+  border-radius: var(--component-card-radius);
+  box-shadow: var(--component-card-shadow);
+  background: var(--component-card-surface);
+  color: var(--system-text-primary);
+  font: var(--system-type-body-font);
+  letter-spacing: var(--system-type-body-tracking);
+  container-type: inline-size;
+  overflow-wrap: anywhere;
+}
+
+
+.svx-card__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--component-card-section-gap);
+}
+
+
+.svx-card .svx-card__heading.svx-stack { --svx-layout-gap: var(--component-card-heading-gap); }
+
+
+.svx-card__actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: var(--component-card-actions-gap);
+}
+
+
+.svx-card .svx-card__title,
+.svx-card .svx-card__description { margin: 0; }
+
+
+.svx-card h2.svx-card__title { font: var(--system-type-h2-font); letter-spacing: var(--system-type-h2-tracking); color: var(--system-type-h2-color); }
+
+
+.svx-card h3.svx-card__title { font: var(--system-type-h3-font); letter-spacing: var(--system-type-h3-tracking); color: var(--system-type-h3-color); }
+
+
+.svx-card h4.svx-card__title { font: var(--system-type-h4-font); letter-spacing: var(--system-type-h4-tracking); color: var(--system-type-h4-color); }
+
+
+.svx-card h5.svx-card__title { font: var(--system-type-h5-font); letter-spacing: var(--system-type-h5-tracking); color: var(--system-type-h5-color); }
+
+
+.svx-card h6.svx-card__title { font: var(--system-type-h6-font); letter-spacing: var(--system-type-h6-tracking); color: var(--system-type-h6-color); }
+
+
+.svx-card__description {
+  font: var(--system-type-body-secondary-font);
+  letter-spacing: var(--system-type-body-secondary-tracking);
+  color: var(--system-type-body-secondary-color);
+}
+
+
+.svx-card .svx-card__body.svx-stack { --svx-layout-gap: var(--component-card-section-gap); }
+
+
+.svx-card .svx-card__footer > .svx-inline { --svx-layout-gap: var(--component-card-actions-gap); }
+
+
+@media (forced-colors: active) {
+  .svx-card { border-color: CanvasText; box-shadow: none; }
+}
+
+

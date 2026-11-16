@@ -1,0 +1,66 @@
+:root {
+  --svx-material-symbol-size-xs: 12px;
+  --svx-material-symbol-size-sm: 16px;
+  --svx-material-symbol-size-md: 20px;
+  --svx-material-symbol-size-lg: 24px;
+  --svx-material-symbol-size-xl: 32px;
+}
+
+
+.svx-choice__indicator .svx-material-symbol {
+  display: none;
+  --svx-material-symbol-size: var(--svx-choice-size);
+}
+
+
+.svx-material-symbol {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  font-family: 'Material Symbols Rounded', sans-serif;
+  font-size: var(--svx-material-symbol-size, var(--svx-material-symbol-size-lg));
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  font-optical-sizing: auto;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+
+.svx-material-symbol--xs {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-xs);
+}
+
+
+.svx-material-symbol--sm {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-sm);
+}
+
+
+.svx-material-symbol--md {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-md);
+}
+
+
+.svx-material-symbol--lg {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-lg);
+}
+
+
+.svx-material-symbol--xl {
+  --svx-material-symbol-size: var(--svx-material-symbol-size-xl);
+}
+
+

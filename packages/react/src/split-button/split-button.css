@@ -1,0 +1,22 @@
+/* ── SplitButton — two Buttons fused by layout-only modifier classes ─────── */
+.svx-split-button {
+  display: inline-flex;
+}
+
+
+.svx-split-button__primary {
+  border-top-right-radius: var(--system-radius-none);
+  border-bottom-right-radius: var(--system-radius-none);
+}
+
+
+.svx-split-button__trigger {
+  border-top-left-radius: var(--system-radius-none);
+  border-bottom-left-radius: var(--system-radius-none);
+  /* Divider reuses the same color-mix() overlay technique as the hover states
+   * above, mixed against the trigger's own foreground so it reads correctly
+   * on solid, outline, and ghost variants alike without a dedicated token. */
+  border-left: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+
+

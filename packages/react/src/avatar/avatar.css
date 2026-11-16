@@ -1,0 +1,34 @@
+.svx-avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  width: var(--svx-avatar-size);
+  height: var(--svx-avatar-size);
+  overflow: hidden;
+  border: 1px solid var(--component-avatar-border);
+  border-radius: var(--component-avatar-radius);
+  background: var(--component-avatar-surface);
+  color: var(--component-avatar-foreground);
+  font: var(--svx-avatar-label);
+  line-height: 1;
+}
+
+
+.svx-avatar--sm { --svx-avatar-size: var(--component-avatar-size-sm); --svx-avatar-label: var(--component-avatar-label-sm); }
+
+
+.svx-avatar--md { --svx-avatar-size: var(--component-avatar-size-md); --svx-avatar-label: var(--component-avatar-label-md); }
+
+
+.svx-avatar--lg { --svx-avatar-size: var(--component-avatar-size-lg); --svx-avatar-label: var(--component-avatar-label-lg); }
+
+
+.svx-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+
+@media (forced-colors: active) {
+  .svx-avatar { border-color: CanvasText; background: Canvas; color: CanvasText; }
+}
+
+

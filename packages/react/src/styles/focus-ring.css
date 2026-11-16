@@ -1,0 +1,72 @@
+.svx-choice.svx-focus-ring {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+/* Reusable focus ring — apply alongside any
+ * interactive element's own class. A solid system surface
+ * band stands in for Tailwind's ring-offset-color, then the ring color band
+ * outside it; box-shadow paints on top, so z-index lets it cleanly overlay
+ * a touching sibling (e.g. SplitButton's joined halves) instead of the two
+ * controls' outlines fighting at the shared edge. */
+.svx-focus-ring {
+  position: relative;
+}
+
+
+.svx-focus-ring:focus-visible {
+  z-index: 1;
+  outline: none;
+  box-shadow:
+    0 0 0 var(--interactive-focus-ring-offset) var(--system-surface-raised),
+    0 0 0 calc(var(--interactive-focus-ring-offset) + var(--interactive-focus-ring-width))
+      var(--system-interactive-focus-ring);
+}
+
+
+.svx-choice:focus-visible + .svx-choice__indicator,
+.svx-switch:focus-visible + .svx-switch__track {
+  z-index: 3;
+  box-shadow:
+    0 0 0 var(--interactive-focus-ring-offset) var(--system-surface-raised),
+    0 0 0 calc(var(--interactive-focus-ring-offset) + var(--interactive-focus-ring-width))
+      var(--system-interactive-focus-ring);
+}
+
+
+@media (forced-colors: active) {
+  .svx-focus-ring:focus-visible {
+    outline: var(--interactive-focus-ring-width) solid Highlight;
+    outline-offset: var(--interactive-focus-ring-offset);
+    box-shadow: none;
+  }
+  .svx-choice:focus-visible + .svx-choice__indicator,
+  .svx-switch:focus-visible + .svx-switch__track {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
+
+.svx-switch.svx-focus-ring {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+

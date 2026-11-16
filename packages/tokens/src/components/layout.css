@@ -1,5 +1,6 @@
 /* Layout primitives arrange content without supplying a visual surface. */
 @theme static {
+  --component-layout-layer-sticky: var(--system-layer-sticky);
   --component-container-width-reading: var(--system-layout-width-reading);
   --component-container-width-content: var(--system-layout-width-content);
   --component-container-width-wide: var(--system-layout-width-wide);

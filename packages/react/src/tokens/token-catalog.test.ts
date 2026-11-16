@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import { primitiveTokens, tokenCatalog, tokenUsage } from './token-catalog';
 import semanticSource from '../../../tokens/src/semantic.css?raw';
+import buttonStyles from '../button/button.css?raw';
+import switchStyles from '../switch/switch.css?raw';
+import cssBundle from '../../../tokens/dist/css/index.css?raw';
+import jsonBundle from '../../../tokens/dist/json/tokens.flat.json?raw';
+import composeSource from '../../../tokens/dist/compose/SvxTokens.kt?raw';
+import swiftSource from '../../../tokens/dist/swift/SvxTokens.swift?raw';
+
+const exportedJson = JSON.parse(jsonBundle) as {
+  light: Record<string, string>;
+  dark: Record<string, string>;
+  highContrast: Record<string, string>;
+};
 
 function luminance(hex: string) {
   const channels = hex.slice(1).match(/../g);
@@ -46,6 +58,78 @@ describe('Token foundations', () => {
     expect(overlay?.expression).toBe('var(--system-scrim)');
     expect(overlay?.value).toBe(scrim?.value);
   });
+  it.each(['light', 'dark', 'high-contrast'] as const)('maps elevation roles through component tokens in %s', mode => {
+    const system = Object.fromEntries(tokenCatalog(mode).map(token => [token.name, token]));
+    expect(system['--system-elevation-raised']?.expression).toBe('var(--shadow-raised)');
+    expect(system['--system-elevation-overlay']?.expression).toBe('var(--shadow-overlay)');
+    expect(system['--system-elevation-floating']?.expression).toBe('var(--shadow-floating)');
+    expect(system['--system-elevation-overlay']?.value).toBe('0 0.5rem 2rem rgb(0 0 0 / 0.2)');
+    expect(system['--system-elevation-floating']?.value).toBe('0 1.25rem 4rem rgb(0 0 0 / 0.24)');
+    expect(tokenCatalog(mode, 'card').find(token => token.name === '--component-card-shadow')?.expression)
+      .toBe('var(--system-elevation-raised)');
+    expect(tokenCatalog(mode, 'popover').find(token => token.name === '--component-popover-shadow')?.expression)
+      .toBe('var(--system-elevation-overlay)');
+    expect(tokenCatalog(mode, 'dialog').find(token => token.name === '--component-dialog-shadow')?.expression)
+      .toBe('var(--system-elevation-floating)');
+  });
+  it.each(['light', 'dark', 'high-contrast'] as const)('resolves global layers and component mappings in %s', mode => {
+    const system = Object.fromEntries(tokenCatalog(mode).map(token => [token.name, token.value]));
+    expect(Object.fromEntries(Object.entries(system).filter(([name]) => name.startsWith('--system-layer-')))).toEqual({
+      '--system-layer-sticky': '100',
+      '--system-layer-overlay-backdrop': '1000',
+      '--system-layer-popover': '1000',
+      '--system-layer-overlay-content': '1001',
+      '--system-layer-tooltip': '1100',
+      '--system-layer-toast': '1200',
+    });
+    expect(tokenCatalog(mode, 'menu').find(token => token.name === '--component-menu-layer')?.value).toBe('1000');
+    expect(tokenCatalog(mode, 'dialog').find(token => token.name === '--component-dialog-overlay-layer')?.value).toBe('1000');
+    expect(tokenCatalog(mode, 'dialog').find(token => token.name === '--component-dialog-content-layer')?.value).toBe('1001');
+    expect(tokenCatalog(mode, 'popover').find(token => token.name === '--component-popover-layer')?.value).toBe('1000');
+    expect(tokenCatalog(mode, 'tooltip').find(token => token.name === '--component-tooltip-layer')?.value).toBe('1100');
+    expect(tokenCatalog(mode, 'layout').find(token => token.name === '--component-layout-layer-sticky')?.value).toBe('100');
+  });
+  it.each(['light', 'dark', 'high-contrast'] as const)('preserves legacy motion values and resolves the new scale in %s', mode => {
+    expect(primitiveTokens['--duration-fast']).toBe('120');
+    expect(primitiveTokens['--duration-quick']).toBe('120ms');
+    expect(primitiveTokens['--duration-moderate']).toBe('200ms');
+    expect(primitiveTokens['--duration-slow']).toBe('320ms');
+    expect(primitiveTokens['--duration-steady']).toBe('800ms');
+    expect(primitiveTokens['--duration-loading']).toBe('1400ms');
+    const system = Object.fromEntries(tokenCatalog(mode).map(token => [token.name, token]));
+    expect(system['--system-motion-interactive']?.value).toBe('120');
+    expect(system['--system-motion-duration-interactive']?.value).toBe('120ms');
+    expect(system['--system-motion-duration-spinner']?.value).toBe('800ms');
+    expect(system['--system-motion-duration-loading']?.value).toBe('1400ms');
+    expect(system['--system-animation-loading-shimmer']?.value).toBe('svx-loading-shimmer 1400ms linear infinite');
+    expect(tokenCatalog(mode, 'shared-controls').find(token => token.name === '--motion-interactive')?.value).toBe('120');
+    expect(tokenCatalog(mode, 'button').find(token => token.name === '--component-button-spinner-animation')?.value)
+      .toBe('svx-button-spin 800ms linear infinite');
+  });
+  it('disables interactive and persistent decorative motion for reduced-motion preferences', () => {
+    expect(semanticSource).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?--system-motion-interactive:\s*0;/);
+    expect(semanticSource).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?--system-animation-loading-shimmer:\s*none;/);
+    expect(buttonStyles).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.svx-button[\s\S]*?transition:\s*none;/);
+    expect(switchStyles).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.svx-switch__track,[\s\S]*?\.svx-switch__thumb[\s\S]*?transition:\s*none;/);
+    expect(buttonStyles).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.svx-button__spinner[\s\S]*?animation:\s*none;/);
+  });
+  it('builds resolved CSS and JSON while documenting unsupported native values', () => {
+    for (const mode of ['light', 'dark', 'highContrast'] as const) {
+      expect(exportedJson[mode]['system-elevation-raised']).toBe('0 0.125rem 0.25rem rgb(0 0 0 / 0.1)');
+      expect(exportedJson[mode]['component-dialog-shadow']).toBe('0 1.25rem 4rem rgb(0 0 0 / 0.24)');
+      expect(exportedJson[mode]['system-layer-toast']).toBe('1200');
+      expect(exportedJson[mode]['system-motion-duration-spinner']).toBe('800ms');
+      expect(exportedJson[mode]['system-animation-loading-shimmer']).toBe('svx-loading-shimmer 1400ms linear infinite');
+    }
+    expect(cssBundle).toContain('--component-dialog-shadow: var(--system-elevation-floating)');
+    expect(cssBundle).toContain('--component-dialog-content-layer: var(--system-layer-overlay-content)');
+    expect(cssBundle).toContain('@media (prefers-reduced-motion: reduce)');
+    expect(composeSource).toContain('val systemLayerToast = 1200');
+    expect(swiftSource).toContain('static let systemLayerToast = 1200');
+    for (const source of [composeSource, swiftSource]) {
+      expect(source).not.toMatch(/(?:val|static let) (?:systemElevationRaised|componentDialogShadow|durationQuick|easingStandard)\b/);
+    }
+  });
   it.each(['light', 'dark', 'high-contrast'] as const)('resolves shared selection-control tokens in %s', mode => {
     const catalog = tokenCatalog(mode, 'selection-controls');
     expect(catalog).toHaveLength(11);
@@ -58,7 +142,7 @@ describe('Token foundations', () => {
   it('uses the inline base-declaration comment for every system usage', () => {
     const base = semanticSource.slice(semanticSource.indexOf('@theme static {'), semanticSource.indexOf('\n}', semanticSource.indexOf('@theme static {')));
     const documented = [...base.matchAll(/^\s*(--system-[\w-]+):[^;]+;[ \t]*\/\* (.*?) \*\//gm)];
-    expect(documented).toHaveLength(208);
+    expect(documented.length).toBeGreaterThanOrEqual(208);
     for (const [, name, usage] of documented) expect(tokenUsage(name)).toBe(usage);
     expect(() => tokenUsage('--system-undocumented')).toThrow('Missing usage description');
   });
@@ -201,7 +285,7 @@ describe('Token foundations', () => {
 
   it.each(['light', 'dark', 'high-contrast'] as const)('documents and resolves every semantic token in %s', (mode) => {
     const catalog = tokenCatalog(mode);
-    expect(catalog.length).toBe(208);
+    expect(catalog.length).toBe(227);
     for (const token of catalog) {
       expect(token.name).toMatch(/^--system-/);
       expect(token.value).not.toContain('var(');

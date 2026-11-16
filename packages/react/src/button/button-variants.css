@@ -1,0 +1,167 @@
+.svx-icon-button.svx-button--sm {
+  width: var(--component-button-height-sm);
+}
+
+
+.svx-icon-button.svx-button--md {
+  width: var(--component-button-height-md);
+}
+
+
+.svx-icon-button.svx-button--lg {
+  width: var(--component-button-height-lg);
+}
+
+
+.svx-button--sm {
+  --svx-button-icon-size: var(--svx-material-symbol-size-xs);
+  height: var(--component-button-height-sm);
+  padding-inline: var(--component-button-padding-x-sm);
+  gap: var(--component-button-gap-sm);
+  border-radius: var(--component-button-radius-sm);
+  font: var(--component-button-label-sm);
+}
+
+
+.svx-button--md {
+  --svx-button-icon-size: var(--svx-material-symbol-size-sm);
+  height: var(--component-button-height-md);
+  padding-inline: var(--component-button-padding-x-md);
+  gap: var(--component-button-gap-md);
+  border-radius: var(--component-button-radius-md);
+  font: var(--component-button-label-md);
+}
+
+
+.svx-button--lg {
+  --svx-button-icon-size: var(--svx-material-symbol-size-md);
+  height: var(--component-button-height-lg);
+  padding-inline: var(--component-button-padding-x-lg);
+  gap: var(--component-button-gap-lg);
+  border-radius: var(--component-button-radius-lg);
+  font: var(--component-button-label-lg);
+}
+
+
+/* variants -> semantic interactive tokens */
+.svx-button--solid {
+  border-color: var(--component-button-solid-border);
+  background-color: var(--svx-button-solid);
+  color: var(--svx-button-on-solid);
+}
+
+
+.svx-button--solid:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-solid-hover);
+}
+
+
+.svx-button--solid:active:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-solid-pressed);
+}
+
+
+.svx-button--solid:disabled {
+  background-color: var(--system-interactive-disabled);
+  color: var(--system-text-disabled);
+}
+
+
+.svx-button--solid[aria-disabled='true'] {
+  background-color: var(--system-interactive-disabled);
+  color: var(--system-text-disabled);
+}
+
+
+.svx-button--soft {
+  background-color: var(--svx-button-surface);
+  color: var(--svx-button-fg);
+}
+
+
+.svx-button--soft:hover:not(:disabled):not([aria-disabled='true']) {
+  background-image: linear-gradient(var(--svx-button-surface-hover), var(--svx-button-surface-hover));
+}
+
+
+.svx-button--soft:active:not(:disabled):not([aria-disabled='true']) {
+  background-image: linear-gradient(var(--svx-button-surface-pressed), var(--svx-button-surface-pressed));
+}
+
+
+.svx-button--soft:disabled,
+.svx-button--soft[aria-disabled='true'] {
+  background-color: var(--system-surface-default);
+  color: var(--system-text-disabled);
+}
+
+
+.svx-button--outline {
+  background-color: transparent;
+  border-color: var(--svx-button-border);
+  color: var(--svx-button-fg);
+}
+
+
+.svx-button--outline:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-hover);
+}
+
+
+.svx-button--outline:active:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-pressed);
+}
+
+
+.svx-button--outline:disabled,
+.svx-button--outline[aria-disabled='true'] {
+  background-color: var(--system-surface-default);
+  border-color: var(--system-border-disabled);
+  color: var(--system-text-disabled);
+}
+
+
+.svx-button--ghost {
+  background-color: transparent;
+  color: var(--svx-button-fg);
+}
+
+
+.svx-button--ghost:hover:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-hover);
+}
+
+
+.svx-button--ghost:active:not(:disabled):not([aria-disabled='true']) {
+  background-color: var(--svx-button-surface-pressed);
+}
+
+
+.svx-button--ghost:disabled,
+.svx-button--ghost[aria-disabled='true'] {
+  color: var(--system-text-disabled);
+}
+
+
+.svx-toggle[aria-pressed='true']:not(:disabled) {
+  --svx-button-surface: var(--system-interactive-surface-selected);
+  --svx-button-fg: var(--system-interactive-surface-foreground);
+  border-color: var(--system-interactive-border-default);
+}
+
+
+.svx-toggle.svx-button--sm {
+  min-width: var(--component-button-height-sm);
+}
+
+
+.svx-toggle.svx-button--md {
+  min-width: var(--component-button-height-md);
+}
+
+
+.svx-toggle.svx-button--lg {
+  min-width: var(--component-button-height-lg);
+}
+
+

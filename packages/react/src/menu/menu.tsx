@@ -5,7 +5,7 @@ import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 /**
  * Menu — a small, token-only wrapper around Radix's DropdownMenu primitive.
  * Radix owns positioning/portal/keyboard-nav behavior; this file only maps
- * its parts to semantic classes (see styles.css), the same variant-to-token
+ * its parts to semantic classes (see menu.css), the same variant-to-token
  * convention Button follows. `[data-highlighted]` (set by Radix on hover
  * *and* arrow-key navigation) drives the item hover state in CSS, so both
  * input modes share one rule with no JS state to track.

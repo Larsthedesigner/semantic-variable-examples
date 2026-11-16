@@ -1,20 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import styles from './styles.css?raw';
+import styles from './styles/focus-ring.css?raw';
+import menuStyles from './menu/menu.css?raw';
 
 describe('shared focus ring styles', () => {
   it('outlines highlighted menu items for keyboard and pointer navigation', () => {
-    expect(styles).toContain(`.svx-menu-item[data-highlighted] {
+    expect(menuStyles).toContain(`.svx-menu-item[data-highlighted] {
   background-color: var(--system-interactive-surface-hover);
   outline: var(--interactive-focus-ring-width) solid var(--system-interactive-focus-ring);
   outline-offset: calc(-1 * var(--interactive-focus-ring-width));
 }`);
-    expect(styles).toContain('.svx-menu-item[data-highlighted] { outline-color: Highlight; }');
-    expect(styles).toContain('.svx-menu-item[data-disabled] { color: GrayText; }');
+    expect(menuStyles).toContain('.svx-menu-item[data-highlighted] { outline-color: Highlight; }');
+    expect(menuStyles).toContain('.svx-menu-item[data-disabled] { color: GrayText; }');
   });
 
   it('keeps the normal shadow and provides a token-sized system outline in forced colors', () => {
     const element = document.createElement('style');
-    element.textContent = styles.replace(/^@import.*$/gm, '');
+    element.textContent = styles;
     document.head.appendChild(element);
 
     try {

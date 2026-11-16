@@ -46,10 +46,9 @@ describe('Foundation reference categories', () => {
     expect(new Set(rows.map(row => within(row).getAllByRole('cell')[0].textContent)).size).toBe(132);
     expect(screen.getByText('--system-scrim')).toBeInTheDocument();
     for (const row of rows) {
-      expect(within(row).getAllByRole('cell')[0].textContent).toMatch(/^--system-/);
-      expect(row.textContent).not.toContain('--system-spacer-');
-      expect(row.textContent).not.toContain('--system-type-');
-      expect(row.textContent).not.toContain('--system-animation-');
+      const name = within(row).getAllByRole('cell')[0].textContent ?? '';
+      expect(name).toMatch(/^--system-/);
+      expect(name).not.toMatch(/^--system-(spacer|type|animation|motion|elevation|layer)-/);
     }
   });
 
@@ -99,14 +98,28 @@ describe('Foundation reference categories', () => {
     expect(screen.getByText('var(--size-rem-12)')).toBeInTheDocument();
   });
 
-  it('shows the animation shorthand only in Motion Semantics', () => {
-    render(<TokenReference category="animation" />);
-    expect(screen.getByRole('heading', { name: 'Animation semantics' })).toBeInTheDocument();
+  it('shows motion durations, easing, and animation semantics together', () => {
+    render(<TokenReference category="motion" />);
+    expect(screen.getByRole('heading', { name: 'Motion semantics' })).toBeInTheDocument();
     const rows = within(screen.getByRole('table')).getAllByRole('row').slice(1);
-    expect(rows).toHaveLength(1);
-    expect(rows[0]).toHaveTextContent('--system-animation-loading-shimmer');
-    expect(rows[0]).toHaveTextContent('svx-loading-shimmer 1400ms linear infinite');
+    const text = rows.map(row => row.textContent).join(' ');
+    expect(text).toContain('--system-motion-duration-interactive');
+    expect(text).toContain('--system-motion-easing-standard');
+    expect(text).toContain('--system-animation-loading-shimmer');
+    expect(text).toContain('svx-loading-shimmer 1400ms linear infinite');
     expect(screen.queryByText('--system-loading-surface')).not.toBeInTheDocument();
+  });
+  it('shows elevation and layering as separate semantic references', () => {
+    const { rerender } = render(<TokenReference category="elevation" mode="dark" />);
+    expect(screen.getByRole('heading', { name: 'Elevation semantics' })).toBeInTheDocument();
+    expect(screen.getByText('--system-elevation-raised')).toBeInTheDocument();
+    expect(screen.getByText('--system-elevation-overlay')).toBeInTheDocument();
+    expect(screen.getByText('--system-elevation-floating')).toBeInTheDocument();
+    rerender(<TokenReference category="layering" />);
+    expect(screen.getByRole('heading', { name: 'Layering semantics' })).toBeInTheDocument();
+    expect(screen.getByText('--system-layer-sticky')).toBeInTheDocument();
+    expect(screen.getByText('--system-layer-toast')).toBeInTheDocument();
+    expect(screen.queryByText('--system-elevation-raised')).not.toBeInTheDocument();
   });
   it('shows layout roles separately from color and spacer references', () => {
     render(<TokenReference category="layout" />);

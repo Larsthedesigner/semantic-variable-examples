@@ -8,7 +8,7 @@ import type { PolymorphicProps } from '../polymorphic';
 export const buttonColors = ['accent', 'neutral', 'error', 'success', 'warning', 'info'] as const;
 
 /**
- * Variant classes map 1:1 to semantic tokens from @svx/tokens (see styles.css) —
+ * Variant classes map 1:1 to semantic tokens from @svx/tokens (see button.css) —
  * never to raw color values — so theming stays centralized in the token layer.
  */
 export const buttonVariants = cva('svx-button svx-focus-ring', {
@@ -64,7 +64,7 @@ type ButtonComponent = (<TElement extends ElementType = 'button'>(
 /**
  * Polymorphic, ShadCN-style Button: `as` swaps the rendered element/component,
  * `asChild` merges Button behavior onto a single child via Radix Slot, and
- * every visual variant resolves to a semantic design token (see styles.css).
+ * every visual variant resolves to a semantic design token (see button.css).
  */
 export const Button = forwardRef(function Button(
   {

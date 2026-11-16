@@ -1,0 +1,24 @@
+.svx-tooltip-content {
+  z-index: var(--component-tooltip-layer);
+  box-sizing: border-box;
+  max-inline-size: min(20rem, calc(100vw - var(--system-spacer-rem-md) - var(--system-spacer-rem-md)));
+  padding: var(--component-tooltip-padding-y) var(--component-tooltip-padding-x);
+  border-radius: var(--component-tooltip-radius);
+  background: var(--component-tooltip-surface);
+  color: var(--component-tooltip-foreground);
+  font: var(--component-tooltip-text);
+  overflow-wrap: anywhere;
+}
+
+
+.svx-tooltip-arrow {
+  fill: var(--component-tooltip-surface);
+}
+
+
+@media (forced-colors: active) {
+  .svx-tooltip-content { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+  .svx-tooltip-arrow { fill: Canvas; stroke: CanvasText; }
+}
+
+

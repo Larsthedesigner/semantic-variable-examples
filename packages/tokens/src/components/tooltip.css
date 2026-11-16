@@ -6,4 +6,5 @@
   --component-tooltip-padding-y: var(--system-spacer-rem-xs);
   --component-tooltip-radius: var(--system-radius-sm);
   --component-tooltip-text: var(--system-type-body-sm-font);
+  --component-tooltip-layer: var(--system-layer-tooltip);
 }

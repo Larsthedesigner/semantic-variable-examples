@@ -3,6 +3,7 @@
   --component-card-surface: var(--system-surface-default);
   --component-card-border: var(--system-border-default);
   --component-card-radius: var(--system-radius-md);
+  --component-card-shadow: var(--system-elevation-raised);
   --component-card-padding: var(--system-spacer-rem-xl);
   --component-card-section-gap: var(--system-spacer-rem-lg);
   --component-card-heading-gap: var(--system-spacer-rem-xs);

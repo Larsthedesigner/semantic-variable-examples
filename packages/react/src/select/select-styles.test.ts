@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import styles from '../styles.css?raw';
+import styles from '../select/select.css?raw';
 
 describe('Select indicator styles', () => {
   it('reserves space for an inset indicator and places it at the inline end', () => {

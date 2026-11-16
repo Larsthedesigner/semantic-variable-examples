@@ -1,0 +1,69 @@
+.svx-text-control {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--system-border-control);
+  background-color: var(--system-surface-default);
+  color: var(--system-text-primary);
+}
+
+
+.svx-text-control[data-size='sm'] {
+  min-height: var(--component-input-height-sm);
+  padding: var(--component-input-padding-y-sm) var(--component-input-padding-x-sm);
+  border-radius: var(--component-input-radius-sm);
+  font: var(--component-input-text-sm);
+}
+
+
+.svx-text-control[data-size='md'] {
+  min-height: var(--component-input-height-md);
+  padding: var(--component-input-padding-y-md) var(--component-input-padding-x-md);
+  border-radius: var(--component-input-radius-md);
+  font: var(--component-input-text-md);
+}
+
+
+.svx-text-control[data-size='lg'] {
+  min-height: var(--component-input-height-lg);
+  padding: var(--component-input-padding-y-lg) var(--component-input-padding-x-lg);
+  border-radius: var(--component-input-radius-lg);
+  font: var(--component-input-text-lg);
+}
+
+
+.svx-text-control::placeholder {
+  color: var(--system-text-placeholder);
+  opacity: 1;
+}
+
+
+.svx-text-control:where(:hover:not(:disabled):not([readonly])) {
+  border-color: var(--system-border-control-hover);
+}
+
+
+.svx-text-control[aria-invalid='true'],
+.svx-text-control[aria-invalid='grammar'],
+.svx-text-control[aria-invalid='spelling'] {
+  border-color: var(--system-status-error-fg);
+}
+
+
+.svx-text-control[readonly] {
+  background-color: var(--system-surface-disabled);
+}
+
+
+.svx-text-control:disabled {
+  border-color: var(--system-border-disabled);
+  background-color: var(--system-surface-disabled);
+  color: var(--system-text-disabled);
+  cursor: not-allowed;
+}
+
+
+.svx-text-control:disabled::placeholder {
+  color: var(--system-text-disabled);
+}
+

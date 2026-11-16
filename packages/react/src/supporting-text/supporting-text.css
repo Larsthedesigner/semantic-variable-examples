@@ -1,0 +1,54 @@
+.svx-supporting-text--sm {
+  font: var(--component-supporting-text-sm);
+  letter-spacing: var(--component-supporting-text-tracking-sm);
+  --svx-material-symbol-size: var(--component-supporting-icon-sm);
+}
+
+
+.svx-supporting-text--md {
+  font: var(--component-supporting-text-md);
+  letter-spacing: var(--component-supporting-text-tracking-md);
+  --svx-material-symbol-size: var(--component-supporting-icon-md);
+}
+
+
+.svx-supporting-text--lg {
+  font: var(--component-supporting-text-lg);
+  letter-spacing: var(--component-supporting-text-tracking-lg);
+  --svx-material-symbol-size: var(--component-supporting-icon-lg);
+}
+
+
+.svx-supporting-text {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--component-supporting-text-gap);
+  margin: 0;
+  color: var(--system-text-secondary);
+}
+
+
+.svx-supporting-text__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+
+.svx-supporting-text__icon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: 1lh;
+}
+
+
+.svx-supporting-text[data-variant='error'] {
+  color: var(--system-status-error-fg);
+}
+
+
+.svx-supporting-text[data-variant='success'] {
+  color: var(--system-status-success-fg);
+}
+
+

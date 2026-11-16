@@ -1,5 +1,6 @@
 /* Menu item typography. */
 @theme static {
+  --component-menu-layer: var(--system-layer-popover);
   --component-menu-padding: var(--system-spacer-rem-xs);
   --component-menu-item-padding-x: var(--system-spacer-rem-md);
   --component-menu-item-padding-y: var(--system-spacer-rem-xs);

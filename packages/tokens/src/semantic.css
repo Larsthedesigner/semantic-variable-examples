@@ -57,7 +57,17 @@
   --system-layout-gutter-fluid: clamp(var(--system-spacer-rem-lg), 3vw, var(--system-spacer-rem-2xl)); /* Optional viewport-responsive page gutter bounded by the rem spacing scale. Use for page-level containers, not narrow cards within a wide viewport; iframe resizing, not parent resizing, changes vw. */
   --system-loading-surface: var(--color-neutral-300); /* Resting background for loading placeholders that reserve space for pending content on standard surfaces. Not a disabled-control fill or progress indicator. */
   --system-loading-shimmer: color-mix(in srgb, var(--color-white) 65%, transparent); /* Moving light overlay composited over --system-loading-surface. Use in a transparent-to-shimmer gradient, not as text or a standalone background. */
-  --system-animation-loading-shimmer: svx-loading-shimmer var(--duration-loading) var(--easing-linear) infinite; /* Reusable animation shorthand for a clipped, full-width shimmer overlay. Shared keyframes translate the overlay from -100% to 100%; apply to an absolutely positioned decorative layer, never the loading content itself. Reduced motion disables this animation. */
+  --system-motion-interactive: var(--duration-fast); /* Legacy unitless interactive duration in milliseconds, retained for existing component mappings that multiply by 1ms. Resolves to zero for users who request reduced motion. */
+  --system-motion-duration-interactive: var(--duration-quick); /* Unit-bearing duration for short interactive transitions. New consumers should use this instead of the legacy unitless duration. */
+  --system-motion-duration-enter: var(--duration-moderate); /* Duration for entering content that needs a little more time to settle than a control-state change. */
+  --system-motion-duration-exit: var(--duration-quick); /* Duration for exiting content; keep removal brief and avoid delaying access to the next state. */
+  --system-motion-duration-spinner: var(--duration-steady); /* Cycle duration for the button loading spinner. Reduced motion stops rotation while retaining the visible spinner. */
+  --system-motion-duration-loading: var(--duration-loading); /* Persistent loading duration; reduced motion removes the animation, not loading feedback. */
+  --system-motion-easing-standard: var(--easing-standard); /* General-purpose easing for transitions that do not have a more specific directional intent. */
+  --system-motion-easing-enter: var(--easing-enter); /* Decelerating easing for content entering the interface. */
+  --system-motion-easing-exit: var(--easing-exit); /* Accelerating easing for content leaving the interface. */
+  --system-motion-easing-linear: var(--easing-linear); /* Constant-rate easing for continuous decorative motion such as loading shimmer. */
+  --system-animation-loading-shimmer: svx-loading-shimmer var(--system-motion-duration-loading) var(--system-motion-easing-linear) infinite; /* Reusable animation shorthand for a clipped, full-width shimmer overlay. Shared keyframes translate the overlay from -100% to 100%; apply to an absolutely positioned decorative layer, never the loading content itself. Reduced motion disables this animation. */
   /* Prescribed typography bundles: font shorthand, tracking, and foreground. */
   --system-type-h1-font: var(--font-weight-bold) var(--font-size-4xl)/var(--line-height-ratio-4xl) var(--font-family-sans); /* Main page heading; normally one per page. Render as h1 and apply the matching tracking and color members. */
   --system-type-h1-tracking: var(--letter-spacing-tight); /* Letter spacing for the h1 bundle; apply with its font and color, not as an independent visual variant. */
@@ -130,7 +140,16 @@
   --system-surface-sunken: var(--color-neutral-300); /* Background fill for recessed input areas, segmented-control tracks, wells, and code blocks below the surrounding content surface. Use standard text and control-border roles for content and boundaries. */
   --system-surface-sunken-soft: var(--color-neutral-200); /* Background fill for subtly inset sections within a content surface. Use instead of --system-surface-sunken when a track or well would create too much visual separation. */
   --system-surface-default: var(--color-white); /* Background fill for main content areas, list containers, and flat panels with no elevation. Pair with --system-text-primary and --system-text-secondary for ordinary content. */
-  --system-surface-raised: var(--color-white); /* Background fill for cards and panels elevated above the default content surface. Reinforce elevation with a shadow rather than assuming the fill alone communicates depth. */
+  --system-surface-raised: var(--color-white); /* Background fill for cards and panels elevated above the default content surface. Pair with --system-elevation-raised; use a visible border when shadows are suppressed. */
+  --system-elevation-raised: var(--shadow-raised); /* Subtle separation for cards and panels on --system-surface-default. Shadows are context-stable across light, dark, and high-contrast themes; retain borders for forced-colors mode. */
+  --system-elevation-overlay: var(--shadow-overlay); /* Medium shadow for popovers, combobox panels, and other transient surfaces above page content. Pair with --system-surface-overlay and its border. */
+  --system-elevation-floating: var(--shadow-floating); /* Stronger shadow for modal dialogs and sheets above other content. Pair with --system-surface-overlay and its border. */
+  --system-layer-sticky: var(--layer-sticky); /* Global layer for sticky page chrome; stays below all floating overlays. Local control stacking is not part of this contract. */
+  --system-layer-overlay-backdrop: var(--layer-overlay-backdrop); /* Global layer for modal backdrops. Dialog content uses the next layer so it remains above its own backdrop. */
+  --system-layer-popover: var(--layer-popover); /* Global layer for menus, popovers, and combobox panels. Content in the same layer follows document/portal order. */
+  --system-layer-overlay-content: var(--layer-overlay-content); /* Global layer for dialog and sheet content, directly above modal backdrops. */
+  --system-layer-tooltip: var(--layer-tooltip); /* Global layer for tooltips, above popovers and modal content. */
+  --system-layer-toast: var(--layer-toast); /* Reserved global layer for future toast notifications, above tooltips. */
   --system-surface-overlay: var(--system-surface-default); /* Background fill for floating dialogs, popovers, dropdown menus, and command panels above page content. This fills the floating container, not the scrim behind it. */
   --system-scrim: color-mix(in srgb, var(--color-black) 48%, transparent); /* Translucent backdrop behind modal dialogs and temporary panels. Apply over the page, not to the floating surface itself. */
   --system-surface-panel: var(--color-white); /* Background fill for persistent side panels, detail panes, and application chrome. Use for layout structure rather than temporary floating content. */
@@ -306,6 +325,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --system-motion-interactive: 0;
+    --system-motion-duration-interactive: var(--duration-instant);
+    --system-motion-duration-enter: var(--duration-instant);
+    --system-motion-duration-exit: var(--duration-instant);
     --system-animation-loading-shimmer: none;
   }
 }

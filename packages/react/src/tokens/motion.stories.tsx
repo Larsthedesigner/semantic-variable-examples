@@ -9,13 +9,18 @@ function Motion() {
       <ReferenceHeader
         eyebrow="Foundations / Motion / Primitives"
         title="Motion primitives"
-        description="Timing values for short interface transitions. Components retain responsibility for reduced-motion behavior."
+        description="Unit-bearing duration and easing primitives for new transitions. The legacy --duration-fast value remains unitless (120 milliseconds) for existing consumers."
       />
+      <h2>Durations</h2>
       {Object.entries(primitiveTokens).filter(([name]) => name.startsWith('--duration-')).map(([name, value]) => (
         <div key={name} className="sbx-section">
           <code>{name}: {value}</code>
-          <p>Duration in milliseconds; use through a semantic motion role.</p>
+          <p>{name === '--duration-fast' ? 'Legacy unitless milliseconds value; do not remove or append units.' : 'Use through a semantic motion role.'}</p>
         </div>
+      ))}
+      <h2>Easing</h2>
+      {Object.entries(primitiveTokens).filter(([name]) => name.startsWith('--easing-')).map(([name, value]) => (
+        <div key={name} className="sbx-section"><code>{name}: {value}</code></div>
       ))}
     </div>
   );
@@ -29,9 +34,9 @@ type Story = StoryObj<typeof Motion>;
 export const Primitives: Story = {};
 export const Semantics: Story = {
   render: () => <div>
-    <TokenReference category="animation" />
+    <TokenReference category="motion" />
     <div className="sbx-reference">
-      <p>Shared shimmer utility on a decorative loading surface. Reduced motion leaves a static fill.</p>
+      <p>Shared shimmer utility on a decorative loading surface. Reduced motion leaves a static fill; interactive transitions resolve to zero duration.</p>
       <div className="svx-loading-shimmer" aria-hidden="true" style={{ width: '100%', maxWidth: 400, height: 40 }} />
     </div>
   </div>,

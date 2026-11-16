@@ -80,7 +80,7 @@ describe('Card', () => {
   });
   it.each(['light', 'dark', 'high-contrast'] as const)('resolves component-owned card mappings in %s', mode => {
     const tokens = tokenCatalog(mode, 'card');
-    expect(tokens).toHaveLength(7);
+    expect(tokens).toHaveLength(8);
     for (const token of tokens) expect(token.value).not.toContain('var(');
     expect(tokens.find(token => token.name.endsWith('padding'))?.value).toBe('1.5rem');
     expect(tokens.find(token => token.name.endsWith('radius'))?.value).toBe('0.5rem');

@@ -29,7 +29,7 @@ export interface SplitButtonProps
 /**
  * SplitButton — a primary action fused to a chevron-triggered Menu of
  * alternatives. Button and IconButton share the same variant/size/tokens,
- * joined by layout-only modifier classes (radius + divider) in styles.css —
+ * joined by layout-only modifier classes (radius + divider) in split-button.css —
  * no new color or state tokens, only new *arrangements* of existing ones.
  */
 export const SplitButton = forwardRef<HTMLDivElement, SplitButtonProps>(function SplitButton(

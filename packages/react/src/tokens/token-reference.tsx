@@ -21,14 +21,23 @@ const colorGroups = [
 export function TokenReference({ mode = 'light', owner, category }: {
   mode?: TokenMode;
   owner?: string;
-  category?: 'color' | 'spacer' | 'animation' | 'layout' | 'radius';
+  category?: 'color' | 'spacer' | 'animation' | 'motion' | 'layout' | 'radius' | 'elevation' | 'layering';
 }) {
   const [activeGroup, setActiveGroup] = useState('all');
   const showColorComparison = !owner && (category === undefined || category === 'color');
-  const tokens = tokenCatalog(showColorComparison ? 'light' : mode, owner).filter(token =>
-    owner || (category === 'spacer' ? token.name.startsWith('--system-spacer-') : category === 'animation' ? token.name.startsWith('--system-animation-') : category === 'layout' ? token.name.startsWith('--system-layout-') : category === 'radius' ? token.name.startsWith('--system-radius-') : !/^--system-(spacer|type|animation|layout|radius)-/.test(token.name)));
+  const isMotion = category === 'animation' || category === 'motion';
+  const tokens = tokenCatalog(showColorComparison ? 'light' : mode, owner).filter(token => {
+    if (owner) return true;
+    if (category === 'spacer') return token.name.startsWith('--system-spacer-');
+    if (isMotion) return token.name.startsWith('--system-motion-') || token.name.startsWith('--system-animation-');
+    if (category === 'layout') return token.name.startsWith('--system-layout-');
+    if (category === 'radius') return token.name.startsWith('--system-radius-');
+    if (category === 'elevation') return token.name.startsWith('--system-elevation-');
+    if (category === 'layering') return token.name.startsWith('--system-layer-');
+    return !/^--system-(spacer|type|animation|motion|layout|radius|elevation|layer)-/.test(token.name);
+  });
   const darkTokens = new Map(showColorComparison ? tokenCatalog('dark').map(token => [token.name, token]) : []);
-  const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : category === 'animation' ? 'Animation semantics' : category === 'layout' ? 'Layout semantics' : category === 'radius' ? 'Radius semantics' : 'Semantic color reference';
+  const title = owner ? `${owner} component tokens` : category === 'spacer' ? 'Spacer semantics' : isMotion ? 'Motion semantics' : category === 'layout' ? 'Layout semantics' : category === 'radius' ? 'Radius semantics' : category === 'elevation' ? 'Elevation semantics' : category === 'layering' ? 'Layering semantics' : 'Semantic color reference';
   const groups = showColorComparison ? colorGroups.map(group => ({
     ...group, tokens: tokens.filter(token => group.pattern.test(token.name)),
   })).filter(group => group.tokens.length) : [{ id: 'tokens', title, description: '', tokens }];
@@ -41,14 +50,16 @@ export function TokenReference({ mode = 'light', owner, category }: {
   return (
     <div className={`sbx-reference ${mode}`}>
       <ReferenceHeader
-        eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : category === 'animation' ? 'Motion' : category === 'layout' ? 'Layout' : category === 'radius' ? 'Radius' : 'Color'} / Semantics`}
+        eyebrow={owner ? 'Components / Token reference' : `Foundations / ${category === 'spacer' ? 'Size' : isMotion ? 'Motion' : category === 'layout' ? 'Layout' : category === 'radius' ? 'Radius' : category === 'elevation' ? 'Elevation' : category === 'layering' ? 'Layering' : 'Color'} / Semantics`}
         title={title}
         description={showColorComparison
           ? 'Choose colors by purpose, not palette. Compare each role in light and dark mode before using it in your application.'
           : category === 'spacer' ? 'A shared spacing rhythm for gaps, padding, and margins. Use rem for scalable layouts and px for fixed geometry.'
-          : category === 'animation' ? 'Apply animation shorthands to decorative layers, not content. Reduced-motion preferences disable the loading shimmer at runtime.'
+          : isMotion ? 'Use unit-bearing duration and easing semantics for new transitions. The legacy --duration-fast and --motion-interactive mappings stay unitless for compatibility; reduced motion removes transitions and persistent loading animation while retaining static feedback.'
           : category === 'layout' ? 'Parent fill, viewport fit, bounded content widths, and page gutters. Percentages follow the parent; viewport units follow the iframe viewport.'
           : category === 'radius' ? 'Shared corner sizes, from square to pill. T-shirt values scale with root text size; full uses 50% and makes a circle only on a square box.'
+          : category === 'elevation' ? 'Pair raised, overlay, and floating shadows with their intended surfaces. The roles remain stable across themes; borders provide separation when forced-colors suppresses shadows.'
+          : category === 'layering' ? 'Global stack levels order sticky chrome, transient surfaces, modal backdrops and content, tooltips, and the reserved toast layer. Local control stacking is independent, and stacking contexts can constrain descendants.'
           : 'Component-owned mappings connect theme roles and primitive dimensions to the control.'}
         summary={`${tokens.length} tokens${showColorComparison ? ` / ${groups.length} groups / Light + dark` : ` / ${mode} mode`}`}
       />

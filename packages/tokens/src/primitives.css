@@ -33,8 +33,10 @@
  * 1. Size scale                    – --size-px-{step}, --size-rem-{step}
  * 2. Type ramp                     – --font-family-sans, --font-size-*,
  *                              --line-height-*, --font-weight-*, --letter-spacing-*
- * 3. Motion                        – --duration-fast
- * 4. Color palettes                – white, blue, status, neutral
+ * 3. Motion                        – --duration-*, --easing-*
+ * 4. Elevation                     – --shadow-*
+ * 5. Layering                      – --layer-*
+ * 6. Color palettes                – white, blue, status, neutral
  */
 
 @theme static {
@@ -132,8 +134,30 @@
   /* ── Motion ──────────────────────────────────────────────────────────────── */
 
   --duration-fast: 120;
+  /* New durations carry units. Keep --duration-fast unitless for existing calc(... * 1ms) consumers. */
+  --duration-instant: 0ms;
+  --duration-quick: 120ms;
+  --duration-moderate: 200ms;
+  --duration-slow: 320ms;
+  --duration-steady: 800ms;
   --duration-loading: 1400ms;
   --easing-linear: linear;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --easing-enter: cubic-bezier(0, 0, 0.2, 1);
+  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* CSS shadow primitives are intentionally omitted from Compose and Swift exports. */
+  --shadow-raised: 0 0.125rem 0.25rem rgb(0 0 0 / 0.1);
+  --shadow-overlay: 0 0.5rem 2rem rgb(0 0 0 / 0.2);
+  --shadow-floating: 0 1.25rem 4rem rgb(0 0 0 / 0.24);
+
+  /* Global stacking order; component-local stacking remains independent. */
+  --layer-sticky: 100;
+  --layer-overlay-backdrop: 1000;
+  --layer-popover: 1000;
+  --layer-overlay-content: 1001;
+  --layer-tooltip: 1100;
+  --layer-toast: 1200;
   /* Shared color scale: 100–300 surfaces, 400–600 borders/tints,
    * 700–900 accents, 1000–1200 strong foregrounds/deep surfaces.
    * Always measure contrast for the actual semantic foreground/background pair. */

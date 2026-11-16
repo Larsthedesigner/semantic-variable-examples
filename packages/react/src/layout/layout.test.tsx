@@ -81,6 +81,6 @@ describe('Layout foundations', () => {
     expect(tokens.find(token => token.name.endsWith('size-fill'))?.value).toBe('100%');
     expect(tokens.find(token => token.name.endsWith('viewport-block-size'))?.value).toBe('100dvh');
     expect(tokens.find(token => token.name.endsWith('width-reading'))?.value).toBe('40rem');
-    expect(tokenCatalog(mode, 'layout')).toHaveLength(8);
+    expect(tokenCatalog(mode, 'layout')).toHaveLength(9);
   });
 });

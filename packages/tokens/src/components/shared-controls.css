@@ -16,5 +16,5 @@
   --component-control-padding-y-md: var(--system-spacer-rem-sm);
   --component-control-padding-y-lg: var(--system-spacer-rem-md);
   --component-control-gap: var(--system-spacer-rem-sm);
-  --motion-interactive: var(--duration-fast);
+  --motion-interactive: var(--system-motion-interactive);
 }

@@ -1,0 +1,112 @@
+.svx-button--color-accent {
+  --svx-button-solid: var(--system-interactive-solid);
+  --svx-button-solid-hover: var(--system-interactive-solid-hover);
+  --svx-button-solid-pressed: var(--system-interactive-solid-pressed);
+  --svx-button-on-solid: var(--system-interactive-on-solid);
+  --svx-button-surface: var(--system-interactive-surface);
+  --svx-button-surface-hover: var(--system-interactive-surface-hover);
+  --svx-button-surface-pressed: var(--system-interactive-surface-pressed);
+  --svx-button-fg: var(--system-interactive-fg);
+  --svx-button-border: var(--system-interactive-border-default);
+}
+
+
+.svx-button--color-neutral {
+  --svx-button-solid: var(--system-status-neutral-solid);
+  --svx-button-solid-hover: var(--system-status-neutral-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-neutral-solid-pressed);
+  --svx-button-on-solid: var(--system-status-neutral-on-solid);
+  --svx-button-surface: var(--system-status-neutral-surface);
+  --svx-button-surface-hover: var(--system-status-neutral-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-neutral-surface-pressed);
+  --svx-button-fg: var(--system-status-neutral-fg);
+  --svx-button-border: var(--system-status-neutral-border);
+}
+
+
+.svx-button--color-error {
+  --svx-button-solid: var(--system-status-error-solid);
+  --svx-button-solid-hover: var(--system-status-error-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-error-solid-pressed);
+  --svx-button-on-solid: var(--system-status-error-on-solid);
+  --svx-button-surface: var(--system-status-error-surface);
+  --svx-button-surface-hover: var(--system-status-error-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-error-surface-pressed);
+  --svx-button-fg: var(--system-status-error-fg);
+  --svx-button-border: var(--system-status-error-border);
+}
+
+
+.svx-button--color-success {
+  --svx-button-solid: var(--system-status-success-solid);
+  --svx-button-solid-hover: var(--system-status-success-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-success-solid-pressed);
+  --svx-button-on-solid: var(--system-status-success-on-solid);
+  --svx-button-surface: var(--system-status-success-surface);
+  --svx-button-surface-hover: var(--system-status-success-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-success-surface-pressed);
+  --svx-button-fg: var(--system-status-success-fg);
+  --svx-button-border: var(--system-status-success-border);
+}
+
+
+.svx-button--color-warning {
+  --svx-button-solid: var(--system-status-warning-solid);
+  --svx-button-solid-hover: var(--system-status-warning-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-warning-solid-pressed);
+  --svx-button-on-solid: var(--system-status-warning-on-solid);
+  --svx-button-surface: var(--system-status-warning-surface);
+  --svx-button-surface-hover: var(--system-status-warning-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-warning-surface-pressed);
+  --svx-button-fg: var(--system-status-warning-fg);
+  --svx-button-border: var(--system-status-warning-border);
+}
+
+
+.svx-button--color-info {
+  --svx-button-solid: var(--system-status-info-solid);
+  --svx-button-solid-hover: var(--system-status-info-solid-hover);
+  --svx-button-solid-pressed: var(--system-status-info-solid-pressed);
+  --svx-button-on-solid: var(--system-status-info-on-solid);
+  --svx-button-surface: var(--system-status-info-surface);
+  --svx-button-surface-hover: var(--system-status-info-surface-hover);
+  --svx-button-surface-pressed: var(--system-status-info-surface-pressed);
+  --svx-button-fg: var(--system-status-info-fg);
+  --svx-button-border: var(--system-status-info-border);
+}
+
+
+.svx-button__spinner {
+  width: var(--svx-button-icon-size);
+  height: var(--svx-button-icon-size);
+  flex: none;
+  animation: var(--component-button-spinner-animation);
+}
+
+
+.svx-button__spinner circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-dasharray: 42 15;
+  stroke-linecap: round;
+}
+
+
+@keyframes svx-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .svx-button {
+    transition: none;
+  }
+  .svx-button__spinner {
+    animation: none;
+  }
+}
+
+

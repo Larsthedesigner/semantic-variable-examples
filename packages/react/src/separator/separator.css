@@ -1,0 +1,27 @@
+/* ── Popover — anchored, non-modal floating surface ──────────────────────── */
+.svx-separator {
+  display: block;
+  flex: none;
+  border: 0;
+  background: var(--component-separator-color);
+}
+
+
+.svx-separator[data-orientation='horizontal'] {
+  width: 100%;
+  height: 1px;
+}
+
+
+.svx-separator[data-orientation='vertical'] {
+  width: 1px;
+  height: 100%;
+  align-self: stretch;
+}
+
+
+@media (forced-colors: active) {
+  .svx-separator { background: CanvasText; }
+}
+
+

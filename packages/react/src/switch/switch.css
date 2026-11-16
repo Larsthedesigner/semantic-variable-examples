@@ -1,0 +1,165 @@
+.svx-switch-container {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  vertical-align: middle;
+  width: max(var(--size-px-24), var(--svx-switch-width));
+  height: max(var(--size-px-24), var(--svx-switch-height));
+}
+
+
+.svx-switch-container[data-size='sm'] {
+  --svx-switch-width: var(--component-switch-width-sm);
+  --svx-switch-height: var(--component-switch-height-sm);
+  --svx-switch-thumb: var(--component-switch-thumb-sm);
+}
+
+
+.svx-switch-container[data-size='md'] {
+  --svx-switch-width: var(--component-switch-width-md);
+  --svx-switch-height: var(--component-switch-height-md);
+  --svx-switch-thumb: var(--component-switch-thumb-md);
+}
+
+
+.svx-switch-container[data-size='lg'] {
+  --svx-switch-width: var(--component-switch-width-lg);
+  --svx-switch-height: var(--component-switch-height-lg);
+  --svx-switch-thumb: var(--component-switch-thumb-lg);
+}
+
+
+.svx-switch__track {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  width: var(--svx-switch-width);
+  height: var(--svx-switch-height);
+  pointer-events: none;
+  border: 1px solid var(--system-border-control);
+  border-radius: var(--component-switch-radius);
+  background-color: var(--system-surface-sunken);
+  transition: background-color calc(var(--motion-interactive) * 1ms) ease;
+}
+
+
+.svx-switch:where(:hover:not(:disabled)) + .svx-switch__track {
+  border-color: var(--system-border-control-hover);
+}
+
+
+.svx-switch:where(:not(:checked):hover:not(:disabled)) + .svx-switch__track {
+  background-image: linear-gradient(
+    var(--system-status-neutral-surface-hover), var(--system-status-neutral-surface-hover)
+  );
+}
+
+
+.svx-switch:where(:not(:checked):active:not(:disabled)) + .svx-switch__track {
+  background-image: linear-gradient(
+    var(--system-status-neutral-surface-pressed), var(--system-status-neutral-surface-pressed)
+  );
+}
+
+
+.svx-switch:checked + .svx-switch__track {
+  border-color: var(--system-interactive-solid);
+  background-color: var(--system-interactive-solid);
+}
+
+
+.svx-switch:checked:hover:not(:disabled) + .svx-switch__track {
+  background-color: var(--system-interactive-solid-hover);
+}
+
+
+.svx-switch:checked:active:not(:disabled) + .svx-switch__track {
+  background-color: var(--system-interactive-solid-pressed);
+}
+
+
+.svx-switch[aria-invalid='true'] + .svx-switch__track {
+  border-color: var(--system-status-error-border-strong);
+}
+
+
+.svx-switch:disabled { cursor: not-allowed; }
+
+
+.svx-switch:disabled + .svx-switch__track {
+  border-color: var(--system-border-disabled);
+  background-color: var(--system-surface-disabled);
+}
+
+
+.svx-switch__thumb {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  inset-block-start: calc(var(--component-switch-inset) - 1px);
+  inset-inline-start: calc(var(--component-switch-inset) - 1px);
+  width: var(--svx-switch-thumb);
+  height: var(--svx-switch-thumb);
+  border-radius: var(--component-switch-radius);
+  border: 1px solid var(--component-switch-thumb-border);
+  background-color: var(--component-switch-thumb-surface);
+  transition: inset-inline-start calc(var(--motion-interactive) * 1ms) ease;
+}
+
+
+.svx-switch:checked + .svx-switch__track .svx-switch__thumb {
+  inset-inline-start: calc(100% - var(--component-switch-inset) + 1px - var(--svx-switch-thumb));
+}
+
+
+.svx-switch:disabled + .svx-switch__track .svx-switch__thumb {
+  border-color: var(--component-switch-thumb-border-disabled);
+  background-color: var(--component-switch-thumb-surface-disabled);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .svx-switch__track,
+  .svx-switch__thumb {
+    transition: none;
+  }
+}
+
+
+@media (forced-colors: active) {
+  .svx-switch__track {
+    forced-color-adjust: none;
+    background-image: none;
+    background-color: Canvas;
+    border-color: ButtonText;
+  }
+  .svx-switch:checked + .svx-switch__track {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+  .svx-switch__thumb {
+    border-color: ButtonText;
+    background-color: ButtonText;
+    forced-color-adjust: none;
+  }
+  .svx-switch:checked + .svx-switch__track .svx-switch__thumb {
+    border-color: HighlightText;
+    background-color: HighlightText;
+  }
+  .svx-switch:disabled + .svx-switch__track {
+    background-color: Canvas;
+    border-color: GrayText;
+  }
+  .svx-switch:disabled + .svx-switch__track .svx-switch__thumb {
+    border-color: GrayText;
+    background-color: GrayText;
+  }
+  .svx-toggle:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+

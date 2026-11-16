@@ -1,0 +1,8 @@
+.svx-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--component-field-gap);
+  min-width: 0;
+}
+
+
