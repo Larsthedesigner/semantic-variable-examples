@@ -315,7 +315,30 @@
   /* status/text */
   --system-status-text-on-deep: var(--color-white); /* Text color for status labels on --system-surface-deep, such as status information in an immersive viewer. Use instead of ordinary status foregrounds on that always-dark surface. */
 
-  /* status/status */
+  /* Data visualization */
+  --system-data-viz-categorical-1: var(--color-data-viz-categorical-1-light); /* First categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-categorical-2: var(--color-data-viz-categorical-2-light); /* Second categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-categorical-3: var(--color-data-viz-categorical-3-light); /* Third categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-categorical-4: var(--color-data-viz-categorical-4-light); /* Fourth categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-categorical-5: var(--color-data-viz-categorical-5-light); /* Fifth categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-categorical-6: var(--color-data-viz-categorical-6-light); /* Sixth categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-categorical-7: var(--color-data-viz-categorical-7-light); /* Seventh categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
+  --system-data-viz-sequential-1: var(--color-blue-700); /* Lowest step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-sequential-2: var(--color-blue-800); /* Second step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-sequential-3: var(--color-blue-900); /* Third step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-sequential-4: var(--color-blue-1000); /* Fourth step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-sequential-5: var(--color-blue-1100); /* Fifth step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-sequential-6: var(--color-blue-1200); /* Highest step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-diverging-negative-3: var(--color-blue-1100); /* Strongest negative endpoint of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */
+  --system-data-viz-diverging-negative-2: var(--color-blue-900); /* Middle negative step of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */
+  --system-data-viz-diverging-negative-1: var(--color-blue-700); /* Negative step nearest the neutral midpoint of a blue-to-amber diverging scale on light surfaces. */
+  --system-data-viz-diverging-neutral: var(--color-neutral-700); /* Neutral midpoint for diverging data on light surfaces. Keep the zero or reference value explicitly labelled. */
+  --system-data-viz-diverging-positive-1: var(--color-warning-800); /* Positive step nearest the neutral midpoint of a blue-to-amber diverging scale on light surfaces. */
+  --system-data-viz-diverging-positive-2: var(--color-warning-1000); /* Middle positive step of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */
+  --system-data-viz-diverging-positive-3: var(--color-warning-1200); /* Strongest positive endpoint of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */
+  --system-data-viz-gridline: var(--system-border-subtle); /* Low-emphasis chart gridline on the default surface. Keep gridlines supplementary; do not use them to encode values or replace axis labels. */
+  --system-data-viz-axis-text: var(--system-text-secondary); /* Axis labels and tick text on the default surface. Keep readable at normal text contrast and label units where needed. */
+  --system-data-viz-reference-line: var(--system-border-strong); /* Emphasized threshold, target, or reference line on the default surface. Label its meaning in text and do not use it as a keyboard focus indicator. */
 }
 
 @keyframes svx-loading-shimmer {
@@ -495,6 +518,27 @@
 
   /* status/placeholder */
   --system-status-placeholder: var(--color-neutral-400);
+
+  --system-data-viz-categorical-1: var(--color-data-viz-categorical-1-dark);
+  --system-data-viz-categorical-2: var(--color-data-viz-categorical-2-dark);
+  --system-data-viz-categorical-3: var(--color-data-viz-categorical-3-dark);
+  --system-data-viz-categorical-4: var(--color-data-viz-categorical-4-dark);
+  --system-data-viz-categorical-5: var(--color-data-viz-categorical-5-dark);
+  --system-data-viz-categorical-6: var(--color-data-viz-categorical-6-dark);
+  --system-data-viz-categorical-7: var(--color-data-viz-categorical-7-dark);
+  --system-data-viz-sequential-1: var(--color-blue-200);
+  --system-data-viz-sequential-2: var(--color-blue-300);
+  --system-data-viz-sequential-3: var(--color-blue-400);
+  --system-data-viz-sequential-4: var(--color-blue-500);
+  --system-data-viz-sequential-5: var(--color-blue-600);
+  --system-data-viz-sequential-6: var(--color-blue-700);
+  --system-data-viz-diverging-negative-3: var(--color-blue-700);
+  --system-data-viz-diverging-negative-2: var(--color-blue-500);
+  --system-data-viz-diverging-negative-1: var(--color-blue-300);
+  --system-data-viz-diverging-neutral: var(--color-neutral-800);
+  --system-data-viz-diverging-positive-1: var(--color-warning-300);
+  --system-data-viz-diverging-positive-2: var(--color-warning-500);
+  --system-data-viz-diverging-positive-3: var(--color-warning-700);
 }
 
 /* System semantics adapted from the reference design system. */
@@ -502,6 +546,7 @@
 .high-contrast {
   --system-loading-surface: var(--color-neutral-500);
   --system-loading-shimmer: color-mix(in srgb, var(--color-white) 65%, transparent);
+  --system-data-viz-gridline: var(--system-border-default);
   --system-type-h1-color: var(--system-text-primary);
   --system-type-h2-color: var(--system-text-primary);
   --system-type-h3-color: var(--system-text-primary);

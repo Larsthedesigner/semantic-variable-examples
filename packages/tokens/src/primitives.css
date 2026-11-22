@@ -1,18 +1,20 @@
 /*
  * primitives.css — PRIMITIVE PALETTE LAYER
  *
- * Raw, primitive design tokens only: neutral, blue, and status
- * palette values alongside the existing size/type ramps and duration. No
- * semantic aliases live here — those live in semantic.css, which must be
- * imported AFTER this file (see index.css).
+ * Raw, primitive tokens only: neutral, blue, and status palette ramps, plus
+ * discrete data-visualization category swatches, alongside the existing
+ * size/type ramps and duration. No semantic aliases live here — those live in
+ * semantic.css, which must be imported AFTER this file (see index.css).
  *
- * Every color family has 12 stops (100–1200), ordered from light to dark.
- * Blue 800 is the exact seed #0166CC. In sRGB, stops 100–700 mix the seed
- * with 96%, 92%, 84%, 72%, 56%, 38%, and 20% white; stops 900–1200
- * retain 80%, 62%, 44%, and 28% of the seed against black. Channels round
- * to the nearest integer; these are tints/shades, not perceptually equal steps.
- * Stops describe shared roles, not guaranteed contrast ratios or equal
- * perceptual intervals. White and black are standalone endpoints.
+ * The neutral, blue, and status color families have 12 stops (100–1200),
+ * ordered from light to dark. Blue 800 is the exact seed #0166CC. In sRGB,
+ * stops 100–700 mix the seed with 96%, 92%, 84%, 72%, 56%, 38%, and 20%
+ * white; stops 900–1200 retain 80%, 62%, 44%, and 28% of the seed against
+ * black. Channels round to the nearest integer; these are tints/shades, not
+ * perceptually equal steps. Stops describe shared roles, not guaranteed
+ * contrast ratios or equal perceptual intervals. White and black are
+ * standalone endpoints. Data-visualization categorical swatches are discrete
+ * colors, not additional palette ramps.
  *
  * This mirrors a common two-tier design-token convention: a primitive
  * layer feeding an intention-based semantic layer, so a theme change only
@@ -36,7 +38,7 @@
  * 3. Motion                        – --duration-*, --easing-*
  * 4. Elevation                     – --shadow-*
  * 5. Layering                      – --layer-*
- * 6. Color palettes                – white, blue, status, neutral
+ * 6. Color palettes                – white, blue, status, neutral, data-viz
  */
 
 @theme static {
@@ -249,4 +251,20 @@
   --color-neutral-1000: #303e52;
   --color-neutral-1100: #1b283b;
   --color-neutral-1200: #0d1728;
+
+  /* Discrete chart series swatches; dark variants are for dark surfaces. */
+  --color-data-viz-categorical-1-light: #355f86;
+  --color-data-viz-categorical-2-light: #ae4858;
+  --color-data-viz-categorical-3-light: #27713a;
+  --color-data-viz-categorical-4-light: #88772c;
+  --color-data-viz-categorical-5-light: #1d718d;
+  --color-data-viz-categorical-6-light: #843461;
+  --color-data-viz-categorical-7-light: #8b4f1d;
+  --color-data-viz-categorical-1-dark: #9cccf3;
+  --color-data-viz-categorical-2-dark: #f08f9e;
+  --color-data-viz-categorical-3-dark: #84d98d;
+  --color-data-viz-categorical-4-dark: #e8cd6f;
+  --color-data-viz-categorical-5-dark: #74cbe0;
+  --color-data-viz-categorical-6-dark: #d89cc2;
+  --color-data-viz-categorical-7-dark: #f1a275;
 }

@@ -122,6 +122,10 @@ See [`docs/wcag3-alignment.md`](docs/wcag3-alignment.md) for how contrast, targe
 size, and focus visibility are enforced today and what's tracked for when
 WCAG 3.0's APCA-based conformance model stabilizes.
 
+See [`docs/data-visualization-colors.md`](docs/data-visualization-colors.md) for
+theme-aware categorical, sequential, and diverging chart colors, accessible
+alternatives, and color-vision screening details.
+
 ## Getting started
 
 Storybook opens with an introduction to the token layers, component references,

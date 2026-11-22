@@ -9,6 +9,7 @@ const colorGroups = [
   { id: 'loading', title: 'Loading', description: 'Reserve pending content with neutral placeholder fills and shimmer overlays.', pattern: /^--system-loading-/ },
   { id: 'borders', title: 'Borders & focus', description: 'Define boundaries and visible focus indicators.', pattern: /^--system-border-|^--system-interactive-focus-ring$/ },
   { id: 'interactive', title: 'Interactive', description: 'Pair action fills and foregrounds across hover, pressed, selected, and disabled states.', pattern: /^--system-interactive-(?!focus-ring$)/ },
+  { id: 'data-viz', title: 'Data visualization', description: 'Use categorical, ordered, and diverging roles with chart labels and non-color alternatives.', pattern: /^--system-data-viz-/ },
   ...['error', 'success', 'warning', 'info', 'neutral'].map(status => ({
     id: status,
     title: `${status[0].toUpperCase()}${status.slice(1)} feedback`,

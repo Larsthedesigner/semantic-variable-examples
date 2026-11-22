@@ -24,6 +24,56 @@ function luminance(hex: string) {
   return values[0] * 0.2126 + values[1] * 0.7152 + values[2] * 0.0722;
 }
 
+function contrastRatio(foreground: string, background: string) {
+  const [lighter, darker] = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+const colorVisionMatrices = {
+  protan: [
+    [0.152286, 1.052583, -0.204868],
+    [0.114503, 0.786281, 0.099216],
+    [-0.003882, -0.048116, 1.051998],
+  ],
+  deutan: [
+    [0.367322, 0.860646, -0.227968],
+    [0.280085, 0.672501, 0.047413],
+    [-0.01182, 0.04294, 0.968881],
+  ],
+  tritan: [
+    [1.255528, -0.076749, -0.178779],
+    [-0.078411, 0.930809, 0.147602],
+    [0.004733, 0.691367, 0.3039],
+  ],
+};
+
+function lab(hex: string, matrix?: number[][]) {
+  const channels = hex.slice(1).match(/../g);
+  if (!channels || channels.length !== 3) throw new Error(`Expected six-digit hex: ${hex}`);
+  let rgb = channels.map(channel => {
+    const value = parseInt(channel, 16) / 255;
+    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+  if (matrix) {
+    rgb = matrix.map(row => Math.max(0, Math.min(1, row.reduce((sum, value, index) => sum + value * rgb[index], 0))));
+  }
+  const [red, green, blue] = rgb;
+  const xyz = [
+    (0.4124564 * red + 0.3575761 * green + 0.1804375 * blue) / 0.95047,
+    0.2126729 * red + 0.7151522 * green + 0.072175 * blue,
+    (0.0193339 * red + 0.119192 * green + 0.9503041 * blue) / 1.08883,
+  ].map(value => value > 0.008856 ? Math.cbrt(value) : 7.787 * value + 16 / 116);
+  return [
+    116 * xyz[1] - 16,
+    500 * (xyz[0] - xyz[1]),
+    200 * (xyz[1] - xyz[2]),
+  ];
+}
+
+function deltaE(left: number[], right: number[]) {
+  return Math.hypot(...left.map((value, index) => value - right[index]));
+}
+
 describe('Token foundations', () => {
   it.each(['light', 'dark', 'high-contrast'] as const)('maps component shapes through shared radius semantics in %s', mode => {
     const radii = tokenCatalog(mode).filter(token => token.name.startsWith('--system-radius-'));
@@ -285,7 +335,7 @@ describe('Token foundations', () => {
 
   it.each(['light', 'dark', 'high-contrast'] as const)('documents and resolves every semantic token in %s', (mode) => {
     const catalog = tokenCatalog(mode);
-    expect(catalog.length).toBe(227);
+    expect(catalog.length).toBe(250);
     for (const token of catalog) {
       expect(token.name).toMatch(/^--system-/);
       expect(token.value).not.toContain('var(');
@@ -369,6 +419,62 @@ describe('Token foundations', () => {
       const foreground = type.includes('secondary') || type === 'caption' ? '--system-text-secondary' : '--system-text-primary';
       expect(types.find(token => token.name === `--system-type-${type}-color`)?.value).toBe(catalog.find(token => token.name === foreground)?.value);
     }
+  });
+
+  it.each(['light', 'dark', 'high-contrast'] as const)('provides accessible data-visualization roles and exports in %s', mode => {
+    const catalog = tokenCatalog(mode);
+    const tokens = Object.fromEntries(catalog.map(token => [token.name, token]));
+    const surface = tokens['--system-surface-default'].value;
+    const categorical = Array.from({ length: 7 }, (_, index) => `--system-data-viz-categorical-${index + 1}`);
+    const sequential = Array.from({ length: 6 }, (_, index) => `--system-data-viz-sequential-${index + 1}`);
+    const diverging = [
+      '--system-data-viz-diverging-negative-3',
+      '--system-data-viz-diverging-negative-2',
+      '--system-data-viz-diverging-negative-1',
+      '--system-data-viz-diverging-neutral',
+      '--system-data-viz-diverging-positive-1',
+      '--system-data-viz-diverging-positive-2',
+      '--system-data-viz-diverging-positive-3',
+    ];
+    const colorRoles = [...categorical, ...sequential, ...diverging];
+
+    for (const name of colorRoles) {
+      expect(tokens[name]?.value, name).toMatch(/^#[\da-f]{6}$/i);
+      expect(contrastRatio(tokens[name].value, surface), `${name} on ${mode} surface`).toBeGreaterThanOrEqual(3);
+    }
+
+    const sequentialLuminance = sequential.map(name => luminance(tokens[name].value));
+    for (let index = 1; index < sequentialLuminance.length; index += 1) {
+      expect(sequentialLuminance[index - 1]).toBeGreaterThan(sequentialLuminance[index]);
+    }
+
+    expect(contrastRatio(tokens['--system-data-viz-axis-text'].value, surface)).toBeGreaterThanOrEqual(4.5);
+    expect(contrastRatio(tokens['--system-data-viz-reference-line'].value, surface)).toBeGreaterThanOrEqual(3);
+    expect(tokens['--system-data-viz-gridline'].expression).toBe(
+      mode === 'high-contrast' ? 'var(--system-border-default)' : 'var(--system-border-subtle)',
+    );
+
+    for (const matrix of Object.values(colorVisionMatrices)) {
+      const minimumSeparation = Math.min(
+        ...categorical.flatMap((left, index) => categorical.slice(index + 1).map(right =>
+          deltaE(lab(tokens[left].value, matrix), lab(tokens[right].value, matrix)),
+        )),
+      );
+      expect(minimumSeparation).toBeGreaterThanOrEqual(5.5);
+    }
+
+    const jsonMode = mode === 'high-contrast' ? 'highContrast' : mode;
+    for (const name of colorRoles) {
+      const key = name.replace(/^--/, '');
+      expect(exportedJson[jsonMode][key]).toBe(tokens[name].value);
+      expect(cssBundle).toContain(`${name}:`);
+      const pascalMember = name.slice(2).split('-').map(part => part[0].toUpperCase() + part.slice(1)).join('');
+      const member = pascalMember[0].toLowerCase() + pascalMember.slice(1);
+      expect(composeSource).toContain(`val ${member} = Color(`);
+      expect(swiftSource).toContain(`static let ${member} = Color(`);
+    }
+    expect(composeSource).not.toMatch(/Skipped \(no native representation\):[^\n]*system-data-viz/);
+    expect(swiftSource).not.toMatch(/Skipped \(no native representation\):[^\n]*system-data-viz/);
   });
 
   it('uses Inter and removes unused body variants without breaking form typography mappings', () => {
