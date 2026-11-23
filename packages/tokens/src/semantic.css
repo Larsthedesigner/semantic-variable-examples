@@ -323,7 +323,7 @@
   --system-data-viz-categorical-5: var(--color-data-viz-categorical-5-light); /* Fifth categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
   --system-data-viz-categorical-6: var(--color-data-viz-categorical-6-light); /* Sixth categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
   --system-data-viz-categorical-7: var(--color-data-viz-categorical-7-light); /* Seventh categorical series color for chart marks on the default surface. Pair with a visible series label and a distinct shape or pattern when the series must be distinguished. */
-  --system-data-viz-sequential-1: var(--color-blue-700); /* Lowest step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
+  --system-data-viz-sequential-1: var(--color-data-viz-blue-light-start); /* Lowest step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
   --system-data-viz-sequential-2: var(--color-blue-800); /* Second step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
   --system-data-viz-sequential-3: var(--color-blue-900); /* Third step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
   --system-data-viz-sequential-4: var(--color-blue-1000); /* Fourth step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
@@ -331,7 +331,7 @@
   --system-data-viz-sequential-6: var(--color-blue-1200); /* Highest step of a six-color sequential scale on light surfaces; use in order for increasing values and preserve numeric labels or a data table. */
   --system-data-viz-diverging-negative-3: var(--color-blue-1100); /* Strongest negative endpoint of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */
   --system-data-viz-diverging-negative-2: var(--color-blue-900); /* Middle negative step of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */
-  --system-data-viz-diverging-negative-1: var(--color-blue-700); /* Negative step nearest the neutral midpoint of a blue-to-amber diverging scale on light surfaces. */
+  --system-data-viz-diverging-negative-1: var(--color-data-viz-blue-light-start); /* Negative step nearest the neutral midpoint of a blue-to-amber diverging scale on light surfaces. */
   --system-data-viz-diverging-neutral: var(--color-neutral-700); /* Neutral midpoint for diverging data on light surfaces. Keep the zero or reference value explicitly labelled. */
   --system-data-viz-diverging-positive-1: var(--color-warning-800); /* Positive step nearest the neutral midpoint of a blue-to-amber diverging scale on light surfaces. */
   --system-data-viz-diverging-positive-2: var(--color-warning-1000); /* Middle positive step of a blue-to-amber diverging scale on light surfaces; distinguish sign with labels, symbols, or position as well as color. */

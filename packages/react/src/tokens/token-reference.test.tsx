@@ -28,11 +28,11 @@ describe('Foundation reference categories', () => {
     const cells = within(row).getAllByRole('cell');
     expect(cells).toHaveLength(6);
     expect(cells[0].querySelector('.sbx-swatch')).toBeNull();
-    expect(cells[1].querySelector('.sbx-swatch')).toHaveStyle({ background: '#0d1728' });
+    expect(cells[1].querySelector('.sbx-swatch')).toHaveStyle({ background: '#151719' });
     expect(cells[2].querySelector('.sbx-swatch')).toHaveStyle({ background: '#fafafa' });
     expect(cells[3]).toHaveTextContent('highest content emphasis');
     expect(cells[4]).toHaveTextContent('var(--color-neutral-1200)');
-    expect(cells[5]).toHaveTextContent('#0d1728');
+    expect(cells[5]).toHaveTextContent('#151719');
   });
   it('shows only app-wide color roles in Color Semantics', () => {
     render(<TokenReference category="color" />);
@@ -137,7 +137,7 @@ describe('Foundation reference categories', () => {
     const wrapper = name.closest('tr')?.querySelector('.sbx-swatch--square');
     expect(wrapper).toHaveAttribute('aria-hidden', 'true');
     expect(wrapper).toHaveStyle({
-      background: 'color-mix(in srgb, #0d1728 6%, transparent)',
+      background: 'color-mix(in srgb, #151719 6%, transparent)',
     });
     for (const row of within(screen.getByRole('table')).getAllByRole('row').slice(1)) {
       for (const cell of within(row).getAllByRole('cell').slice(1, 3)) {

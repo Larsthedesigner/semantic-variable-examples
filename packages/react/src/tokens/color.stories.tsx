@@ -20,8 +20,8 @@ export const Primitives: Story = {
       <ReferenceHeader
         eyebrow="Foundations / Color / Primitives"
         title="Primitive palette ramps"
-        description="The raw color vocabulary behind your theme. Neutral 100–600 are true greys; 700–1200 gradually shift toward blue-black. Use semantic roles in application UI."
-        summary="6 families / 12 stops each / Blue seed #0166CC at 800"
+        description="The raw color vocabulary behind your theme. Neutral stops are tints of the near-black seed. Use semantic roles in application UI."
+        summary="6 families / 12 stops each / Blue seed #0385FD at 800"
       />
       {['neutral', 'blue', 'error', 'success', 'warning', 'info'].map(family => (
         <section key={family} className="sbx-section">
@@ -35,6 +35,7 @@ export const Primitives: Story = {
                 </div>
                 <code>{name}<br />{primitiveTokens[name]}</code>
                 {name === '--color-blue-800' && <span className="sbx-palette-anchor">Blue seed anchor</span>}
+                {name === '--color-neutral-1200' && <span className="sbx-palette-anchor">Neutral seed anchor</span>}
               </div>
             ))}
           </div>

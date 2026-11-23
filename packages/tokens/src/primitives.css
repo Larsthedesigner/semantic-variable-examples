@@ -7,7 +7,7 @@
  * semantic.css, which must be imported AFTER this file (see index.css).
  *
  * The neutral, blue, and status color families have 12 stops (100–1200),
- * ordered from light to dark. Blue 800 is the exact seed #0166CC. In sRGB,
+ * ordered from light to dark. Blue 800 is the exact seed #0385fd. In sRGB,
  * stops 100–700 mix the seed with 96%, 92%, 84%, 72%, 56%, 38%, and 20%
  * white; stops 900–1200 retain 80%, 62%, 44%, and 28% of the seed against
  * black. Channels round to the nearest integer; these are tints/shades, not
@@ -15,6 +15,9 @@
  * contrast ratios or equal perceptual intervals. White and black are
  * standalone endpoints. Data-visualization categorical swatches are discrete
  * colors, not additional palette ramps.
+ * Neutral 1200 is the seed #151719. Stops 100–1100 mix it with 98%, 96%,
+ * 92%, 86%, 77%, 66%, 52%, 38%, 25%, 14%, and 5% white in sRGB, rounded
+ * to the nearest channel. The independent black endpoint remains #000000.
  *
  * This mirrors a common two-tier design-token convention: a primitive
  * layer feeding an intention-based semantic layer, so a theme change only
@@ -169,18 +172,21 @@
   --color-black: #000000;
 
   /* blue palette */
-  --color-blue-100: #f5f9fd;
-  --color-blue-200: #ebf3fb;
-  --color-blue-300: #d6e7f7;
-  --color-blue-400: #b8d4f1;
-  --color-blue-500: #8fbce9;
-  --color-blue-600: #62a0df;
-  --color-blue-700: #3485d6;
-  --color-blue-800: #0166cc;
-  --color-blue-900: #0152a3;
-  --color-blue-1000: #013f7e;
-  --color-blue-1100: #002d5a;
-  --color-blue-1200: #001d39;
+  --color-blue-100: #f5faff;
+  --color-blue-200: #ebf5ff;
+  --color-blue-300: #d7ebff;
+  --color-blue-400: #b8ddfe;
+  --color-blue-500: #90c9fe;
+  --color-blue-600: #63b3fe;
+  --color-blue-700: #359dfd;
+  --color-blue-800: #0385fd;
+  --color-blue-900: #026aca;
+  --color-blue-1000: #02529d;
+  --color-blue-1100: #013b6f;
+  --color-blue-1200: #012547;
+
+  /* Intermediate blue for chart marks: 30% blue 700 and 70% blue 800 in sRGB. */
+  --color-data-viz-blue-light-start: #128cfd;
 
   /* Cool pink-red; retains red as the dominant channel. */
   --color-error-100: #fff8f9;
@@ -238,19 +244,19 @@
   --color-info-1100: #053443;
   --color-info-1200: #03212b;
 
-  /* True grey through 600; progressively cooler blue-black from 700 to 1200. */
+  /* Cool neutral tints anchored by the darkest seed. */
   --color-neutral-100: #fafafa;
   --color-neutral-200: #f6f6f6;
-  --color-neutral-300: #eeeeee;
-  --color-neutral-400: #dfdfdf;
-  --color-neutral-500: #cacaca;
-  --color-neutral-600: #b0b0b0;
-  --color-neutral-700: #8f9299;
-  --color-neutral-800: #6d7481;
-  --color-neutral-900: #4d5769;
-  --color-neutral-1000: #303e52;
-  --color-neutral-1100: #1b283b;
-  --color-neutral-1200: #0d1728;
+  --color-neutral-300: #ececed;
+  --color-neutral-400: #dedfdf;
+  --color-neutral-500: #c9caca;
+  --color-neutral-600: #afb0b1;
+  --color-neutral-700: #8f9091;
+  --color-neutral-800: #6e6f70;
+  --color-neutral-900: #505153;
+  --color-neutral-1000: #363739;
+  --color-neutral-1100: #212325;
+  --color-neutral-1200: #151719;
 
   /* Discrete chart series swatches; dark variants are for dark surfaces. */
   --color-data-viz-categorical-1-light: #355f86;

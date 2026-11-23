@@ -203,22 +203,15 @@ describe('Token foundations', () => {
     for (let index = 1; index < lightness.length; index++) expect(lightness[index]).toBeLessThan(lightness[index - 1]);
   });
 
-  it('keeps light neutrals achromatic and progressively increases blue tint in darker stops', () => {
-    for (const stop of [100, 200, 300, 400, 500, 600]) {
-      const hex = primitiveTokens[`--color-neutral-${stop}`];
-      expect(hex.slice(1, 3)).toBe(hex.slice(3, 5));
-      expect(hex.slice(3, 5)).toBe(hex.slice(5, 7));
+  it('derives neutral tints from the dark seed and preserves the pure black endpoint', () => {
+    const seed = [21, 23, 25];
+    const hex = (channels: number[]) => `#${channels.map(channel => Math.round(channel).toString(16).padStart(2, '0')).join('')}`;
+    for (const [index, white] of [0.98, 0.96, 0.92, 0.86, 0.77, 0.66, 0.52, 0.38, 0.25, 0.14, 0.05, 0].entries()) {
+      expect(primitiveTokens[`--color-neutral-${(index + 1) * 100}`])
+        .toBe(hex(seed.map(channel => channel * (1 - white) + 255 * white)));
     }
-    let previousBlueBias = 0;
-    for (const stop of [700, 800, 900, 1000, 1100, 1200]) {
-      const hex = primitiveTokens[`--color-neutral-${stop}`];
-      const [red, green, blue] = [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16));
-      expect(blue).toBeGreaterThan(green);
-      expect(green).toBeGreaterThan(red);
-      const blueBias = (blue - red) / (blue + red);
-      expect(blueBias).toBeGreaterThan(previousBlueBias);
-      previousBlueBias = blueBias;
-    }
+    expect(primitiveTokens['--color-neutral-1200']).toBe('#151719');
+    expect(primitiveTokens['--color-black']).toBe('#000000');
   });
 
   it('keeps error pink-red and success vivid green without changing their status identities', () => {
@@ -252,12 +245,12 @@ describe('Token foundations', () => {
   });
 
   it('preserves the blue seed exactly and removes magenta', () => {
-    expect(primitiveTokens['--color-blue-800']).toBe('#0166cc');
+    expect(primitiveTokens['--color-blue-800']).toBe('#0385fd');
     expect(Object.keys(primitiveTokens).some(name => name.includes('magenta'))).toBe(false);
   });
 
   it('derives all blue stops from the seed using the documented sRGB tint and shade weights', () => {
-    const seed = [1, 102, 204];
+    const seed = [3, 133, 253];
     const hex = (channels: number[]) => `#${channels.map(channel => Math.round(channel).toString(16).padStart(2, '0')).join('')}`;
     for (const [index, white] of [0.96, 0.92, 0.84, 0.72, 0.56, 0.38, 0.20].entries()) {
       expect(primitiveTokens[`--color-blue-${(index + 1) * 100}`])
@@ -275,6 +268,18 @@ describe('Token foundations', () => {
     for (const token of blueRoles) {
       expect(token.value).toBe(primitiveTokens[token.expression.slice(4, -1)]);
     }
+  });
+
+  it.each(['light', 'dark', 'high-contrast'] as const)('propagates blue and neutral seeds to exports and controls in %s', mode => {
+    const system = Object.fromEntries(tokenCatalog(mode).map(token => [token.name, token.value]));
+    const jsonMode = mode === 'high-contrast' ? 'highContrast' : mode;
+    for (const name of ['--system-surface-default', '--system-text-primary', '--system-interactive-solid', '--system-border-focus']) {
+      expect(exportedJson[jsonMode][name.slice(2)]).toBe(system[name]);
+    }
+    expect(tokenCatalog(mode, 'selection-controls').find(token => token.name === '--component-choice-selected')?.value)
+      .toBe(system['--system-interactive-solid']);
+    expect(contrastRatio(system['--system-border-focus'], system['--system-surface-default'])).toBeGreaterThanOrEqual(3);
+    expect(contrastRatio(system['--system-interactive-fg'], system['--system-surface-default'])).toBeGreaterThanOrEqual(4.5);
   });
 
   it('has identical px/rem step sets and equivalent baseline values', () => {

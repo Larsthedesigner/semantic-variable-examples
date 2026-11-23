@@ -165,10 +165,10 @@ addon. Static Storybook builds do not host the MCP server.
 ### Theme foundations and token reference
 
 All six primitive color families use 12 light-to-dark stops (`100`–`1200`).
-Neutral `100`–`600` are achromatic greys. Stops `700`–`1200` progressively
-shift toward blue-black, giving dark surfaces a cooler atmosphere while light
-surfaces stay untinted. Existing semantic aliases inherit these palette changes.
-Blue `800` is the exact seed `#0166CC`; solid actions with small white text
+Neutral `1200` is the near-black seed `#151719`; lighter stops are sRGB tints
+of that seed. The standalone black endpoint remains `#000000`. Existing
+semantic aliases inherit these palette changes.
+Blue `800` is the exact seed `#0385FD`; solid actions with small white text
 use a darker semantic mapping to meet 4.5:1 contrast. Error, success, warning,
 and info palettes use a subtly pink-red error ramp, a slightly more vivid
 yellow-leaning success green, golden amber warning, and cyan-blue info.
@@ -229,7 +229,7 @@ These descriptions live in inline comments beside the base declarations in
 `packages/tokens/src/semantic.css`; Storybook reads them directly so source
 documentation and the reference table stay aligned across modes.
 All foundation references share a page header, and color primitives use connected
-palette strips with a blue seed anchor marker.
+palette strips with blue and neutral seed anchor markers.
 Size and component references show selected-mode values and transitive primitive
 dependencies. Data comes from the CSS sources, not a
 duplicated palette snapshot. Color-mix values remain CSS expressions; their

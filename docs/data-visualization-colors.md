@@ -55,8 +55,9 @@ Simulation is an approximation: it cannot represent individual variation,
 display calibration, transparency, overlapping marks, or the chart's full
 context. Seven colors are not enough for every chart. Reuse colors only with
 additional encodings and labels, or choose another chart form when the data
-cannot remain distinguishable. Sequential stops are ordered samples from the
-existing blue primitive ramp, not equal-perceptual steps. Test the rendered
+cannot remain distinguishable. Sequential stops are ordered blue shades, not
+equal-perceptual steps. The light scale starts with an intermediate blue tint
+for sufficient contrast on the default surface. Test the rendered
 chart with its actual marks, surfaces, and data.
 
 In forced-colors environments, user agent colors may replace authored chart

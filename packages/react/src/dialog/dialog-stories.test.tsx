@@ -25,6 +25,6 @@ describe('Dialog documentation', () => {
   it('uses the selected mode in the token reference', () => {
     render(<Tokens mode="dark" />);
     expect(screen.getByText('12 tokens / dark mode')).toBeInTheDocument();
-    expect(screen.getByText('#1b283b')).toBeInTheDocument();
+    expect(screen.getByText('#212325')).toBeInTheDocument();
   });
 });
