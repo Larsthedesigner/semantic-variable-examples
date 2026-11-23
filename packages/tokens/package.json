@@ -1,6 +1,6 @@
 {
   "name": "@svx/tokens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Two-tier (primitive -> semantic) design tokens authored as CSS custom properties, built to a portable CSS bundle, JSON, Kotlin (Jetpack Compose), and Swift.",
   "license": "MIT",
   "type": "module",
